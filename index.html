@@ -272,7 +272,7 @@ button:focus-visible,.nav-item:focus-visible,.mode-tab:focus-visible,.daytab:foc
 <header class="app-header"><div class="container header-inner">
 <div class="brand"><div class="brand-logo"><img src="hero.png" alt="Logo" style="width:52px;height:52px;border-radius:14px;object-fit:cover;"></div>
 <div class="brand-text"><h1>童趣餐谱</h1><p>孩子的每一餐，都值得认真对待</p></div></div>
-<div class="header-actions"><button class="btn btn-secondary" id="btn-export">📸 长按保存相册</button></div>
+<div class="header-actions"><button class="btn btn-secondary" id="btn-export">📸 截图导出</button></div>
 </div></header>
 <nav class="age-nav-wrap no-export"><div class="age-nav" id="age-nav" role="tablist"></div></nav>
 <nav class="meal-nav-wrap no-export" id="meal-nav-wrap"><div class="meal-nav" id="meal-nav"></div></nav>
@@ -1588,47 +1588,21 @@ function showImagePreview(imgUrl,fileName,canvas){
   tip.className='preview-tip';
   const isMobile=/Mobi|Android|iPhone/i.test(navigator.userAgent);
   tip.innerHTML=isMobile
-    ?'<b>长按图片</b> → 保存到相册<br>也可点击下方按钮下载或分享'
-    :'右键图片 → 另存为<br>也可点击下方按钮下载';
+    ?'<b>长按图片</b> → 保存到相册'
+    :'右键图片 → 另存为';
   overlay.appendChild(tip);
   // 图片
   const img=document.createElement('img');
   img.src=imgUrl;
   overlay.appendChild(img);
-  // 操作按钮
+  // 操作按钮：仅保留一个提示性按钮
   const actions=document.createElement('div');
   actions.className='preview-actions';
-  // 下载按钮（所有平台）
-  const btnDown=document.createElement('button');
-  btnDown.className='btn-download';
-  btnDown.textContent='下载图片';
-  btnDown.onclick=function(){
-    const link=document.createElement('a');link.download=fileName;
-    link.href=imgUrl;link.click();
-    showToast('图片已下载');
-  };
-  actions.appendChild(btnDown);
-  // 分享按钮（仅手机+支持Share API时显示）
-  canvas.toBlob(function(blob){
-    if(blob&&navigator.share&&navigator.canShare){
-      const file=new File([blob],fileName,{type:'image/jpeg'});
-      if(navigator.canShare({files:[file]})){
-        const btnShare=document.createElement('button');
-        btnShare.className='btn-share';
-        btnShare.textContent='分享';
-        btnShare.onclick=function(){
-          navigator.share({files:[file]}).catch(()=>{});
-        };
-        actions.appendChild(btnShare);
-      }
-    }
-  },'image/jpeg',0.92);
-  // 关闭按钮
-  const btnClose=document.createElement('button');
-  btnClose.className='btn-close';
-  btnClose.textContent='关闭';
-  btnClose.onclick=function(){document.body.removeChild(overlay);};
-  actions.appendChild(btnClose);
+  const btnHint=document.createElement('button');
+  btnHint.className='btn-download';
+  btnHint.textContent='长按保存相册';
+  btnHint.onclick=function(){showToast('请长按上方图片保存到相册');};
+  actions.appendChild(btnHint);
   overlay.appendChild(actions);
   // 点击背景区域也可关闭
   overlay.addEventListener('click',function(e){
