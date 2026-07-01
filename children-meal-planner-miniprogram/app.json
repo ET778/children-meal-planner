@@ -1,0 +1,14 @@
+{
+  "pages": [
+    "pages/index/index"
+  ],
+  "window": {
+    "navigationBarTitleText": "多吃快跑",
+    "navigationBarBackgroundColor": "#FFF9F2",
+    "navigationBarTextStyle": "black",
+    "navigationStyle": "custom",
+    "backgroundColor": "#FFF9F2"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

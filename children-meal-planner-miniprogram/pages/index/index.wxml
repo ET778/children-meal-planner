@@ -1,0 +1,161 @@
+<view class="app theme-{{currentPageId}}">
+  <view class="custom-nav">
+    <view class="custom-nav-title">多吃快跑</view>
+  </view>
+  <view class="app-header">
+    <view class="brand">
+      <image class="brand-logo" src="/assets/lunchbox-logo.png" mode="aspectFill" />
+    </view>
+    <button class="export-btn" bindtap="exportMenu">截图导出</button>
+  </view>
+
+  <scroll-view class="age-nav" scroll-x enhanced show-scrollbar="false">
+    <button wx:for="{{agePages}}" wx:key="id" class="nav-item {{item.id === currentPageId ? 'active' : ''}}" data-id="{{item.id}}" bindtap="switchPage">{{item.label}}</button>
+  </scroll-view>
+
+  <view class="container">
+    <view class="diet-hero">
+      <view class="hero-picture">
+        <image wx:if="{{currentPage.visualIsImage}}" class="hero-image" src="{{currentPage.visualIcon}}" mode="aspectFit" />
+        <text wx:else>{{currentPage.visualIcon}}</text>
+      </view>
+      <view class="hero-title">{{currentPage.heroTitle}}</view>
+      <view class="hero-desc">{{currentPage.heroDesc}}</view>
+    </view>
+
+    <view class="diet-grid">
+      <view wx:for="{{currentPage.dietCards}}" wx:key="title" class="diet-card {{item.type}}">
+        <view class="diet-card-head">
+          <view class="diet-card-icon">{{item.icon}}</view>
+          <view class="diet-card-title">{{item.title}}</view>
+        </view>
+        <view class="diet-item" wx:for="{{item.items}}" wx:for-item="tip" wx:key="*this">{{tip}}</view>
+      </view>
+    </view>
+
+    <view class="global-warning">
+      <view class="global-title">重要注意事项</view>
+      <view class="warning-item" wx:for="{{globalWarnings}}" wx:key="*this">{{item}}</view>
+    </view>
+
+    <view class="note-bar">
+      <text class="note-label">宝宝备注</text>
+      <input class="note-input" value="{{notes[currentPageId]}}" maxlength="20" placeholder="如过敏、偏好、乳糖不耐" bindinput="onNoteInput" />
+    </view>
+
+    <block wx:if="{{!currentPage.hasMeals}}">
+      <view class="no-meals-box">
+        <view class="no-meals-icon">🍼</view>
+        <view class="no-meals-title">这个阶段暂不安排辅食</view>
+        <view class="no-meals-desc">0-6月龄以母乳或配方奶为唯一食物来源，请根据宝宝状态和医生建议喂养。</view>
+      </view>
+    </block>
+
+    <block wx:else>
+      <view class="section-title">
+        <view class="section-heading">餐单搭配</view>
+        <view class="section-desc">选择菜品即可加入餐盘，可按单日或一周规划。</view>
+      </view>
+
+      <view class="mode-tabs">
+        <button class="mode-tab {{mode === 'single' ? 'active' : ''}}" data-mode="single" bindtap="switchMode">单日</button>
+        <button class="mode-tab {{mode === 'weekly' ? 'active' : ''}}" data-mode="weekly" bindtap="switchMode">一周</button>
+      </view>
+
+      <scroll-view wx:if="{{mode === 'weekly'}}" class="daybar" scroll-x enhanced show-scrollbar="false">
+        <button wx:for="{{days}}" wx:key="key" class="daytab {{item.key === currentDay ? 'active' : ''}}" data-day="{{item.key}}" bindtap="switchDay">{{item.name}}</button>
+      </scroll-view>
+
+      <view class="meal-segment">
+        <button
+          wx:for="{{mealNavItems}}"
+          wx:key="key"
+          class="meal-segment-item {{activeMealKey === item.key ? 'active' : ''}}"
+          data-meal="{{item.key}}"
+          bindtap="tapMealNav"
+        >{{item.label}}</button>
+      </view>
+
+      <view class="summary-bar">
+        <view class="summary-chip early">早餐 <text>{{summary.breakfast}}</text></view>
+        <view class="summary-chip noon">午餐 <text>{{summary.lunch}}</text></view>
+        <view class="summary-chip night">晚餐 <text>{{summary.dinner}}</text></view>
+        <view class="summary-chip soup">汤品 <text>{{summary.soup}}</text></view>
+      </view>
+      <view class="action-row">
+        <button class="secondary-btn" bindtap="clearCurrent">清空{{mode === 'weekly' ? '当日' : ''}}</button>
+        <button class="secondary-btn" bindtap="resetCurrentPage">恢复默认菜品</button>
+      </view>
+
+      <view id="meal-{{item.key}}" class="meal-block" wx:for="{{mealBlocks}}" wx:key="key">
+        <view class="meal-head" data-meal="{{item.key}}" bindtap="toggleCollapse">
+          <view class="meal-left">
+            <view class="meal-badge {{item.badge}}">{{item.icon}} {{item.name}}</view>
+            <view class="meal-title">{{item.subtitle}}</view>
+          </view>
+          <view class="plate-count">已选 <text>{{item.selectedDishes.length}}</text> 道 {{item.collapsed ? '展开' : '收起'}}</view>
+        </view>
+
+        <view wx:if="{{!item.collapsed}}" class="meal-body">
+          <view wx:if="{{item.selectedDishes.length === 0}}" class="plate empty">
+            <view class="empty-text">还没有选择{{item.name}}</view>
+          </view>
+          <view wx:else class="plate">
+            <view class="plate-chip" wx:for="{{item.selectedDishes}}" wx:for-item="dish" wx:key="id">
+              <text>{{dish.emoji}} {{dish.name}}</text>
+              <text class="chip-cat">{{dish.category}}{{dish.isCustom ? ' · 自定义' : ''}}</text>
+              <text class="chip-remove" data-meal="{{item.key}}" data-id="{{dish.id}}" catchtap="removeDish">×</text>
+            </view>
+          </view>
+
+          <view class="add-box">
+            <button wx:if="{{addForm.meal !== item.key}}" class="add-btn" data-meal="{{item.key}}" bindtap="showAddForm">添加自定义菜品</button>
+            <view wx:else class="add-form">
+              <input class="add-input" value="{{addForm.name}}" placeholder="输入菜品名称..." bindinput="onAddNameInput" confirm-type="done" bindconfirm="confirmAddDish" />
+              <view class="emoji-row">
+                <text wx:for="{{emojiChoices}}" wx:key="*this" class="emoji-choice {{addForm.emoji === item ? 'active' : ''}}" data-emoji="{{item}}" bindtap="pickEmoji">{{item}}</text>
+              </view>
+              <view class="form-actions">
+                <button class="confirm-btn" bindtap="confirmAddDish">确认</button>
+                <button class="cancel-btn" bindtap="cancelAddDish">取消</button>
+              </view>
+            </view>
+          </view>
+
+          <view class="candidates-label">备选菜品，点击加入或移出餐盘</view>
+          <view class="dish-grid">
+            <view wx:for="{{item.dishes}}" wx:for-item="dish" wx:key="id" class="dish-card {{dish.selected ? 'selected' : ''}}">
+              <view class="dc-del" data-meal="{{item.key}}" data-id="{{dish.id}}" catchtap="deleteDish">×</view>
+              <view class="dc-check">✓</view>
+              <view class="dish-main" data-meal="{{item.key}}" data-id="{{dish.id}}" bindtap="toggleDish">
+                <view class="dish-emoji">{{dish.emoji}}</view>
+                <view class="dish-name">{{dish.name}}</view>
+                <view class="dish-category">{{dish.category}}</view>
+                <view class="dish-desc">{{dish.desc}}</view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <view wx:if="{{showPoster}}" class="poster-mask" catchtap="closePoster">
+    <view class="poster-panel" catchtap="noop">
+      <view class="poster-title">餐单截图</view>
+      <image wx:if="{{posterImage}}" class="poster-preview" src="{{posterImage}}" mode="widthFix" show-menu-by-longpress bindlongpress="savePosterToAlbum" />
+      <view wx:else class="poster-loading">正在生成图片...</view>
+      <view class="poster-actions">
+        <button class="poster-save" bindtap="savePosterToAlbum">保存</button>
+      </view>
+    </view>
+  </view>
+
+  <canvas canvas-id="posterCanvas" class="poster-canvas" style="height: {{posterHeight}}px;"></canvas>
+
+  <view class="footer">
+    <view class="disc-title">免责声明</view>
+    <view>本餐谱仅作家庭搭配参考，不能替代医生或营养师建议。</view>
+    <view>如宝宝有过敏、疾病、特殊饮食需求，请优先咨询专业人士。</view>
+  </view>
+</view>
