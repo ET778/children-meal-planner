@@ -1,0 +1,1691 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>童趣餐谱 · 儿童餐谱规划 V8</title><style>
+
+:root{
+  --color-primary:#E8A87C;--color-primary-hover:#D4946B;--color-primary-light:#FDF0EB;--color-primary-dark:#C98B6A;
+  --color-secondary:#8FBC8F;--color-secondary-hover:#7AAE7A;--color-secondary-light:#EEFAED;
+  --color-accent:#F5DEB3;--color-accent-light:#FEFAF0;
+  --color-warm-red:#E07A5F;--color-warm-red-light:#F9E0D8;
+  --color-lavender:#B8A9C9;--color-lavender-light:#F0EBF5;
+  --color-bg:#FFF9F2;--color-surface:#FFFFFF;--color-surface-warm:#FFFAF5;--color-surface-hover:#FFF5ED;
+  --color-text-primary:#4A3F35;--color-text-secondary:#7D7067;--color-text-tertiary:#A39585;
+  --color-border:#F0E8DD;--color-border-strong:#E8DDD0;
+  --shadow-xs:0 1px 2px rgba(74,63,53,0.05);--shadow-sm:0 2px 6px rgba(74,63,53,0.07);
+  --shadow-md:0 4px 16px rgba(74,63,53,0.09);--shadow-lg:0 8px 32px rgba(74,63,53,0.12);
+  --shadow-warm:0 4px 16px rgba(232,168,124,0.28);--shadow-warm-sm:0 2px 8px rgba(232,168,124,0.18);
+  --grad-breakfast:linear-gradient(135deg,#FFF3CD,#FFE8B8);
+  --grad-lunch:linear-gradient(135deg,#FFE4D4,#FFD4A8);
+  --grad-dinner:linear-gradient(135deg,#E0F0E0,#D0E8CC);
+  --grad-soup:linear-gradient(135deg,#EEE6FA,#E0D4F4);
+  --font-body:"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+  --font-emoji:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;
+  --dot1:rgba(232,168,124,0.07);--dot2:rgba(143,188,143,0.06);--header-bg:rgba(255,250,245,0.95);
+}
+/* ─── Per-Age-Group Color Themes ─── */
+/* 0-6月：最柔和的粉奶色 */
+[data-age="page-0-6"]{--color-primary:#E8B4B4;--color-primary-hover:#D49A9A;--color-primary-light:#FDEBEB;--color-secondary:#C4A4D4;--color-secondary-hover:#AA8ABE;--color-secondary-light:#F5EBFA;--color-bg:#FFF0F0;--color-surface-warm:#FFF5F5;--header-bg:rgba(255,240,240,0.95);--dot1:rgba(232,180,180,0.09);--dot2:rgba(196,164,212,0.07);--grad-breakfast:linear-gradient(135deg,#FFF0F0,#FFE0E0);--grad-lunch:linear-gradient(135deg,#FDF0EE,#FCE0D8);--grad-dinner:linear-gradient(135deg,#F0ECF5,#E8DFF0);--grad-soup:linear-gradient(135deg,#F0EDF5,#E5DDF2);}
+/* 7-12月：柔和珊瑚暖橙（默认） */
+[data-age="page-7-12"]{--color-primary:#E8A87C;--color-primary-hover:#D4946B;--color-primary-light:#FDF0EB;--color-bg:#FFF9F2;--color-surface-warm:#FFFAF5;--header-bg:rgba(255,250,245,0.95);--dot1:rgba(232,168,124,0.07);--dot2:rgba(143,188,143,0.06);}
+/* 13-24月：温暖蜜桃橙 */
+[data-age="page-13-24"]{--color-primary:#E89B6A;--color-primary-hover:#D48555;--color-primary-light:#FDF3EB;--color-bg:#FFF8EC;--color-surface-warm:#FFFBF0;--header-bg:rgba(255,248,236,0.95);--dot1:rgba(232,155,106,0.08);--dot2:rgba(155,196,160,0.07);--color-secondary:#9BC4A0;--color-secondary-hover:#80AE85;--color-secondary-light:#EEFBF0;--grad-breakfast:linear-gradient(135deg,#FFF5DC,#FFECC8);--grad-lunch:linear-gradient(135deg,#FFECD8,#FFDDB8);--grad-dinner:linear-gradient(135deg,#DEF0DC,#D4E8CC);--grad-soup:linear-gradient(135deg,#F0E6FA,#E2D4F4);}
+/* 2-3岁：阳光金黄 */
+[data-age="page-2-3"]{--color-primary:#E8BA5A;--color-primary-hover:#D4A040;--color-primary-light:#FEF8E8;--color-bg:#FFFBE5;--color-surface-warm:#FFFDF0;--header-bg:rgba(255,251,229,0.95);--dot1:rgba(232,186,90,0.08);--dot2:rgba(139,191,139,0.07);--color-secondary:#8BBF8B;--color-secondary-hover:#70A470;--color-secondary-light:#EDFAED;--grad-breakfast:linear-gradient(135deg,#FFF8D0,#FFECA8);--grad-lunch:linear-gradient(135deg,#FFECD0,#FFDCA8);--grad-dinner:linear-gradient(135deg,#D8F0D0,#C8E8BC);--grad-soup:linear-gradient(135deg,#E8DCF4,#D8C8EA);}
+/* 4-6岁：清新薄荷绿 */
+[data-age="page-4-6"]{--color-primary:#6BBF8F;--color-primary-hover:#58AA75;--color-primary-light:#E8FAF0;--color-bg:#F2FFF6;--color-surface-warm:#F8FFF8;--header-bg:rgba(242,255,246,0.95);--dot1:rgba(107,191,143,0.09);--dot2:rgba(232,168,124,0.06);--color-secondary:#E8A87C;--color-secondary-hover:#D4946B;--color-secondary-light:#FDF0EB;--grad-breakfast:linear-gradient(135deg,#E8FFE8,#D0F0D0);--grad-lunch:linear-gradient(135deg,#D8FFE0,#C0F0D0);--grad-dinner:linear-gradient(135deg,#FFE8D0,#FFD8B8);--grad-soup:linear-gradient(135deg,#E0D8F0,#D0C0E8);}
+/* 6-10岁：活力天蓝 */
+[data-age="page-6-10"]{--color-primary:#5BA8C8;--color-primary-hover:#4895B5;--color-primary-light:#E5F4FA;--color-bg:#EFF8FC;--color-surface-warm:#F0FAFC;--header-bg:rgba(239,248,252,0.95);--dot1:rgba(91,168,200,0.09);--dot2:rgba(232,168,124,0.06);--color-secondary:#E8A87C;--color-secondary-hover:#D4946B;--color-secondary-light:#FDF0EB;--grad-breakfast:linear-gradient(135deg,#D8EFF8,#B8E0F0);--grad-lunch:linear-gradient(135deg,#C8E8F8,#A8D8EF);--grad-dinner:linear-gradient(135deg,#FFF0E0,#FFE0D0);--grad-soup:linear-gradient(135deg,#DDD8F0,#CCC0E8);}
+/* 11岁后：青春活力紫 */
+[data-age="page-11-13"]{--color-primary:#9B7EC8;--color-primary-hover:#8865B0;--color-primary-light:#EDE8FA;--color-bg:#F5EEFA;--color-surface-warm:#F8F2FC;--header-bg:rgba(245,238,250,0.95);--dot1:rgba(155,126,200,0.09);--dot2:rgba(232,152,106,0.06);--color-secondary:#E8986A;--color-secondary-hover:#D48050;--color-secondary-light:#FCF0EB;--grad-breakfast:linear-gradient(135deg,#EEE4FA,#DED0F0);--grad-lunch:linear-gradient(135deg,#F8E4E8,#F0D0D8);--grad-dinner:linear-gradient(135deg,#E8F0E0,#D8E8CC);--grad-soup:linear-gradient(135deg,#F0E0F0,#E0D0E0);}
+
+/* ─── Weekly Export Grid Layout (compact) ─── */
+.export-weekly-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:12px;}
+@media(min-width:800px){.export-weekly-grid{grid-template-columns:repeat(3,1fr);}}
+.export-day-card{background:#fff;border:1.5px solid var(--color-border);border-radius:18px;padding:16px;box-shadow:0 2px 10px rgba(74,63,53,0.05);overflow:hidden;}
+.export-day-card .export-day-label{font-size:15px;font-weight:900;color:var(--color-primary);margin-bottom:10px;padding-bottom:8px;border-bottom:2px solid var(--color-primary-light);padding-left:0;}
+.export-day-card .export-meal-label{font-size:12px;padding:5px 12px;margin-bottom:6px;}
+.export-day-card .export-dish-list{gap:5px;}
+.export-day-card .export-dish{padding:5px 12px;font-size:12px;}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-body);color:var(--color-text-primary);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased;min-height:100vh;background:var(--color-bg);
+  background-image:radial-gradient(circle,var(--dot1) 1.5px,transparent 1.5px),radial-gradient(circle,var(--dot2) 1px,transparent 1px);
+  background-size:24px 24px,36px 36px;background-position:0 0,12px 12px;transition:background-color 0.4s ease;}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;font-size:inherit;}
+.container{max-width:1180px;margin:0 auto;padding:0 16px;}@media(min-width:1024px){.container{padding:0 24px;}}
+.app-header{position:sticky;top:0;z-index:100;background:var(--header-bg);backdrop-filter:saturate(180%) blur(14px);-webkit-backdrop-filter:saturate(180%) blur(14px);border-bottom:1px solid var(--color-border);box-shadow:var(--shadow-sm);transition:background 0.4s ease;}
+.header-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 0;}
+.brand{display:flex;align-items:center;gap:12px;}
+.brand-logo{position:relative;width:52px;height:52px;border-radius:14px;background:linear-gradient(145deg,var(--color-primary),#F5C4A0,var(--color-primary));display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:var(--shadow-warm);flex-shrink:0;}
+.brand-logo::before,.brand-logo::after{content:'';position:absolute;top:-8px;width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.65);animation:steamRise 2.2s ease-out infinite;}
+.brand-logo::before{left:26%;animation-delay:0s;}.brand-logo::after{left:58%;animation-delay:1.1s;}
+@keyframes steamRise{0%{transform:translateY(0) scale(0.5);opacity:0;}20%{opacity:0.75;}100%{transform:translateY(-22px) scale(2);opacity:0;}}
+.brand-text h1{font-size:22px;font-weight:900;color:var(--color-text-primary);} .brand-text p{font-size:12px;color:var(--color-text-tertiary);}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:4px;font-weight:650;border-radius:14px;transition:all 0.25s ease;white-space:nowrap;padding:10px 18px;font-size:14px;}
+.btn:active{transform:scale(0.96);}
+.btn-primary{background:linear-gradient(135deg,var(--color-primary),#F0B890);color:#fff;box-shadow:var(--shadow-warm-sm);}
+.btn-primary:hover{background:linear-gradient(135deg,var(--color-primary-hover),#E8A87C);box-shadow:var(--shadow-warm);}
+.btn-secondary{background:var(--color-surface);color:var(--color-primary);border:2px solid var(--color-primary);padding:8px 16px;font-size:13px;}
+.btn-secondary:hover{background:var(--color-primary-light);box-shadow:var(--shadow-warm-sm);}
+
+.age-nav-wrap{background:linear-gradient(180deg,var(--color-surface),var(--color-surface-warm));border-bottom:1px solid var(--color-border);position:sticky;top:90px;z-index:90;}
+.age-nav{display:flex;gap:4px;padding:10px 16px;overflow-x:auto;scrollbar-width:none;max-width:1180px;margin:0 auto;}
+.nav-item{flex:0 0 auto;padding:9px 18px;border-radius:999px;font-size:13px;font-weight:700;color:var(--color-text-secondary);transition:all 0.25s ease;white-space:nowrap;border:1.5px solid transparent;}
+.nav-item:hover:not(.active){background:var(--color-surface-hover);border-color:var(--color-border);}
+.nav-item.active{background:linear-gradient(135deg,var(--color-primary),#F0B890);color:#fff;box-shadow:0 3px 12px rgba(232,168,124,0.35);}
+@media(min-width:1024px){.age-nav{justify-content:center;padding:12px 24px;}}
+/* ─── 粘性餐次快捷导航 ─── */
+.meal-nav-wrap{background:var(--color-surface);border-bottom:1px solid var(--color-border);position:sticky;top:147px;z-index:85;display:none;}
+.meal-nav-wrap.show{display:block;}
+.meal-nav{display:flex;gap:6px;padding:8px 16px;overflow-x:auto;scrollbar-width:none;max-width:1180px;margin:0 auto;}
+.meal-nav-btn{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:999px;font-size:12.5px;font-weight:700;color:var(--color-text-secondary);transition:all 0.2s ease;white-space:nowrap;border:1.5px solid transparent;cursor:pointer;}
+.meal-nav-btn:hover:not(.active){background:var(--color-surface-hover);border-color:var(--color-border);}
+.meal-nav-btn.active{color:#fff;box-shadow:0 2px 8px rgba(74,63,53,0.2);}
+.meal-nav-btn.early.active{background:linear-gradient(135deg,#C8A800,#9B7D00);}
+.meal-nav-btn.noon.active{background:linear-gradient(135deg,#E8986A,#C47844);}
+.meal-nav-btn.night.active{background:linear-gradient(135deg,#6AA85A,#4A7C3A);}
+.meal-nav-btn.soup.active{background:linear-gradient(135deg,#9B7EC8,#7B5E9E);}
+.meal-nav-badge{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;font-size:11px;font-weight:900;background:var(--color-primary-light);color:var(--color-primary);transition:all 0.2s ease;}
+.meal-nav-btn.active .meal-nav-badge{background:rgba(255,255,255,0.3);color:#fff;}
+@media(min-width:1024px){.meal-nav{justify-content:center;padding:8px 24px;}}
+.age-page{display:none;animation:pageIn 0.35s ease;}.age-page.active{display:block;}
+@keyframes pageIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
+
+/* ─── 备注标签功能 ─── */
+.note-bar-wrap{text-align:center;margin-bottom:24px;}
+.note-bar{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--color-surface-warm),var(--color-accent-light));border:2px dashed var(--color-border-strong);border-radius:16px;padding:10px 22px;transition:all 0.25s ease;max-width:420px;margin:0 auto;}
+.note-bar:hover{border-color:var(--color-primary);background:linear-gradient(135deg,var(--color-primary-light),var(--color-accent-light));}
+.note-label{font-size:13px;font-weight:700;color:var(--color-text-secondary);white-space:nowrap;display:flex;align-items:center;gap:5px;}
+.note-label::before{content:'🏷️';font-size:14px;}
+.note-input{flex:1;min-width:140px;border:1px solid var(--color-border);border-radius:10px;padding:7px 12px;font-size:14px;font-weight:700;color:var(--color-primary);background:#fff;outline:none;text-align:center;transition:all 0.2s ease;font-family:inherit;}
+.note-input:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px rgba(232,168,124,0.2);}.note-input::placeholder{color:var(--color-text-tertiary);font-weight:400;}
+.note-badge{display:none;position:absolute;top:12px;right:16px;background:linear-gradient(135deg,var(--color-primary),#F0B890);color:#fff;font-size:12px;font-weight:800;padding:5px 14px;border-radius:999px;white-space:nowrap;z-index:10;box-shadow:var(--shadow-warm-sm);}
+.export-mode .note-badge{display:block;}
+
+
+.diet-section{padding:24px 0 32px;}
+.diet-hero{text-align:center;margin-bottom:32px;}
+.diet-hero-icon{width:80px;height:80px;border-radius:50%;object-fit:cover;margin:0 auto 16px;display:block;box-shadow:var(--shadow-warm-sm);border:2px solid var(--color-primary-light);}
+.diet-hero h2{font-size:28px;font-weight:900;color:var(--color-text-primary);}
+.diet-hero p{font-size:14.5px;color:var(--color-text-secondary);max-width:560px;margin:0 auto;line-height:1.6;}
+.diet-grid{display:grid;gap:16px;grid-template-columns:1fr;}@media(min-width:768px){.diet-grid{grid-template-columns:repeat(2,1fr);}}@media(min-width:1024px){.diet-grid{grid-template-columns:repeat(3,1fr);}}
+.diet-card{position:relative;overflow:hidden;background:linear-gradient(180deg,var(--color-surface),var(--color-surface-warm));border:1px solid var(--color-border);border-radius:20px;padding:20px;box-shadow:var(--shadow-sm);transition:all 0.25s ease;}
+.diet-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);}
+.diet-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--color-primary),var(--color-secondary));}
+.diet-card-head{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+.diet-card-icon{width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:27px;flex-shrink:0;box-shadow:var(--shadow-xs);}
+.diet-card-icon.warm{background:linear-gradient(145deg,var(--color-primary-light),#FFE8DC);}
+.diet-card-icon.green{background:linear-gradient(145deg,var(--color-secondary-light),#E0F5E0);}
+.diet-card-icon.yellow{background:linear-gradient(145deg,#FFF5DC,#FEF5E0);}
+.diet-card-icon.purple{background:linear-gradient(145deg,var(--color-lavender-light),#EBE4F5);}
+.diet-card-icon.milk{background:linear-gradient(145deg,#FFF9F0,#FFF5ED);border:1px solid var(--color-border);}
+.diet-card h3{font-size:15.5px;font-weight:800;color:var(--color-text-primary);}
+.diet-card ul{list-style:none;display:flex;flex-direction:column;gap:4px;}
+.diet-card li{font-size:13.5px;color:var(--color-text-secondary);line-height:1.65;padding-left:20px;position:relative;}
+.diet-card li::before{content:"";position:absolute;left:0;top:9px;width:6px;height:6px;border-radius:50%;background:var(--color-primary);}
+.diet-card.danger{border-color:var(--color-warm-red-light);background:linear-gradient(180deg,#FDF6F4,var(--color-surface));}
+.diet-card.danger::before{background:linear-gradient(90deg,var(--color-warm-red),var(--color-primary));}
+.diet-card.danger .diet-card-icon{background:linear-gradient(145deg,var(--color-warm-red-light),#FFECE6);}
+.diet-card.danger li::before{background:var(--color-warm-red);}.diet-card.danger h3{color:var(--color-warm-red);}
+.diet-card.tip{background:linear-gradient(180deg,var(--color-lavender-light),var(--color-surface));}
+.diet-card.tip::before{background:linear-gradient(90deg,var(--color-lavender),var(--color-secondary));}
+.diet-card.tip .diet-card-icon{background:linear-gradient(145deg,#fff,var(--color-lavender-light));}.diet-card.tip li::before{background:var(--color-lavender);}
+.global-warning{margin-top:32px;background:linear-gradient(180deg,var(--color-warm-red-light),#FDF6F4);border:1px solid var(--color-warm-red-light);border-radius:20px;padding:20px 32px;}
+.global-warning-head h3{font-size:15.5px;font-weight:800;color:var(--color-warm-red);}
+.global-warning-grid{display:grid;gap:4px 32px;grid-template-columns:1fr;}@media(min-width:640px){.global-warning-grid{grid-template-columns:repeat(2,1fr);}}
+.global-warning-grid li{font-size:13px;color:var(--color-text-secondary);line-height:1.65;list-style:none;padding-left:20px;position:relative;}
+.global-warning-grid li::before{content:"⚠";position:absolute;left:0;top:0;font-size:12px;color:var(--color-warm-red);}
+
+.meal-section-wrap{padding:0 0 44px;}
+.meal-section-title{text-align:center;margin:32px 0 24px;}.meal-section-title h2{font-size:26px;font-weight:900;color:var(--color-text-primary);}
+.title-divider{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:12px;}
+.title-divider .divider-line{width:70px;height:2px;background:linear-gradient(90deg,transparent,var(--color-primary),transparent);border-radius:1px;}
+.wave-divider{width:100%;max-width:420px;height:22px;margin:0 auto 16px;display:block;opacity:0.45;}
+.mode-switcher{display:flex;justify-content:center;margin-bottom:32px;}
+.mode-tabs{display:inline-flex;background:var(--color-surface-warm);border-radius:999px;padding:5px;gap:3px;border:1.5px solid var(--color-border);box-shadow:var(--shadow-xs);}
+.mode-tab{padding:11px 28px;border-radius:999px;font-size:14px;font-weight:700;color:var(--color-text-secondary);transition:all 0.25s ease;}
+.mode-tab.active{background:linear-gradient(135deg,var(--color-primary),#F0B890);color:#fff;box-shadow:0 2px 10px rgba(232,168,124,0.35);}
+.daybar-wrap{margin-bottom:32px;}.daybar{display:flex;gap:4px;background:var(--color-surface);border-radius:20px;padding:4px;border:1.5px solid var(--color-border);box-shadow:var(--shadow-xs);overflow-x:auto;scrollbar-width:none;}
+.daytab{flex:1 0 auto;min-width:66px;padding:11px 14px;border-radius:14px;text-align:center;color:var(--color-text-secondary);font-size:13px;font-weight:700;transition:all 0.25s ease;}
+.daytab.active{background:linear-gradient(135deg,var(--color-primary),#F0B890);color:#fff;}
+
+.summary-bar{background:linear-gradient(180deg,var(--color-surface),var(--color-surface-warm));border:1.5px solid var(--color-border);border-radius:20px;padding:16px 24px;box-shadow:var(--shadow-sm);margin-bottom:32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+.summary-chip{display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:999px;font-size:13px;font-weight:700;}
+.summary-chip.early{background:var(--grad-breakfast);color:#9B7D00;}.summary-chip.noon{background:var(--grad-lunch);color:#C47844;}
+.summary-chip.night{background:var(--grad-dinner);color:#4A7C3A;}.summary-chip.soup{background:var(--grad-soup);color:#7B5E9E;}
+.summary-chip b{font-size:17px;font-weight:900;}
+
+.meal-block{margin-bottom:32px;border:1.5px solid var(--color-border);border-radius:26px;background:linear-gradient(180deg,var(--color-surface),var(--color-surface-warm));overflow:hidden;box-shadow:var(--shadow-xs);}
+.meal-block.collapsed .meal-body{display:none;}
+.meal-head{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 24px;background:linear-gradient(180deg,rgba(232,168,124,0.06),transparent);border-bottom:1px solid var(--color-border);flex-wrap:wrap;}
+.meal-head-left{display:flex;align-items:center;gap:12px;}
+.meal-badge{display:inline-flex;align-items:center;gap:7px;padding:9px 20px;border-radius:999px;font-size:14.5px;font-weight:800;}
+.meal-badge.early{background:var(--grad-breakfast);color:#9B7D00;}.meal-badge.noon{background:var(--grad-lunch);color:#C47844;}
+.meal-badge.night{background:var(--grad-dinner);color:#4A7C3A;}.meal-badge.soup{background:var(--grad-soup);color:#7B5E9E;}
+.meal-title{font-size:13px;color:var(--color-text-tertiary);font-weight:500;}
+.plate-count{font-size:13px;font-weight:700;color:var(--color-text-secondary);}.plate-count b{color:var(--color-primary);font-size:17px;}
+.meal-toggle{width:34px;height:34px;border-radius:999px;display:flex;align-items:center;justify-content:center;transition:all 0.15s ease;background:var(--color-surface);border:1.5px solid var(--color-border);color:var(--color-text-tertiary);flex-shrink:0;cursor:pointer;}
+.meal-toggle:hover{background:var(--color-primary-light);border-color:var(--color-primary);color:var(--color-primary);}
+.meal-block.collapsed .meal-toggle svg{transform:rotate(-90deg);}
+.meal-toggle svg{width:16px;height:16px;transition:transform 0.25s ease;fill:currentColor;}
+.meal-body{padding:20px;}
+
+.plate{position:relative;background:var(--color-surface);border-radius:20px;padding:16px 24px;border:2px dashed var(--color-border-strong);margin-bottom:16px;min-height:68px;transition:all 0.25s ease;overflow:hidden;}
+.plate.empty{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;}
+.plate.empty::before{content:"🥕 🍅 🥦 🍳 🥬";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:24px;opacity:0.06;letter-spacing:14px;white-space:nowrap;pointer-events:none;}
+.plate.empty .empty-icon{font-size:30px;opacity:0.45;position:relative;z-index:1;}
+.plate.empty .empty-text{font-size:13px;color:var(--color-text-tertiary);position:relative;z-index:1;}
+.plate-chips{display:flex;flex-wrap:wrap;gap:8px;position:relative;z-index:1;}
+.plate-chip{display:inline-flex;align-items:center;gap:4px;background:linear-gradient(135deg,#fff,var(--color-primary-light));border:1.5px solid var(--color-primary);border-radius:999px;padding:7px 10px 7px 14px;font-size:14px;font-weight:700;color:var(--color-text-primary);box-shadow:var(--shadow-xs);animation:chipPopIn 0.45s cubic-bezier(0.34,1.56,0.64,1);}
+.plate-chip .pc-emoji{font-size:18px;}.plate-chip .pc-cat{font-size:10px;font-weight:700;padding:2px 7px;border-radius:6px;background:var(--color-surface-warm);color:var(--color-text-secondary);}
+.plate-chip .pc-remove{width:22px;height:22px;border-radius:50%;background:var(--color-warm-red);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;transition:all 0.15s ease;flex-shrink:0;margin-left:2px;cursor:pointer;}
+.plate-chip .pc-remove:hover{background:#C84A3A;transform:scale(1.15);}
+@keyframes chipPopIn{0%{transform:scale(0.55);opacity:0;}60%{transform:scale(1.06);}100%{transform:scale(1);opacity:1;}}
+
+.add-dish-row{display:flex;align-items:center;gap:12px;margin-top:16px;padding-top:16px;border-top:1.5px dashed var(--color-border);}
+.add-dish-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:999px;font-size:13px;font-weight:700;color:var(--color-primary);background:linear-gradient(135deg,var(--color-primary-light),#fff);border:2px dashed var(--color-primary);transition:all 0.25s ease;cursor:pointer;}
+.add-dish-btn:hover{background:linear-gradient(135deg,var(--color-primary),#F0B890);color:#fff;border-style:solid;box-shadow:var(--shadow-warm-sm);transform:translateY(-1px);}
+.add-dish-input{flex:1;min-width:0;padding:8px 14px;border:2px solid var(--color-primary);border-radius:999px;font-size:13px;font-weight:600;color:var(--color-text-primary);background:#fff;outline:none;transition:all 0.15s ease;display:none;font-family:inherit;}
+.add-dish-input.show{display:block;}.add-dish-input:focus{border-color:var(--color-primary-dark);box-shadow:0 0 0 3px rgba(232,168,124,0.2);}
+.add-dish-confirm{padding:8px 16px;border-radius:999px;font-size:13px;font-weight:700;background:linear-gradient(135deg,var(--color-primary),#F0B890);color:#fff;display:none;cursor:pointer;white-space:nowrap;}
+.add-dish-confirm.show{display:inline-flex;}.add-dish-confirm:hover{background:linear-gradient(135deg,var(--color-primary-hover),#E8A87C);}
+.add-dish-cancel{padding:8px 16px;border-radius:999px;font-size:13px;font-weight:700;background:transparent;color:var(--color-text-secondary);border:2px solid var(--color-border);display:inline-flex;cursor:pointer;white-space:nowrap;transition:all 0.15s;}
+.add-dish-cancel:hover{background:#f5f0ed;border-color:var(--color-text-secondary);color:var(--color-text-primary);}
+
+/* ===== Emoji Picker for Custom Dish ===== */
+.emoji-picker{display:none;margin-top:12px;padding:14px;border-radius:14px;background:#FFFBF7;border:2px solid var(--color-border);box-shadow:var(--shadow-warm-sm);}
+.emoji-picker.show{display:block;animation:fadeSlideIn 0.3s ease;}
+.emoji-picker-label{font-size:12px;font-weight:700;color:var(--color-text-secondary);margin-bottom:8px;display:flex;align-items:center;gap:4px;}
+.emoji-picker-grid{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;}
+.emoji-picker-item{width:34px;height:34px;font-size:20px;border-radius:8px;border:1.5px solid transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.15s ease;background:#fff;}
+.emoji-picker-item:hover{transform:scale(1.2);background:var(--color-primary-light);border-color:var(--color-primary);}
+.emoji-picker-item.selected{background:linear-gradient(135deg,var(--color-primary),#F0B890);border-color:var(--color-primary-dark);transform:scale(1.15);box-shadow:0 2px 8px rgba(232,168,124,0.35);}
+
+.candidates-label{font-size:12.5px;font-weight:700;color:var(--color-text-tertiary);margin-bottom:12px;display:flex;align-items:center;gap:6px;text-transform:uppercase;letter-spacing:0.03em;}
+.dish-grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));}@media(min-width:1024px){.dish-grid{grid-template-columns:repeat(4,1fr);}}
+.dish-card{position:relative;background:var(--color-surface);border:1.5px solid var(--color-border);border-radius:20px;padding:16px;box-shadow:var(--shadow-xs);transition:all 0.25s ease;display:flex;flex-direction:column;gap:4px;text-align:left;overflow:hidden;cursor:pointer;}
+.dish-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-color:var(--color-primary);}
+.dish-card.selected{background:linear-gradient(180deg,var(--color-primary-light),#fff);border:2.5px solid var(--color-primary);box-shadow:var(--shadow-warm);padding:15px;border-left:5px solid var(--color-primary);}
+.dish-card .dc-top{display:flex;align-items:center;gap:8px;}
+.dish-emoji-box{width:48px;height:48px;border-radius:50%;background:linear-gradient(145deg,var(--color-surface-warm),var(--color-accent-light));display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;box-shadow:var(--shadow-xs);transition:all 0.25s ease;}
+.dish-card:hover .dish-emoji-box{transform:scale(1.08) rotate(-3deg);}
+.dish-card.selected .dish-emoji-box{background:linear-gradient(145deg,var(--color-primary),#F0B890);}
+.dish-name{font-size:14.5px;font-weight:700;line-height:1.3;color:var(--color-text-primary);}
+.dish-tags{display:flex;flex-wrap:wrap;gap:4px;}
+.tag-nutri{font-size:10px;font-weight:700;padding:2px 8px;border-radius:6px;}
+.tag-nutri[data-cat="蛋白质"]{background:var(--color-warm-red-light);color:var(--color-warm-red);}
+.tag-nutri[data-cat="谷类"]{background:#FEF8E0;color:#9B7D00;}
+.tag-nutri[data-cat="蔬菜"]{background:var(--color-secondary-light);color:#5A9A5A;}
+.tag-nutri[data-cat="水果"]{background:#FFE9F0;color:#C44A7A;}
+.tag-nutri[data-cat="奶类"]{background:var(--color-lavender-light);color:#8A7AA0;}
+.tag-nutri[data-cat="自定义"]{background:#E8E0F5;color:#6A5A9A;}
+.dish-desc{font-size:10.5px;color:var(--color-text-tertiary);line-height:1.4;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:2px;padding:0 2px;font-weight:400;opacity:0.85;}
+.dish-card .dc-check{position:absolute;top:8px;right:8px;width:24px;height:24px;border-radius:50%;background:var(--color-primary);color:#fff;font-size:13px;font-weight:900;display:none;align-items:center;justify-content:center;}
+.dish-card.selected .dc-check{display:flex;animation:chipPopIn 0.45s cubic-bezier(0.34,1.56,0.64,1);}
+.dish-card .dc-del{position:absolute;top:6px;left:6px;width:20px;height:20px;border-radius:50%;background:#D0CCC8;color:#fff;font-size:11px;font-weight:900;display:flex;align-items:center;justify-content:center;z-index:2;cursor:pointer;transition:all 0.2s ease;}
+.dish-card.selected .dc-del{background:var(--color-warm-red);animation:chipPopIn 0.45s cubic-bezier(0.34,1.56,0.64,1);}
+.dish-card .dc-del:hover,.dish-card.selected .dc-del:hover{background:#C84A3A;transform:scale(1.15);}
+
+.no-meals-box{text-align:center;padding:40px 0 60px;}
+.no-meals-inner{background:linear-gradient(180deg,var(--color-lavender-light),var(--color-surface));border-radius:26px;padding:36px 28px;max-width:560px;margin:0 auto;box-shadow:var(--shadow-sm);border:1px solid var(--color-border);}
+.no-meals-inner .emoji{font-size:52px;margin-bottom:16px;display:block;}.no-meals-inner h3{font-size:19px;font-weight:800;color:var(--color-text-primary);}
+.no-meals-inner p{font-size:14px;color:var(--color-text-secondary);line-height:1.65;}
+
+.export-meal-label{display:inline-flex;align-items:center;gap:7px;padding:7px 16px;border-radius:999px;font-size:14px;font-weight:800;margin-bottom:10px;}
+.export-meal-label.early{background:var(--grad-breakfast);color:#9B7D00;}.export-meal-label.noon{background:var(--grad-lunch);color:#C47844;}
+.export-meal-label.night{background:var(--grad-dinner);color:#4A7C3A;}.export-meal-label.soup{background:var(--grad-soup);color:#7B5E9E;}
+.export-dish-list{display:flex;flex-wrap:wrap;gap:8px;padding-left:8px;}
+.export-dish{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1.5px solid var(--color-border);border-radius:999px;padding:7px 16px;font-size:14px;font-weight:700;color:var(--color-text-primary);}
+.export-empty{font-size:13px;color:var(--color-text-tertiary);padding-left:8px;font-style:italic;}
+.export-day-sep{height:1px;background:var(--color-border);margin:22px 0;}
+.export-day-label{font-size:17px;font-weight:900;color:var(--color-primary);margin-bottom:14px;padding-bottom:6px;border-bottom:2px solid var(--color-primary-light);}
+.export-footer{margin-top:24px;padding-top:14px;border-top:1.5px dashed var(--color-border);font-size:11px;color:var(--color-text-tertiary);text-align:center;line-height:1.7;}
+.wave-sep{width:100%;height:34px;overflow:hidden;margin-top:32px;}.wave-sep svg{width:100%;height:100%;display:block;}
+.app-footer{background:linear-gradient(180deg,var(--color-surface-warm),var(--color-surface));border-top:1.5px solid var(--color-border);padding:24px 0;}
+.disclaimer{max-width:760px;margin:0 auto;text-align:center;font-size:12px;color:var(--color-text-secondary);line-height:1.75;}
+.disc-title{font-weight:800;color:var(--color-text-primary);font-size:13px;}.disc-source{color:var(--color-text-tertiary);font-size:11px;margin-top:4px;}
+.toast{position:fixed;left:50%;bottom:32px;transform:translateX(-50%) translateY(24px);background:var(--color-text-primary);color:#fff;padding:13px 24px;border-radius:999px;font-size:14px;font-weight:700;box-shadow:var(--shadow-lg);z-index:400;opacity:0;pointer-events:none;transition:all 0.25s cubic-bezier(0.34,1.56,0.64,1);}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.img-preview-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);z-index:500;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;animation:fadeIn .2s;}
+.img-preview-overlay .preview-tip{color:#fff;font-size:14px;margin-bottom:12px;text-align:center;line-height:1.6;}
+.img-preview-overlay .preview-tip b{color:#FFE066;}
+.img-preview-overlay img{max-width:100%;max-height:75vh;border-radius:8px;box-shadow:0 4px 24px rgba(0,0,0,.4);}
+.img-preview-overlay .preview-actions{margin-top:14px;display:flex;gap:10px;}
+.img-preview-overlay .preview-actions button{padding:10px 20px;border-radius:999px;font-size:14px;font-weight:700;border:none;cursor:pointer;}
+.img-preview-overlay .btn-close{background:#555;color:#fff;}
+.img-preview-overlay .btn-share{background:var(--color-accent);color:#fff;}
+.img-preview-overlay .btn-download{background:#4CAF50;color:#fff;}
+@media(max-width:639px){
+  .brand-text p{display:none;}.diet-hero h2{font-size:23px;}.dish-grid{grid-template-columns:repeat(2,1fr);}
+  .daytab{min-width:54px;padding:9px 8px;font-size:12px;}.summary-bar{flex-direction:column;align-items:stretch;}
+  .nav-item{padding:8px 13px;font-size:12.5px;}.add-dish-row{flex-direction:column;}.add-dish-input{width:100%;}
+}
+@media(min-width:640px) and (max-width:1023px){.dish-grid{grid-template-columns:repeat(3,1fr);}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important;}}
+button:focus-visible,.nav-item:focus-visible,.mode-tab:focus-visible,.daytab:focus-visible,.dish-card:focus-visible,.add-dish-btn:focus-visible{outline:3px solid var(--color-primary);outline-offset:2px;}
+
+/* Hide note bar for 0-6 month babies */
+[data-age="page-0-6"] .note-bar-wrap { display: none !important; }
+</style></head><body>
+<header class="app-header"><div class="container header-inner">
+<div class="brand"><div class="brand-logo"><img src="hero.png" alt="Logo" style="width:52px;height:52px;border-radius:14px;object-fit:cover;"></div>
+<div class="brand-text"><h1>童趣餐谱</h1><p>孩子的每一餐，都值得认真对待</p></div></div>
+<div class="header-actions"><button class="btn btn-secondary" id="btn-export">📸 截图导出菜单</button></div>
+</div></header>
+<nav class="age-nav-wrap no-export"><div class="age-nav" id="age-nav" role="tablist"></div></nav>
+<nav class="meal-nav-wrap no-export" id="meal-nav-wrap"><div class="meal-nav" id="meal-nav"></div></nav>
+<main id="app-main"></main>
+<div class="wave-sep no-export" aria-hidden="true">
+<svg viewBox="0 0 1200 34" preserveAspectRatio="none"><path d="M0,17 C200,34 400,0 600,17 C800,34 1000,0 1200,17 L1200,34 L0,34 Z" fill="#FFFAF5"/></svg>
+</div>
+<footer class="app-footer"><div class="container"><div class="disclaimer">
+<span class="disc-title">⚠️ 免责声明</span>
+本餐谱仅供参考，具体营养需求请咨询专业营养师或医生。每个孩子的体质、过敏史与发育情况不同，食材选择与烹饪方式请结合实际情况调整。
+<div class="disc-source">数据来源：中国居民膳食指南（2022）· 中国卫生健康委员会</div>
+</div></div></footer>
+<div class="toast" id="toast"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+const IMAGE_DATA={
+  'page-0-6':'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCACAAIADASIAAhEBAxEB/8QAGwAAAwEBAQEBAAAAAAAAAAAAAAEEAwIFBgf/xAArEAACAgEDAwQBAwUAAAAAAAAAAQIRAwQSIRMxUSIyQaFhBXGBUmKxwdH/xAAZAQEBAQEBAQAAAAAAAAAAAAAAAQIDBAX/xAAbEQEAAgMBAQAAAAAAAAAAAAAAARECAzEhMv/aAAwDAQACEQMRAD8A/b7BAho0AYAADEdUAAOgIENIYEAMAABDHQCChgBgkMAo0ENBQwA6oSGQBPqc7xVt7/JR3JdVjWRLb3+WSeNY9b6fJ1cakamGmqMFD5KCRPhl5LkBjKySGAwAAAKwQ6GBpCoaQDRAHM5KEXJnZPqmlip92GsYuaC1Li7lDgkz6mc5txj9oyz5KhxL7PJzZOX6vskvXhpifXtYdTONqaXPb1IrhrOVvSpurVnysMi3e77PVwZU4R9V8nK6by0YvoAo5hJTgpR7M7Oj54oAYFAHwA32CsgCh0VCAdAUIx1MU8e5OpLsb0YNdXK036UG8O28XPqdSk9+nv8AMaZ5mXXRT9WGa/fGmfT6qGOC4XL+CCez5in/AAYl7teyK48SGtTktsJt/iEUepo8ubJOMZQccb7ytWaLprtGK/gt06xZIVXJynreeyK49LFGMcUVD2pcHZLpJNSljbuio6x7D5ucVIAB0VkA+wwaIrMKGM0jmgo6oAFRDJuEm0y8i1CrIw66+0jzzc3bI5tlOXuTTMTL1Ys022V6eUoP9yaPcpxI5y1L0dGryuXzRdRLoVxJlh0x48Wz6KgAZpzAn2GAVyAAkaQBQwIFRHqecjSLSGTvM2yS6a+2iyxpkc+5bqX62SSRiXrx44iuSvBGyaK5LNNxI5TJlPj0dF7ZIrIdG6yyXlFp2wnx49n0YNpCA0wbEwsTfACtBaMNwb2VW9odk+9i3sFKbPMzy2ZJRfkp3vyT6mHVjx712Yp11+T6knNMwk0yfPlzYG+pp89eYwcl9WSv9X00HU+rF/nDP/hzmHrjG+PRj3N8bo8iH6zpp8Y45pv+3DN/6K9PmzaiSrT5oR/qnHb/AJ5OUk4THXt6KVzcvhIt6i8nnY04wUVFmiU32TOmM1FPLnjEzazqLyHUXklUZjUZGrYqFHUQOZiose1hKh3tDadAbZc7UGxHVDoDjYhbF4NBAtxsj4HSQ2goi3I4FS8IdDRKLkKP4HtXgadBZaSypeAod8BuFBUJo63A3Yof/9k=',
+  'page-7-12':'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCACAAIADASIAAhEBAxEB/8QAGwABAAIDAQEAAAAAAAAAAAAAAAIGAQMFBAf/xAA1EAACAQMCAwUFBgcAAAAAAAAAAQIDBBEFIRIxQQYTUWFxIiNCgZEUFXKhsdEyUlNiweHw/8QAGgEBAAIDAQAAAAAAAAAAAAAAAAQFAQIDBv/EACIRAAICAgICAgMAAAAAAAAAAAACAQMEERIhMUEFURMiYf/aAAwDAQACEQMRAD8A+9gAAAAAAAAAAAAAAAAAAAAAB8gAAAAAAYAMGQAAAAAcnVtahp8o0KaU7mayk+UV4v8AY1ZoWNydK62sbip1gU56nczi6lxdVYtb4jLCXyR7dO1upG8p29ebqU6j4VKXOL6b9UcFyUmdElsKxYmY70WQAEkhgPkA+QAAAMAAAAAAAAAGq6uIWlrVuKj9inFyZ8xvLirdXE686jVaUuPiXR+Hp0Ll2tuu7sKdtF71ZZl+GP8AvBRpZIGXZ3xL/wCKpiEmyfZuhfXaxGXcv+5J/odCyk7m/tLam3KfeKU5eZxE5Tnww5+JfezGhuwpfariOK817MXzivPzZGoSbH/hKzXror5e/RYgAXB5cBgAwAAAAAAAAAADm6zqCs7VwhL31RYj5LxNWaFjcm6JLtCwVftBdfbNSqOLzCHsR9Fz/PJxJUZ1ZqnTi3KTxhLc6E45TZZ+z2kRtqUbutH301mCfwrx9WVUK2RYeha9cWmNevBr0Hs1TsFG4uoqdxzjHmofuyxAFoiKkaUobrnubm89gAG5yAAfIAAAAAAAGHJRTbaSXNs8mo6jR063dWpvJ/wx8T59q2t3+ozadRwp9IR2I92StXXmSZi4T5HcdR9l3vtftbZONKcalT12RWbi4qXVWVWpPilLqVGcJ8WW2/U32tzVoTTjJ46p8mQnta3yXFeCtMfr3JcNLs1d3dKElmPFmX4Vv+xcyt9l5xrcVVdae31LIS8ROKb+ynznmbNT6AAJRDAAAAAfIAAwzGQCQIOWDHeJMDRUdTq/eGpSUn7tNpei/wCycq6tI8b4I7HtuqUqV3Uj8UJuL+uV9UzfT7qpDfCfgUtkSzzvyehqb8axK+CvVLTyNCt0m2zv3UKcVtzOZKlKrU4I9eb6JBZ4yTEs5xuSw9jMqnJPliX6otvEiv6FRVtacaWFJJRz/KuvzZ1e8bLKjpI2eey9PczQeviQ4keZSZNZO2yNKm7KMmpZJobNdEgzBk2MAjgkADVOLxseC5lUhFtJnTwRlFPmgbROiiandS77vYrFSKw8raS8Gc6GvWLfDVl3c/Btf5PoNfTLS5XvaEJeeDkXXYvRbt+8tm/mR7qFs79k+jLVI4tBVKur2P8AWi2+nEt/zPbp6VzJSlHFLOeFfF6nbtuw+iWkuKjaRi/HCydehpVrQXsU/qRlxJieyQ+fXx0uzTbpyittj2Qpm6NKMVsiaSRNVdFY9m56NagTUSWBg20cpkxgyZBkwAAZABlGcoAiCQAI4MYJbDYwCOBglsNgCODOCWw2AIgzsMoyDAJZQygCIZLKMPcA/9k=',
+  'page-13-24':'data:image/jpeg;base64,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',
+  'page-2-3':'data:image/jpeg;base64,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',
+  'page-4-6':'data:image/jpeg;base64,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',
+  'page-6-10':'data:image/jpeg;base64,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',
+  'page-11-13':'data:image/jpeg;base64,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'
+};
+
+const AGE_PAGES=[
+{id:'page-0-6',label:'0-6月龄',short:'0-6月',hasMeals:false,heroIcon:'ICON_page-0-6',heroTitle:'0-6月龄 · 奶是唯一食物',heroDesc:'此阶段以纯母乳或婴儿配方奶为唯一营养来源，不添加任何辅食、水或调味品。',
+dietCards:[
+{type:'warm',icon:'🤱',title:'核心原则',items:['纯母乳按需哺乳，每天8-12次','无法母乳喂养时选用婴儿一段配方奶','奶是此阶段唯一食物来源','按需喂养，宝宝饿了就喂']},
+{type:'milk',icon:'🚫',title:'禁止添加',items:['不喂水、米汤、果汁','不喂蜂蜜（1岁内易肉毒中毒）','不喂菜水、糖水','不喂成人饭菜、粥、蛋黄、米粉']},
+{type:'danger',icon:'⚠️',title:'关键禁忌',items:['不加盐、糖、酱油等任何调味品','1岁内严禁蜂蜜','不喂鲜牛奶（肠胃难以消化）','不喂蛋清（易过敏）']},
+{type:'tip',icon:'💡',title:'营养补充',items:['出生数天起每日补充维生素D 400IU','持续补充至2岁','促进钙吸收，预防佝偻病','可通过维生素D滴剂补充']},
+]},
+{id:'page-7-12',label:'7-12月龄',short:'7-12月',hasMeals:true,heroIcon:'ICON_page-7-12',heroTitle:'7-12月龄 · 辅食添加关键期',heroDesc:'从单一高铁米粉开始，逐步引入多样化辅食，奶量仍是主要营养来源。',
+dietCards:[
+{type:'milk',icon:'🥛',title:'奶量要求',items:['每日600-800ml母乳或二段配方奶','奶量不低于600ml','奶仍是主要营养来源','辅食作为补充逐步增加']},
+{type:'warm',icon:'🥣',title:'辅食节奏',items:['7月龄：每天2次辅食（高铁米粉/肉泥/鱼泥/菜泥）','9月龄：碎末状+手指食物','12月龄：软饭碎菜小块肉','每日3餐+2次奶/水果加餐']},
+{type:'danger',icon:'🚫',title:'禁忌',items:['1岁内严禁盐、酱油、蜂蜜','不喂糖果、含糖饮料','少量原味油脂（核桃油/橄榄油）','不喂成人饭菜']},
+{type:'danger',icon:'⚠️',title:'防呛噎',items:['不喂整颗葡萄、圣女果','不喂坚果（花生、核桃等）','不喂硬糖、果冻','不喂大块肉块，需切碎/压泥']},
+]},
+{id:'page-13-24',label:'13-24月龄',short:'13-24月',hasMeals:true,heroIcon:'ICON_page-13-24',heroTitle:'13-24月龄 · 自主进食起步期',heroDesc:'逐步过渡到家庭饮食，口味保持极淡，培养自主进食好习惯。',
+dietCards:[
+{type:'milk',icon:'🥛',title:'奶量要求',items:['每日400-600ml','可换三段配方奶或纯牛奶','奶制品仍是重要钙来源','可搭配酸奶、奶酪']},
+{type:'warm',icon:'🥗',title:'食材搭配',items:['每天有肉、蛋、奶','搭配杂粮和蔬菜','少量水果作为加餐','食物多样化，营养均衡']},
+{type:'danger',icon:'🚫',title:'口味控制',items:['极淡，几乎不放盐','拒绝咸菜、腌制品','不喂加工零食（薯片、饼干等）','少油少糖，原味为主']},
+{type:'tip',icon:'🍽️',title:'饮食习惯',items:['鼓励自主抓饭、用勺','不追喂、不强迫进食','不边看电视边吃饭','定时定点，建立规律']},
+]},
+{id:'page-2-3',label:'2-3岁',short:'2-3岁',hasMeals:true,heroIcon:'ICON_page-2-3',heroTitle:'2-3岁 · 咀嚼能力发展期',heroDesc:'食物切小丁软烂，培养多样化口味，建立三餐两点制。',
+dietCards:[
+{type:'milk',icon:'🥛',title:'奶量与餐制',items:['每日奶300-400ml','三餐两点制（早中晚+两次加餐）','少盐少糖，每日盐≤3g','加餐以水果、酸奶为主']},
+{type:'warm',icon:'🔪',title:'食材处理',items:['食物切小丁，软烂易嚼','肉类炖软，不硬不柴','粗纤维蔬菜切碎','鱼去刺，肉去骨']},
+{type:'warm',icon:'🥚',title:'营养重点',items:['每天1个鸡蛋','每周2-3次鱼虾','主食掺杂粮（小米、玉米等）','深色蔬菜占一半']},
+{type:'tip',icon:'🌿',title:'习惯培养',items:['继续鼓励自主进食','饭前洗手，餐后漱口','不挑食、不偏食','控制零食量和时间']},
+]},
+{id:'page-4-6',label:'4-6岁',short:'4-6岁',hasMeals:true,heroIcon:'ICON_page-4-6',heroTitle:'4-6岁 · 饮食习惯定型期',heroDesc:'提升咀嚼难度，正常小块饭菜，控制精制糖摄入。',
+dietCards:[
+{type:'milk',icon:'🥛',title:'奶量与餐制',items:['每日奶300-400ml','三餐两点制','少盐少糖，每日盐≤3g','可喝纯牛奶、酸奶']},
+{type:'warm',icon:'🍽️',title:'食物形态',items:['提升咀嚼难度','正常小块饭菜','肉类可正常切小块','蔬菜正常烹饪，不过度切碎']},
+{type:'danger',icon:'🍭',title:'控糖控零食',items:['控制精制糖（糖果、甜饮料）','少吃蛋糕、饼干等甜食','不喝含糖饮料和奶茶','零食选水果、坚果（需注意安全）']},
+{type:'tip',icon:'🥢',title:'习惯培养',items:['培养自主进食能力','参与食材选择和简单烹饪','了解食物来源和营养','餐桌上不玩手机、不看视频']},
+]},
+{id:'page-6-10',label:'6-10岁',short:'6-10岁',hasMeals:true,heroIcon:'ICON_page-6-10',heroTitle:'6-10岁 · 学龄期均衡膳食',heroDesc:'三餐规律，必须吃早餐，足量饮水，均衡摄入各类食物。',
+dietCards:[
+{type:'warm',icon:'🌅',title:'三餐规律',items:['三餐必须规律进食','必须吃早餐','早餐含碳水+蛋白质+蔬果','课间可加餐水果或牛奶']},
+{type:'milk',icon:'💧',title:'饮水与奶量',items:['足量饮水800-1000ml','每日奶300ml','不喝含糖饮料','白开水为首选']},
+{type:'warm',icon:'🐟',title:'食材均衡',items:['鱼禽肉蛋均衡搭配','每周至少2次深海鱼','多深绿色蔬菜','主食一半杂粮薯类']},
+{type:'danger',icon:'⚠️',title:'限制项',items:['少吃油炸食品','少吃加工肉制品','控制零食摄入','不喝功能性饮料']},
+]},
+{id:'page-11-13',label:'11岁后',short:'11岁后',hasMeals:true,heroIcon:'ICON_page-11-13',heroTitle:'11岁后 · 青春期生长加速',heroDesc:'生长加速期，需增加蛋白质、钙、铁摄入，女孩重点补铁。',
+dietCards:[
+{type:'warm',icon:'📈',title:'生长加速需求',items:['增加蛋白质摄入（肉蛋豆）','增加钙摄入（奶制品）','增加铁摄入（红肉、动物肝脏）','能量需求显著上升']},
+{type:'milk',icon:'🥛',title:'每日必吃',items:['每日奶300-500ml','每日鸡蛋1个','每周2-3次鱼虾','红肉每周3-4次补铁']},
+{type:'danger',icon:'🚫',title:'女孩补铁',items:['女孩经期重点补铁','多吃瘦红肉、动物肝脏','搭配维C丰富蔬果促铁吸收','注意预防缺铁性贫血']},
+{type:'danger',icon:'⚠️',title:'限制项',items:['限制外卖、烧烤','少喝奶茶、含糖饮料','少吃辣条等加工零食','控制高油高盐食品']},
+]},
+];
+
+const GLOBAL_WARNINGS=['1岁内禁食：盐、蜂蜜、含糖饮料、整颗坚果、果冻','全年龄段少食：腌菜、加工肉、油炸食品、奶茶糖果','不喝成人浓茶、咖啡、功能性饮料','少吃反式脂肪：奶油蛋糕、起酥面包、薯片'];
+const DAYS=['周一','周二','周三','周四','周五','周六','周日'];
+const DAY_KEYS=['mon','tue','wed','thu','fri','sat','sun'];
+const MEAL_KEYS=['breakfast','lunch','dinner','soup'];
+const MEAL_NAMES={breakfast:'早餐',lunch:'午餐',dinner:'晚餐',soup:'汤品'};
+const MEAL_BADGE={breakfast:'early',lunch:'noon',dinner:'night',soup:'soup'};
+const MEAL_ICON={breakfast:'🌅',lunch:'☀️',dinner:'🌙',soup:'🍲'};
+const MEAL_SUBTITLE={breakfast:'开启活力一天',lunch:'营养要吃饱吃好',dinner:'清淡好消化，助眠安神',soup:'暖胃收尾，补充水分'};
+const EMOJI_CATEGORIES=[
+  {name:'🍖 肉类',icons:['🥩','🍗','🥓','🍖','🦆','🐔','🐷','🐟','🦐','🦀']},
+  {name:'🥬 蔬菜',icons:['🥬','🥕','🌽','🍅','🥒','🧅','🥔','🍠','🎃','🥦','🥚','🍄','🫑','🥬']},
+  {name:'🍜 主食',icons:['🍚','🍜','🍝','🍲','🥣','🍞','🥟','🥪','🫓','🥯','🧇','🥞']},
+  {name:'🍲 汤粥',icons:['🍲','🥣','🍵','🫕','🥘','🫗']},
+  {name:'🥛 奶制品',icons:['🥛','🧈','🧀','🥛','🍼']},
+  {name:'🍎 水果',icons:['🍎','🍊','🍋','🍌','🍇','🍓','🫐','🍑','🥭','🍍','🍈','🍉','🥝']},
+  {name:'🍰 甜点',icons:['🍰','🧁','🍪','🎂','🍮','🍡','🍢','🫙','🍯']}
+];
+const DISH_DATA={
+'page-7-12': {
+  breakfast: [
+    {id:'page-7-12_breakfast_1',name:'铁强化米粉糊(母乳冲调)',emoji:'🥣',category:'辅食',desc:'高铁米粉30g,母乳150ml'},
+    {id:'page-7-12_breakfast_2',name:'南瓜泥+母乳',emoji:'🎃',category:'辅食',desc:'南瓜50g蒸熟碾泥,母乳150ml'},
+    {id:'page-7-12_breakfast_3',name:'红薯泥+配方奶',emoji:'🥛',category:'辅食',desc:'红薯60g蒸熟碾泥,配方奶180ml'},
+    {id:'page-7-12_breakfast_4',name:'胡萝卜泥米粉',emoji:'🥣',category:'辅食',desc:'胡萝卜30g蒸熟打泥,铁强化米粉25g'},
+    {id:'page-7-12_breakfast_5',name:'土豆蛋黄泥(1/4个)',emoji:'🥚',category:'辅食',desc:'土豆50g,蛋黄1/4个,母乳调稀'},
+    {id:'page-7-12_breakfast_6',name:'西兰花泥米粉',emoji:'🥣',category:'辅食',desc:'西兰花40g焯水打泥,高铁米粉25g'},
+    {id:'page-7-12_breakfast_7',name:'苹果泥+米粉',emoji:'🥣',category:'辅食',desc:'苹果半个磨泥,米粉20g'},
+    {id:'page-7-12_breakfast_8',name:'菠菜猪肝泥',emoji:'🥓',category:'辅食',desc:'菠菜20g焯水,猪肝15g煮熟打泥'},
+    {id:'page-7-12_breakfast_9',name:'山药红枣泥',emoji:'🥔',category:'辅食',desc:'山药50g,红枣2颗去皮核蒸熟打泥'},
+    {id:'page-7-12_breakfast_10',name:'鳕鱼泥米糊',emoji:'🥣',category:'辅食',desc:'鳕鱼30g蒸熟去刺碾泥,米粉25g'},
+    {id:'page-7-12_breakfast_11',name:'鸡肉泥南瓜糊',emoji:'🍗',category:'辅食',desc:'鸡胸肉20g煮熟打泥,南瓜40g'},
+    {id:'page-7-12_breakfast_12',name:'蛋黄米糊(1/2个)',emoji:'🥣',category:'辅食',desc:'蛋黄1/2个碾碎,高铁米粉25g'},
+    {id:'page-7-12_breakfast_13',name:'紫薯山药糊',emoji:'🍠',category:'辅食',desc:'紫薯30g,山药30g蒸熟打泥'},
+    {id:'page-7-12_breakfast_14',name:'番茄猪肝泥米粉',emoji:'🥣',category:'辅食',desc:'番茄20g去皮打泥,猪肝15g,米粉20g'},
+    {id:'page-7-12_breakfast_15',name:'香蕉燕麦糊',emoji:'🍌',category:'辅食',desc:'香蕉1/3根压泥,即食燕麦10g煮软'},
+    {id:'page-7-12_breakfast_16',name:'牛肉泥土豆糊',emoji:'🥩',category:'辅食',desc:'牛里脊20g炖烂打泥,土豆40g'},
+    {id:'page-7-12_breakfast_17',name:'豆腐蛋黄泥',emoji:'🥚',category:'辅食',desc:'嫩豆腐30g,蛋黄1/4个蒸熟碾碎'},
+    {id:'page-7-12_breakfast_18',name:'红枣小米糊',emoji:'🥣',category:'辅食',desc:'小米20g煮粥,红枣2颗打泥混入'},
+    {id:'page-7-12_breakfast_19',name:'三文鱼蔬菜泥',emoji:'🐟',category:'辅食',desc:'三文鱼25g蒸熟,胡萝卜西兰花各15g打泥'},
+    {id:'page-7-12_breakfast_20',name:'玉米泥米粉',emoji:'🥣',category:'辅食',desc:'甜玉米粒30g煮熟打泥过筛,米粉20g'},
+    {id:'page-7-12_breakfast_21',name:'牛油果香蕉泥',emoji:'🥩',category:'辅食',desc:'牛油果1/4个,香蕉1/4根压泥'},
+    {id:'page-7-12_breakfast_22',name:'豌豆泥米粉',emoji:'🥣',category:'辅食',desc:'青豌豆30g煮熟去皮打泥,米粉20g'},
+    {id:'page-7-12_breakfast_23',name:'猪肝瘦肉粥',emoji:'🍲',category:'辅食',desc:'大米20g煮烂,猪肝瘦肉各10g打泥'},
+    {id:'page-7-12_breakfast_24',name:'红枣核桃糊',emoji:'🍑',category:'辅食',desc:'红枣2颗,核桃仁5g,米粉15g'},
+    {id:'page-7-12_breakfast_25',name:'冬瓜瘦肉泥',emoji:'🍖',category:'辅食',desc:'冬瓜40g,瘦肉15g煮烂打泥'},
+    {id:'page-7-12_breakfast_26',name:'白萝卜雪梨泥',emoji:'🍐',category:'辅食',desc:'白萝卜20g,雪梨30g蒸熟打泥'},
+    {id:'page-7-12_breakfast_27',name:'紫甘蓝苹果泥',emoji:'🍎',category:'辅食',desc:'紫甘蓝15g焯水,苹果30g打泥'},
+    {id:'page-7-12_breakfast_29',name:'莲藕瘦肉糊',emoji:'🍖',category:'辅食',desc:'莲藕30g蒸熟打泥,瘦肉15g,米粉20g'},
+    {id:'page-7-12_breakfast_30',name:'混合蔬菜肉泥拼盘',emoji:'🍖',category:'辅食',desc:'胡萝卜/土豆/西兰花/鸡肉各15g分别打泥'},
+  ],
+  lunch: [
+    {id:'page-7-12_lunch_1',name:'铁强化米粉糊(母乳冲调)',emoji:'🥣',category:'辅食',desc:'高铁米粉30g,母乳150ml'},
+    {id:'page-7-12_lunch_2',name:'南瓜泥+母乳',emoji:'🎃',category:'辅食',desc:'南瓜50g蒸熟碾泥,母乳150ml'},
+    {id:'page-7-12_lunch_3',name:'红薯泥+配方奶',emoji:'🥛',category:'辅食',desc:'红薯60g蒸熟碾泥,配方奶180ml'},
+    {id:'page-7-12_lunch_4',name:'胡萝卜泥米粉',emoji:'🥣',category:'辅食',desc:'胡萝卜30g蒸熟打泥,铁强化米粉25g'},
+    {id:'page-7-12_lunch_5',name:'土豆蛋黄泥(1/4个)',emoji:'🥚',category:'辅食',desc:'土豆50g,蛋黄1/4个,母乳调稀'},
+    {id:'page-7-12_lunch_6',name:'西兰花泥米粉',emoji:'🥣',category:'辅食',desc:'西兰花40g焯水打泥,高铁米粉25g'},
+    {id:'page-7-12_lunch_7',name:'苹果泥+米粉',emoji:'🥣',category:'辅食',desc:'苹果半个磨泥,米粉20g'},
+    {id:'page-7-12_lunch_8',name:'菠菜猪肝泥',emoji:'🥓',category:'辅食',desc:'菠菜20g焯水,猪肝15g煮熟打泥'},
+    {id:'page-7-12_lunch_9',name:'山药红枣泥',emoji:'🥔',category:'辅食',desc:'山药50g,红枣2颗去皮核蒸熟打泥'},
+    {id:'page-7-12_lunch_10',name:'鳕鱼泥米糊',emoji:'🥣',category:'辅食',desc:'鳕鱼30g蒸熟去刺碾泥,米粉25g'},
+    {id:'page-7-12_lunch_11',name:'鸡肉泥南瓜糊',emoji:'🍗',category:'辅食',desc:'鸡胸肉20g煮熟打泥,南瓜40g'},
+    {id:'page-7-12_lunch_12',name:'蛋黄米糊(1/2个)',emoji:'🥣',category:'辅食',desc:'蛋黄1/2个碾碎,高铁米粉25g'},
+    {id:'page-7-12_lunch_13',name:'紫薯山药糊',emoji:'🍠',category:'辅食',desc:'紫薯30g,山药30g蒸熟打泥'},
+    {id:'page-7-12_lunch_14',name:'番茄猪肝泥米粉',emoji:'🥣',category:'辅食',desc:'番茄20g去皮打泥,猪肝15g,米粉20g'},
+    {id:'page-7-12_lunch_15',name:'香蕉燕麦糊',emoji:'🍌',category:'辅食',desc:'香蕉1/3根压泥,即食燕麦10g煮软'},
+    {id:'page-7-12_lunch_16',name:'牛肉泥土豆糊',emoji:'🥩',category:'辅食',desc:'牛里脊20g炖烂打泥,土豆40g'},
+    {id:'page-7-12_lunch_17',name:'豆腐蛋黄泥',emoji:'🥚',category:'辅食',desc:'嫩豆腐30g,蛋黄1/4个蒸熟碾碎'},
+    {id:'page-7-12_lunch_18',name:'红枣小米糊',emoji:'🥣',category:'辅食',desc:'小米20g煮粥,红枣2颗打泥混入'},
+    {id:'page-7-12_lunch_20',name:'玉米泥米粉',emoji:'🥣',category:'辅食',desc:'甜玉米粒30g煮熟打泥过筛,米粉20g'},
+    {id:'page-7-12_lunch_21',name:'牛油果香蕉泥',emoji:'🥩',category:'辅食',desc:'牛油果1/4个,香蕉1/4根压泥'},
+    {id:'page-7-12_lunch_22',name:'豌豆泥米粉',emoji:'🥣',category:'辅食',desc:'青豌豆30g煮熟去皮打泥,米粉20g'},
+    {id:'page-7-12_lunch_23',name:'猪肝瘦肉粥',emoji:'🍲',category:'辅食',desc:'大米20g煮烂,猪肝瘦肉各10g打泥'},
+    {id:'page-7-12_lunch_24',name:'红枣核桃糊',emoji:'🍑',category:'辅食',desc:'红枣2颗,核桃仁5g,米粉15g'},
+    {id:'page-7-12_lunch_25',name:'冬瓜瘦肉泥',emoji:'🍖',category:'辅食',desc:'冬瓜40g,瘦肉15g煮烂打泥'},
+    {id:'page-7-12_lunch_29',name:'莲藕瘦肉糊',emoji:'🍖',category:'辅食',desc:'莲藕30g蒸熟打泥,瘦肉15g,米粉20g'},
+    {id:'page-7-12_lunch_30',name:'混合蔬菜肉泥拼盘',emoji:'🍖',category:'辅食',desc:'胡萝卜/土豆/西兰花/鸡肉各15g分别打泥'},
+  ],
+  dinner: [
+    {id:'page-7-12_dinner_1',name:'铁强化米粉糊(母乳冲调)',emoji:'🥣',category:'辅食',desc:'高铁米粉30g,母乳150ml'},
+    {id:'page-7-12_dinner_2',name:'南瓜泥+母乳',emoji:'🎃',category:'辅食',desc:'南瓜50g蒸熟碾泥,母乳150ml'},
+    {id:'page-7-12_dinner_3',name:'红薯泥+配方奶',emoji:'🥛',category:'辅食',desc:'红薯60g蒸熟碾泥,配方奶180ml'},
+    {id:'page-7-12_dinner_4',name:'胡萝卜泥米粉',emoji:'🥣',category:'辅食',desc:'胡萝卜30g蒸熟打泥,铁强化米粉25g'},
+    {id:'page-7-12_dinner_5',name:'土豆蛋黄泥(1/4个)',emoji:'🥚',category:'辅食',desc:'土豆50g,蛋黄1/4个,母乳调稀'},
+    {id:'page-7-12_dinner_6',name:'西兰花泥米粉',emoji:'🥣',category:'辅食',desc:'西兰花40g焯水打泥,高铁米粉25g'},
+    {id:'page-7-12_dinner_7',name:'苹果泥+米粉',emoji:'🥣',category:'辅食',desc:'苹果半个磨泥,米粉20g'},
+    {id:'page-7-12_dinner_8',name:'菠菜猪肝泥',emoji:'🥓',category:'辅食',desc:'菠菜20g焯水,猪肝15g煮熟打泥'},
+    {id:'page-7-12_dinner_9',name:'山药红枣泥',emoji:'🥔',category:'辅食',desc:'山药50g,红枣2颗去皮核蒸熟打泥'},
+    {id:'page-7-12_dinner_10',name:'鳕鱼泥米糊',emoji:'🥣',category:'辅食',desc:'鳕鱼30g蒸熟去刺碾泥,米粉25g'},
+    {id:'page-7-12_dinner_11',name:'鸡肉泥南瓜糊',emoji:'🍗',category:'辅食',desc:'鸡胸肉20g煮熟打泥,南瓜40g'},
+    {id:'page-7-12_dinner_12',name:'蛋黄米糊(1/2个)',emoji:'🥣',category:'辅食',desc:'蛋黄1/2个碾碎,高铁米粉25g'},
+    {id:'page-7-12_dinner_13',name:'紫薯山药糊',emoji:'🍠',category:'辅食',desc:'紫薯30g,山药30g蒸熟打泥'},
+    {id:'page-7-12_dinner_14',name:'番茄猪肝泥米粉',emoji:'🥣',category:'辅食',desc:'番茄20g去皮打泥,猪肝15g,米粉20g'},
+    {id:'page-7-12_dinner_15',name:'香蕉燕麦糊',emoji:'🍌',category:'辅食',desc:'香蕉1/3根压泥,即食燕麦10g煮软'},
+    {id:'page-7-12_dinner_16',name:'牛肉泥土豆糊',emoji:'🥩',category:'辅食',desc:'牛里脊20g炖烂打泥,土豆40g'},
+    {id:'page-7-12_dinner_17',name:'豆腐蛋黄泥',emoji:'🥚',category:'辅食',desc:'嫩豆腐30g,蛋黄1/4个蒸熟碾碎'},
+    {id:'page-7-12_dinner_18',name:'红枣小米糊',emoji:'🥣',category:'辅食',desc:'小米20g煮粥,红枣2颗打泥混入'},
+    {id:'page-7-12_dinner_19',name:'三文鱼蔬菜泥',emoji:'🐟',category:'辅食',desc:'三文鱼25g蒸熟,胡萝卜西兰花各15g打泥'},
+    {id:'page-7-12_dinner_20',name:'玉米泥米粉',emoji:'🥣',category:'辅食',desc:'甜玉米粒30g煮熟打泥过筛,米粉20g'},
+    {id:'page-7-12_dinner_21',name:'牛油果香蕉泥',emoji:'🥩',category:'辅食',desc:'牛油果1/4个,香蕉1/4根压泥'},
+    {id:'page-7-12_dinner_22',name:'豌豆泥米粉',emoji:'🥣',category:'辅食',desc:'青豌豆30g煮熟去皮打泥,米粉20g'},
+    {id:'page-7-12_dinner_23',name:'猪肝瘦肉粥',emoji:'🍲',category:'辅食',desc:'大米20g煮烂,猪肝瘦肉各10g打泥'},
+    {id:'page-7-12_dinner_24',name:'红枣核桃糊',emoji:'🍑',category:'辅食',desc:'红枣2颗,核桃仁5g,米粉15g'},
+    {id:'page-7-12_dinner_25',name:'冬瓜瘦肉泥',emoji:'🍖',category:'辅食',desc:'冬瓜40g,瘦肉15g煮烂打泥'},
+    {id:'page-7-12_dinner_26',name:'白萝卜雪梨泥',emoji:'🍐',category:'辅食',desc:'白萝卜20g,雪梨30g蒸熟打泥'},
+    {id:'page-7-12_dinner_27',name:'紫甘蓝苹果泥',emoji:'🍎',category:'辅食',desc:'紫甘蓝15g焯水,苹果30g打泥'},
+    {id:'page-7-12_dinner_28',name:'羊肝泥米糊',emoji:'🥣',category:'辅食',desc:'羊肝15g煮熟打泥,米粉20g'},
+    {id:'page-7-12_dinner_29',name:'莲藕瘦肉糊',emoji:'🍖',category:'辅食',desc:'莲藕30g蒸熟打泥,瘦肉15g,米粉20g'},
+    {id:'page-7-12_dinner_30',name:'混合蔬菜肉泥拼盘',emoji:'🍖',category:'辅食',desc:'胡萝卜/土豆/西兰花/鸡肉各15g分别打泥'},
+  ],
+},
+'page-13-24': {
+  breakfast: [
+    {id:'page-13-24_breakfast_1',name:'南瓜小米粥+水煮蛋半个',emoji:'🍲',category:'主食',desc:'南瓜30g,小米20g,鸡蛋半个'},
+    {id:'page-13-24_breakfast_2',name:'奶香小馒头+配方奶200ml',emoji:'🍞',category:'主食',desc:'小馒头2个,配方奶200ml'},
+    {id:'page-13-24_breakfast_3',name:'虾仁蒸蛋羹',emoji:'🍚',category:'主食',desc:'鸡蛋1个,虾仁20g'},
+    {id:'page-13-24_breakfast_4',name:'番茄牛肉末意面',emoji:'🍜',category:'主食',desc:'碎意面50g,牛肉末20g,番茄30g'},
+    {id:'page-13-24_breakfast_6',name:'鸡肉胡萝卜烩饭',emoji:'🍚',category:'主食',desc:'软米饭60g,鸡胸肉25g,胡萝卜20g'},
+    {id:'page-13-24_breakfast_7',name:'紫薯山药糕+配方奶',emoji:'🥛',category:'主食',desc:'紫薯30g,山药20g蒸糕,奶200ml'},
+    {id:'page-13-24_breakfast_8',name:'菠菜猪肝面线',emoji:'🍜',category:'主食',desc:'婴儿面线40g,猪肝15g,菠菜20g'},
+    {id:'page-13-24_breakfast_9',name:'鳕鱼蔬菜粥',emoji:'🍲',category:'主食',desc:'大米30g,鳕鱼30g,青菜20g'},
+    {id:'page-13-24_breakfast_10',name:'奶酪土豆泥+水果丁',emoji:'🥛',category:'主食',desc:'土豆50g,奶酪10g,苹果丁30g'},
+    {id:'page-13-24_breakfast_11',name:'蛋黄瘦肉粥+蒸南瓜',emoji:'🍲',category:'主食',desc:'大米30g,蛋黄1个,瘦肉15g,南瓜40g'},
+    {id:'page-13-24_breakfast_12',name:'玉米鲜虾肠粉',emoji:'🦐',category:'主食',desc:'肠粉皮1张,虾仁20g,玉米粒15g'},
+    {id:'page-13-24_breakfast_14',name:'红枣核桃米糊+小饼干',emoji:'🥣',category:'主食',desc:'大米20g,红枣2颗,核桃5g,饼干2块'},
+    {id:'page-13-24_breakfast_15',name:'山药排骨汤泡饭',emoji:'🍚',category:'主食',desc:'软饭50g,山药30g,排骨肉15g'},
+    {id:'page-13-24_breakfast_16',name:'牛肉末豆腐羹',emoji:'🍚',category:'主食',desc:'嫩豆腐40g,牛肉末15g'},
+    {id:'page-13-24_breakfast_17',name:'银鱼蒸蛋+红薯泥',emoji:'🥚',category:'主食',desc:'银鱼15g,鸡蛋1个,红薯50g'},
+    {id:'page-13-24_breakfast_19',name:'香蕉松饼+酸奶100ml',emoji:'🥛',category:'主食',desc:'松饼2小片(无糖),香蕉半根,酸奶'},
+    {id:'page-13-24_breakfast_20',name:'鸡肝泥拌粥',emoji:'🍲',category:'主食',desc:'大米30g,鸡肝15g煮熟碾泥'},
+    {id:'page-13-24_breakfast_21',name:'冬瓜虾皮粥',emoji:'🍲',category:'主食',desc:'大米30g,冬瓜30g,虾皮5g'},
+    {id:'page-13-24_breakfast_22',name:'鱼茸青菜面疙瘩',emoji:'🍜',category:'主食',desc:'面粉40g面疙瘩,鱼肉30g,青菜20g'},
+    {id:'page-13-24_breakfast_23',name:'肉末蒸豆腐',emoji:'🍚',category:'主食',desc:'嫩豆腐60g,肉末20g'},
+    {id:'page-13-24_breakfast_24',name:'煮苹果燕麦粥',emoji:'🍲',category:'主食',desc:'燕麦20g,苹果半个煮软切丁'},
+    {id:'page-13-24_breakfast_25',name:'鸡蛋蔬菜卷+配方奶',emoji:'🥛',category:'主食',desc:'蛋摊薄饼卷黄瓜胡萝卜丝,奶200ml'},
+    {id:'page-13-24_breakfast_26',name:'虾滑紫菜汤面',emoji:'🍜',category:'主食',desc:'婴儿面50g,虾滑25g,紫菜少许'},
+    {id:'page-13-24_breakfast_27',name:'南瓜鸡肉焖饭',emoji:'🍚',category:'主食',desc:'米饭50g,南瓜30g,鸡肉20g炖烂'},
+    {id:'page-13-24_breakfast_28',name:'鲜蔬鱼丸汤+软饼',emoji:'🐟',category:'主食',desc:'鱼丸3个(自制无盐),青菜20g,薄饼1张'},
+    {id:'page-13-24_breakfast_29',name:'红豆小米粥+煮鹌鹑蛋',emoji:'🍲',category:'主食',desc:'红豆10g,小米20g,鹌鹑蛋2个'},
+    {id:'page-13-24_breakfast_30',name:'时蔬炒蛋碎',emoji:'🍚',category:'主食',desc:'鸡蛋1个,时蔬(西葫芦/胡萝卜)各20g切碎'},
+  ],
+  lunch: [
+    {id:'page-13-24_lunch_1',name:'清蒸鲈鱼+蒜蓉西兰花+杂粮饭',emoji:'🍚',category:'主食',desc:'鲈鱼80g,西兰花80g,杂粮饭100g'},
+    {id:'page-13-24_lunch_2',name:'番茄炒蛋+白灼虾',emoji:'🍚',category:'主食',desc:'番茄1个,鸡蛋1个,虾仁50g'},
+    {id:'page-13-24_lunch_3',name:'蒸水蛋+清炒菜心+红烧鸡腿',emoji:'🍚',category:'主食',desc:'蛋1个,菜心80g,鸡腿1个'},
+    {id:'page-13-24_lunch_4',name:'香菇滑鸡+上汤娃娃菜',emoji:'🍚',category:'主食',desc:'鸡腿肉60g,香菇30g,娃娃菜100g'},
+    {id:'page-13-24_lunch_5',name:'银鱼蒸蛋+肉末四季豆',emoji:'🍚',category:'主食',desc:'银鱼15g,蛋1个,四季豆60g,肉末20g'},
+    {id:'page-13-24_lunch_6',name:'白切鸡+姜葱蘸料+蚝油生菜',emoji:'🍚',category:'主食',desc:'鸡肉60g,生菜100g'},
+    {id:'page-13-24_lunch_7',name:'清蒸桂花鱼+上汤豆苗',emoji:'🍚',category:'主食',desc:'桂花鱼80g,豆苗80g'},
+    {id:'page-13-24_lunch_8',name:'木耳炒蛋+白灼秋葵',emoji:'🍚',category:'主食',desc:'木耳30g,蛋2个,秋葵60g'},
+    {id:'page-13-24_lunch_9',name:'虾仁蒸豆腐+清炒西葫芦',emoji:'🍚',category:'主食',desc:'虾仁30g,嫩豆腐80g,西葫芦80g'},
+    {id:'page-13-24_lunch_10',name:'蒸鸡肉饼+炒莴笋丝',emoji:'🍚',category:'主食',desc:'鸡胸肉60g搅泥蒸饼,莴笋80g'},
+    {id:'page-13-24_lunch_13',name:'番茄牛腩+炒圆白菜',emoji:'🍚',category:'主食',desc:'牛腩60g,番茄1个,圆白菜80g'},
+    {id:'page-13-24_lunch_14',name:'京酱肉丝+清炒荷兰豆+荷叶饼',emoji:'🍖',category:'主食',desc:'猪肉丝50g,豆腐皮20g,葱丝,荷兰豆80g'},
+    {id:'page-13-24_lunch_15',name:'香煎马鲛鱼+蒜蓉炒菠菜',emoji:'🍚',category:'主食',desc:'马鲛鱼80g,菠菜100g'},
+    {id:'page-13-24_lunch_16',name:'土豆炖鸡块+凉拌黄瓜',emoji:'🍚',category:'主食',desc:'鸡块60g,土豆50g,黄瓜80g'},
+    {id:'page-13-24_lunch_17',name:'豆豉蒸排骨+炒苋菜',emoji:'🍚',category:'主食',desc:'排骨80g,豆豉少许,苋菜80g'},
+    {id:'page-13-24_lunch_18',name:'鱼香肉丝+炒莴笋',emoji:'🍚',category:'主食',desc:'猪肉丝50g,木耳胡萝卜笋丝,莴笋80g'},
+    {id:'page-13-24_lunch_19',name:'西芹炒虾仁+番茄蛋花汤',emoji:'🍚',category:'主食',desc:'虾仁50g,西芹80g,番茄蛋汤'},
+    {id:'page-13-24_lunch_20',name:'葱爆牛肉+蚝油生菜',emoji:'🍚',category:'主食',desc:'牛肉60g,大葱30g,生菜100g'},
+    {id:'page-13-24_lunch_22',name:'炸鸡翅2个+蔬菜沙拉',emoji:'🍚',category:'主食',desc:'鸡翅2个(空气炸锅),沙拉'},
+    {id:'page-13-24_lunch_25',name:'干炒牛河(少油)+紫菜蛋汤',emoji:'🥚',category:'主食',desc:'河粉150g,牛肉50g,豆芽,紫菜蛋汤'},
+    {id:'page-13-24_lunch_28',name:'可乐鸡翅+白灼西兰花',emoji:'🍚',category:'主食',desc:'鸡翅3个,可乐少许,西兰花80g'},
+    {id:'page-13-24_lunch_30',name:'芝士焗鸡排意面+蔬菜汤',emoji:'🍜',category:'主食',desc:'鸡排60g,意面100g,芝士20g,蔬菜汤'},
+  ],
+  dinner: [
+    {id:'page-13-24_dinner_1',name:'小米南瓜粥+蒸饺3个+凉拌木耳',emoji:'🍲',category:'主食',desc:'小米20g,南瓜30g,蒸饺3个,木耳'},
+    {id:'page-13-24_dinner_2',name:'清蒸鱼+蒜蓉粉丝蒸娃娃菜',emoji:'🍚',category:'主食',desc:'鱼80g,娃娃菜100g,粉丝20g'},
+    {id:'page-13-24_dinner_3',name:'番茄鸡蛋疙瘩汤+小花卷+拍黄瓜',emoji:'🥚',category:'主食',desc:'面粉50g,番茄鸡蛋,花卷1个,黄瓜'},
+    {id:'page-13-24_dinner_4',name:'虾仁豆腐煲+清炒菠菜',emoji:'🍚',category:'主食',desc:'虾仁30g,豆腐100g,菠菜80g'},
+    {id:'page-13-24_dinner_5',name:'银耳莲子羹+蒸红薯+凉拌三丝',emoji:'🍠',category:'主食',desc:'银耳10g,莲子10g,红薯1个,黄瓜萝卜粉丝'},
+    {id:'page-13-24_dinner_6',name:'蒸水蛋+炒西兰花+小米粥',emoji:'🍲',category:'主食',desc:'蛋2个,西兰花80g,小米粥'},
+    {id:'page-13-24_dinner_7',name:'鲫鱼豆腐汤煮面+青菜',emoji:'🍜',category:'主食',desc:'鲫鱼汤200ml,豆腐60g,面80g,青菜'},
+    {id:'page-13-24_dinner_8',name:'木耳炒山药+蒸鸡胸肉',emoji:'🍚',category:'主食',desc:'木耳山药各50g,鸡胸60g'},
+    {id:'page-13-24_dinner_9',name:'冬瓜排骨汤+炒芦笋',emoji:'🍚',category:'主食',desc:'冬瓜50g,排骨60g,芦笋80g'},
+    {id:'page-13-24_dinner_10',name:'紫菜虾皮馄饨+烫青菜',emoji:'🦐',category:'主食',desc:'小馄饨8个,紫菜虾皮汤底,青菜'},
+    {id:'page-13-24_dinner_13',name:'肉末茄子煲+蒜蓉菜心',emoji:'🍚',category:'主食',desc:'茄子80g,肉末30g,菜心80g'},
+    {id:'page-13-24_dinner_14',name:'西葫芦炒蛋+白灼虾+杂粮粥',emoji:'🍲',category:'主食',desc:'西葫芦80g,蛋2个,虾50g,杂粮粥'},
+    {id:'page-13-24_dinner_15',name:'香煎豆腐+炒豆芽',emoji:'🍚',category:'主食',desc:'老豆腐100g煎至金黄,豆芽80g'},
+    {id:'page-13-24_dinner_16',name:'黄焖鸡+炒油麦菜',emoji:'🍚',category:'主食',desc:'鸡腿1个,香菇土豆,油麦菜80g'},
+    {id:'page-13-24_dinner_17',name:'丝瓜炒蛋+蒸排骨',emoji:'🍚',category:'主食',desc:'丝瓜80g,蛋2个,排骨60g'},
+    {id:'page-13-24_dinner_23',name:'炸鸡排+蔬菜沙拉+小米粥',emoji:'🍲',category:'主食',desc:'鸡胸肉60g炸制,沙拉,小米粥'},
+    {id:'page-13-24_dinner_25',name:'叉烧肉+炒芥蓝',emoji:'🍚',category:'主食',desc:'叉烧60g,芥蓝80g'},
+    {id:'page-13-24_dinner_26',name:'大盘鸡拌面+拍黄瓜',emoji:'🍜',category:'主食',desc:'鸡肉60g,土豆,宽面100g,黄瓜'},
+    {id:'page-13-24_dinner_27',name:'孜然烤羊排+凉拌番茄+馕',emoji:'🍖',category:'主食',desc:'小羊排1根,番茄1个,馕半张'},
+    {id:'page-13-24_dinner_28',name:'黑椒牛仔骨+蒜蓉芦笋',emoji:'🍚',category:'主食',desc:'牛仔骨80g,芦笋80g'},
+    {id:'page-13-24_dinner_30',name:'芝士焗大虾意面+蔬菜汤',emoji:'🍜',category:'主食',desc:'虾100g,意面100g,芝士20g,蔬菜汤'},
+  ],
+  soup: [
+    {id:'page-13-24_soup_1',name:'冬瓜薏米排骨汤',emoji:'🍲',category:'汤品',desc:'冬瓜100g,薏米20g,排骨50g'},
+    {id:'page-13-24_soup_2',name:'番茄蛋花汤',emoji:'🥚',category:'汤品',desc:'番茄1个,蛋1个,葱花'},
+    {id:'page-13-24_soup_3',name:'紫菜虾皮汤',emoji:'🦐',category:'汤品',desc:'紫菜5g,虾皮10g,葱花'},
+    {id:'page-13-24_soup_4',name:'丝瓜蛋汤',emoji:'🥚',category:'汤品',desc:'丝瓜80g,蛋1个'},
+    {id:'page-13-24_soup_5',name:'白萝卜排骨汤',emoji:'🍲',category:'汤品',desc:'白萝卜100g,排骨60g,姜'},
+    {id:'page-13-24_soup_6',name:'山药玉米排骨汤',emoji:'🥔',category:'汤品',desc:'山药50g,玉米半根,排骨50g'},
+    {id:'page-13-24_soup_7',name:'豆腐海带汤',emoji:'🧈',category:'汤品',desc:'嫩豆腐80g,海带结30g,味噌'},
+    {id:'page-13-24_soup_8',name:'莲藕花生猪骨汤',emoji:'🥓',category:'汤品',desc:'莲藕80g,花生20g,猪骨50g'},
+    {id:'page-13-24_soup_9',name:'百合雪梨瘦肉汤',emoji:'🍖',category:'汤品',desc:'百合15g,雪梨半个,瘦肉30g'},
+    {id:'page-13-24_soup_10',name:'节瓜咸蛋汤',emoji:'🥚',category:'汤品',desc:'节瓜80g,咸蛋半个'},
+    {id:'page-13-24_soup_13',name:'鲫鱼豆腐汤',emoji:'🐟',category:'汤品',desc:'鲫鱼1条,豆腐100g,姜'},
+    {id:'page-13-24_soup_14',name:'黄豆猪蹄汤',emoji:'🥓',category:'汤品',desc:'黄豆30g,猪蹄80g'},
+    {id:'page-13-24_soup_15',name:'玉米胡萝卜鸡汤',emoji:'🍗',category:'汤品',desc:'玉米半根,胡萝卜1根,鸡块60g'},
+  ],
+},
+'page-2-3': {
+  breakfast: [
+    {id:'page-2-3_breakfast_1',name:'小米南瓜粥',emoji:'🍲',category:'主食',desc:'小米30g,南瓜40g,煮成稠粥'},
+    {id:'page-2-3_breakfast_2',name:'蒸蛋羹+小馒头',emoji:'🍞',category:'主食',desc:'鸡蛋1个,小馒头1个,蒸10分钟'},
+    {id:'page-2-3_breakfast_3',name:'蔬菜瘦肉粥',emoji:'🍲',category:'主食',desc:'大米25g,瘦猪肉15g,青菜20g'},
+    {id:'page-2-3_breakfast_4',name:'番茄鸡蛋面片',emoji:'🍜',category:'主食',desc:'面粉40g面片,番茄30g,鸡蛋半个'},
+    {id:'page-2-3_breakfast_5',name:'牛奶燕麦粥',emoji:'🍲',category:'主食',desc:'配方奶150ml,燕麦15g,煮5分钟'},
+    {id:'page-2-3_breakfast_6',name:'虾仁蒸饺(小)',emoji:'🦐',category:'主食',desc:'自制蒸饺3个,虾肉20g,低盐'},
+    {id:'page-2-3_breakfast_7',name:'紫菜蛋花汤+小花卷',emoji:'🥚',category:'主食',desc:'紫菜少许,鸡蛋半个,小花卷1个'},
+    {id:'page-2-3_breakfast_8',name:'红薯小米糊',emoji:'🥣',category:'主食',desc:'红薯30g,小米25g,打成糊状'},
+    {id:'page-2-3_breakfast_9',name:'青菜肉丝烂面',emoji:'🍜',category:'主食',desc:'婴儿面50g,瘦猪肉丝15g,青菜20g'},
+    {id:'page-2-3_breakfast_10',name:'豆腐脑+咸鸭蛋碎',emoji:'🥚',category:'主食',desc:'嫩豆腐60g,咸蛋黄四分之一个'},
+    {id:'page-2-3_breakfast_11',name:'香蕉牛奶糊',emoji:'🥛',category:'主食',desc:'香蕉半根,牛奶100ml,搅拌成糊'},
+    {id:'page-2-3_breakfast_12',name:'胡萝卜肉末粥',emoji:'🍲',category:'主食',desc:'大米25g,胡萝卜20g,猪肉末15g'},
+    {id:'page-2-3_breakfast_13',name:'土豆泥+水煮蛋',emoji:'🥚',category:'主食',desc:'土豆50g蒸熟压泥,鸡蛋半个'},
+    {id:'page-2-3_breakfast_14',name:'银鱼蒸蛋+馒头片',emoji:'🍞',category:'主食',desc:'银鱼5g,鸡蛋1个,馒头1片蘸食'},
+    {id:'page-2-3_breakfast_15',name:'玉米浓汤+面包丁',emoji:'🍜',category:'主食',desc:'玉米粒20g打浆,吐司面包切丁'},
+    {id:'page-2-3_breakfast_17',name:'南瓜小米糊+果泥',emoji:'🥣',category:'主食',desc:'南瓜40g,小米20g,苹果泥一勺'},
+    {id:'page-2-3_breakfast_18',name:'香菇鸡肉粥',emoji:'🍲',category:'主食',desc:'大米25g,鸡胸肉20g,香菇1朵'},
+    {id:'page-2-3_breakfast_19',name:'西葫芦蛋饼',emoji:'🥚',category:'主食',desc:'西葫芦丝20g,面粉30g,鸡蛋1个'},
+    {id:'page-2-3_breakfast_20',name:'山药红枣粥',emoji:'🍲',category:'主食',desc:'山药30g,红枣2颗,大米20g'},
+    {id:'page-2-3_breakfast_21',name:'奶香玉米饼',emoji:'🥛',category:'主食',desc:'玉米粉30g,奶粉15g,少量糖'},
+    {id:'page-2-3_breakfast_22',name:'紫薯银耳羹',emoji:'🍠',category:'主食',desc:'紫薯30g,银耳5g,冰糖少许'},
+    {id:'page-2-3_breakfast_23',name:'白菜猪肉馄饨(小)',emoji:'🥓',category:'主食',desc:'小馄饨8个,猪肉馅15g,白菜20g'},
+    {id:'page-2-3_breakfast_24',name:'豆浆+蒸红薯',emoji:'🍠',category:'主食',desc:'无糖豆浆150ml,红薯60g蒸熟'},
+    {id:'page-2-3_breakfast_25',name:'鸡蛋蔬菜卷',emoji:'🥚',category:'主食',desc:'鸡蛋皮1张,胡萝卜丝,黄瓜丝'},
+    {id:'page-2-3_breakfast_26',name:'杂粮粥(小米+燕麦)',emoji:'🍲',category:'主食',desc:'小米15g,燕麦10g,煮至粘稠'},
+    {id:'page-2-3_breakfast_27',name:'鱼肉豆腐粥',emoji:'🍲',category:'主食',desc:'大米25g,鳕鱼20g,嫩豆腐30g'},
+    {id:'page-2-3_breakfast_28',name:'西红柿疙瘩汤',emoji:'🍲',category:'主食',desc:'面粉35g,番茄30g,鸡蛋半个'},
+    {id:'page-2-3_breakfast_29',name:'奶酪吐司+牛奶',emoji:'🥛',category:'主食',desc:'吐司1片,奶酪一片,牛奶120ml'},
+    {id:'page-2-3_breakfast_30',name:'菠菜猪肝粥',emoji:'🍲',category:'主食',desc:'大米25g,猪肝15g,菠菜15g焯水'},
+    {id:'page-2-3_breakfast_31',name:'南瓜馒头',emoji:'🍞',category:'主食',desc:'自发面粉制,南瓜泥揉入面团'},
+    {id:'page-2-3_breakfast_32',name:'莲藕排骨汤+面条',emoji:'🍜',category:'主食',desc:'莲藕30g,排骨1小块,细面50g'},
+    {id:'page-2-3_breakfast_33',name:'水果酸奶',emoji:'🥛',category:'主食',desc:'酸奶80g,苹果/香蕉切碎拌入'},
+    {id:'page-2-3_breakfast_34',name:'肉末菜粥',emoji:'🍲',category:'主食',desc:'大米25g,猪肉末15g,任意蔬菜20g'},
+    {id:'page-2-3_breakfast_35',name:'鸡蛋羹+小包子',emoji:'🥚',category:'主食',desc:'鸡蛋1个蒸羹,小素包1个'},
+    {id:'page-2-3_breakfast_36',name:'绿豆百合粥',emoji:'🍲',category:'主食',desc:'大米20g,绿豆10g,百合5g'},
+    {id:'page-2-3_breakfast_37',name:'鲜虾云吞面',emoji:'🍜',category:'主食',desc:'小云吞6个,婴儿面40g,青菜烫熟'},
+    {id:'page-2-3_breakfast_38',name:'核桃芝麻糊',emoji:'🍑',category:'主食',desc:'芝麻酱5g,核桃碎5g,米粉15g冲调'},
+    {id:'page-2-3_breakfast_39',name:'番茄牛肉粥',emoji:'🍲',category:'主食',desc:'大米25g,牛肉末15g,番茄30g去皮'},
+    {id:'page-2-3_breakfast_40',name:'蒸山药+鸡蛋',emoji:'🥚',category:'主食',desc:'山药50g蒸熟,水煮蛋半个'},
+    {id:'page-2-3_breakfast_41',name:'菜心鱼片粥',emoji:'🍲',category:'主食',desc:'大米25g,草鱼片20g,菜心15g'},
+    {id:'page-2-3_breakfast_42',name:'胡萝卜蛋羹',emoji:'🥚',category:'主食',desc:'鸡蛋1个,胡萝卜碎10g,同蒸'},
+    {id:'page-2-3_breakfast_43',name:'红豆小米粥',emoji:'🍲',category:'主食',desc:'小米20g,红豆10g,煮至开花'},
+    {id:'page-2-3_breakfast_44',name:'鲜肉小馄饨',emoji:'🍖',category:'主食',desc:'小馄饨10个,猪肉馅含葱姜适量'},
+    {id:'page-2-3_breakfast_45',name:'牛奶麦片',emoji:'🥛',category:'主食',desc:'全脂牛奶150ml,即食燕麦15g'},
+    {id:'page-2-3_breakfast_46',name:'冬瓜肉丸汤+馒头',emoji:'🍞',category:'主食',desc:'冬瓜30g,小肉丸2个,馒头半个'},
+    {id:'page-2-3_breakfast_47',name:'紫薯粥',emoji:'🍲',category:'主食',desc:'大米20g,紫薯30g切块同煮'},
+    {id:'page-2-3_breakfast_48',name:'鸡蛋软饼',emoji:'🥚',category:'主食',desc:'面粉30g,鸡蛋1个,少量油煎'},
+    {id:'page-2-3_breakfast_49',name:'青菜豆腐汤面',emoji:'🍜',category:'主食',desc:'细面50g,嫩豆腐30g,青菜烫'},
+    {id:'page-2-3_breakfast_50',name:'香蕉松饼',emoji:'🍌',category:'主食',desc:'香蕉半根压泥,面粉20g,鸡蛋半个'},
+    {id:'page-2-3_breakfast_51',name:'莲子百合粥',emoji:'🍲',category:'主食',desc:'大米20g,莲子5颗,百合5g'},
+    {id:'page-2-3_breakfast_52',name:'番茄鸡蛋汤+花卷',emoji:'🥚',category:'主食',desc:'番茄30g,鸡蛋半个,小花卷1个'},
+    {id:'page-2-3_breakfast_53',name:'鱼肉泥粥+果盘',emoji:'🍲',category:'主食',desc:'大米25g,鱼肉20g打泥,时令水果'},
+    {id:'page-2-3_breakfast_54',name:'南瓜鸡蛋羹',emoji:'🥚',category:'主食',desc:'鸡蛋1个,南瓜碎15g,同蒸8分钟'},
+    {id:'page-2-3_breakfast_55',name:'八宝粥(简化版)',emoji:'🍲',category:'主食',desc:'大米+红豆+花生+红枣,慢炖至软烂'},
+    {id:'page-2-3_breakfast_56',name:'虾仁蛋炒饭(少油)',emoji:'🍚',category:'主食',desc:'米饭30g,虾仁15g,鸡蛋半个'},
+    {id:'page-2-3_breakfast_57',name:'萝卜牛腩汤面',emoji:'🍜',category:'主食',desc:'白萝卜30g,牛腩小块,手擀面50g'},
+    {id:'page-2-3_breakfast_58',name:'蒸蛋糕+牛奶',emoji:'🥛',category:'主食',desc:'海绵蛋糕1小块,牛奶100ml'},
+    {id:'page-2-3_breakfast_59',name:'双米粥(小米+大米)',emoji:'🍲',category:'主食',desc:'小米15g,大米15g,煮至粘稠'},
+    {id:'page-2-3_breakfast_60',name:'西蓝花蛋花汤+面包',emoji:'🍜',category:'主食',desc:'西兰花15g,鸡蛋半个,吐司1片'},
+    {id:'page-2-3_breakfast_61',name:'苹果红枣粥',emoji:'🍲',category:'主食',desc:'大米20g,苹果30g,红枣2颗'},
+    {id:'page-2-3_breakfast_62',name:'肉末蒸蛋+馒头',emoji:'🍞',category:'主食',desc:'鸡蛋1个+猪肉末10g,馒头半个'},
+    {id:'page-2-3_breakfast_63',name:'蔬菜鸡蛋饼',emoji:'🥚',category:'主食',desc:'面粉30g,鸡蛋1个,青菜碎15g'},
+    {id:'page-2-3_breakfast_64',name:'桂圆莲子粥',emoji:'🍲',category:'主食',desc:'大米20g,桂圆3颗,莲子5颗'},
+    {id:'page-2-3_breakfast_65',name:'鲜蔬通心粉',emoji:'🍚',category:'主食',desc:'通心粉50g,番茄30g,青菜20g'},
+    {id:'page-2-3_breakfast_66',name:'酸奶水果杯',emoji:'🥛',category:'主食',desc:'酸奶100g,香蕉/草莓/蓝莓混合'},
+    {id:'page-2-3_breakfast_67',name:'芋头瘦肉粥',emoji:'🍲',category:'主食',desc:'大米25g,芋头30g,瘦肉15g'},
+    {id:'page-2-3_breakfast_68',name:'韭菜鸡蛋饺子(蒸)',emoji:'🥚',category:'主食',desc:'蒸饺4个,韭菜鸡蛋馅,清淡调味'},
+    {id:'page-2-3_breakfast_69',name:'花生豆浆+包子',emoji:'🥟',category:'主食',desc:'豆浆150ml,肉/素包1个'},
+    {id:'page-2-3_breakfast_70',name:'银耳雪梨羹',emoji:'🍐',category:'主食',desc:'银耳5g,雪梨30g,冰糖少量'},
+    {id:'page-2-3_breakfast_71',name:'胡萝卜肉饼',emoji:'🍖',category:'主食',desc:'肉末30g+胡萝卜碎+面粉,煎成小饼'},
+  ],
+  lunch: [
+    {id:'page-2-3_lunch_1',name:'清蒸鲈鱼+蒜蓉西兰花+杂粮饭',emoji:'🍚',category:'主食',desc:'鲈鱼80g,西兰花80g,杂粮饭100g'},
+    {id:'page-2-3_lunch_2',name:'番茄炒蛋+白灼虾',emoji:'🍚',category:'主食',desc:'番茄1个,鸡蛋1个,虾仁50g'},
+    {id:'page-2-3_lunch_3',name:'蒸水蛋+清炒菜心+红烧鸡腿',emoji:'🍚',category:'主食',desc:'蛋1个,菜心80g,鸡腿1个'},
+    {id:'page-2-3_lunch_4',name:'香菇滑鸡+上汤娃娃菜',emoji:'🍚',category:'主食',desc:'鸡腿肉60g,香菇30g,娃娃菜100g'},
+    {id:'page-2-3_lunch_5',name:'银鱼蒸蛋+肉末四季豆',emoji:'🍚',category:'主食',desc:'银鱼15g,蛋1个,四季豆60g,肉末20g'},
+    {id:'page-2-3_lunch_6',name:'白切鸡+姜葱蘸料+蚝油生菜',emoji:'🍚',category:'主食',desc:'鸡肉60g,生菜100g'},
+    {id:'page-2-3_lunch_7',name:'清蒸桂花鱼+上汤豆苗',emoji:'🍚',category:'主食',desc:'桂花鱼80g,豆苗80g'},
+    {id:'page-2-3_lunch_8',name:'木耳炒蛋+白灼秋葵',emoji:'🍚',category:'主食',desc:'木耳30g,蛋2个,秋葵60g'},
+    {id:'page-2-3_lunch_9',name:'虾仁蒸豆腐+清炒西葫芦',emoji:'🍚',category:'主食',desc:'虾仁30g,嫩豆腐80g,西葫芦80g'},
+    {id:'page-2-3_lunch_10',name:'蒸鸡肉饼+炒莴笋丝',emoji:'🍚',category:'主食',desc:'鸡胸肉60g搅泥蒸饼,莴笋80g'},
+    {id:'page-2-3_lunch_11',name:'红烧排骨+炒空心菜',emoji:'🍚',category:'主食',desc:'排骨80g,空心菜100g'},
+    {id:'page-2-3_lunch_12',name:'宫保鸡丁(微辣少油)+炒豆芽',emoji:'🍚',category:'主食',desc:'鸡丁50g,花生10g,黄瓜丁,豆芽80g'},
+    {id:'page-2-3_lunch_13',name:'番茄牛腩+炒圆白菜',emoji:'🍚',category:'主食',desc:'牛腩60g,番茄1个,圆白菜80g'},
+    {id:'page-2-3_lunch_14',name:'京酱肉丝+清炒荷兰豆+荷叶饼',emoji:'🍖',category:'主食',desc:'猪肉丝50g,豆腐皮20g,葱丝,荷兰豆80g'},
+    {id:'page-2-3_lunch_15',name:'香煎马鲛鱼+蒜蓉炒菠菜',emoji:'🍚',category:'主食',desc:'马鲛鱼80g,菠菜100g'},
+    {id:'page-2-3_lunch_16',name:'土豆炖鸡块+凉拌黄瓜',emoji:'🍚',category:'主食',desc:'鸡块60g,土豆50g,黄瓜80g'},
+    {id:'page-2-3_lunch_17',name:'豆豉蒸排骨+炒苋菜',emoji:'🍚',category:'主食',desc:'排骨80g,豆豉少许,苋菜80g'},
+    {id:'page-2-3_lunch_18',name:'鱼香肉丝+炒莴笋',emoji:'🍚',category:'主食',desc:'猪肉丝50g,木耳胡萝卜笋丝,莴笋80g'},
+    {id:'page-2-3_lunch_19',name:'西芹炒虾仁+番茄蛋花汤',emoji:'🍚',category:'主食',desc:'虾仁50g,西芹80g,番茄蛋汤'},
+    {id:'page-2-3_lunch_20',name:'葱爆牛肉+蚝油生菜',emoji:'🍚',category:'主食',desc:'牛肉60g,大葱30g,生菜100g'},
+    {id:'page-2-3_lunch_22',name:'炸鸡翅2个+蔬菜沙拉',emoji:'🍚',category:'主食',desc:'鸡翅2个(空气炸锅),沙拉'},
+    {id:'page-2-3_lunch_23',name:'红烧牛腩面+烫青菜',emoji:'🍜',category:'主食',desc:'牛腩60g,面条120g,青菜80g'},
+    {id:'page-2-3_lunch_25',name:'干炒牛河(少油)+紫菜蛋汤',emoji:'🥚',category:'主食',desc:'河粉150g,牛肉50g,豆芽,紫菜蛋汤'},
+    {id:'page-2-3_lunch_26',name:'孜然羊肉+炒土豆丝',emoji:'🍚',category:'主食',desc:'羊肉片60g,孜然,土豆丝80g'},
+    {id:'page-2-3_lunch_28',name:'可乐鸡翅+白灼西兰花',emoji:'🍚',category:'主食',desc:'鸡翅3个,可乐少许,西兰花80g'},
+    {id:'page-2-3_lunch_29',name:'卤肉饭+卤蛋半个+烫青菜',emoji:'🍚',category:'主食',desc:'卤肉50g,卤汁少许,卤蛋半个,米饭,青菜'},
+    {id:'page-2-3_lunch_30',name:'芝士焗鸡排意面+蔬菜汤',emoji:'🍜',category:'主食',desc:'鸡排60g,意面100g,芝士20g,蔬菜汤'},
+  ],
+  dinner: [
+    {id:'page-2-3_dinner_1',name:'小米南瓜粥+蒸饺3个+凉拌木耳',emoji:'🍲',category:'主食',desc:'小米20g,南瓜30g,蒸饺3个,木耳'},
+    {id:'page-2-3_dinner_2',name:'清蒸鱼+蒜蓉粉丝蒸娃娃菜',emoji:'🍚',category:'主食',desc:'鱼80g,娃娃菜100g,粉丝20g'},
+    {id:'page-2-3_dinner_3',name:'番茄鸡蛋疙瘩汤+小花卷+拍黄瓜',emoji:'🥚',category:'主食',desc:'面粉50g,番茄鸡蛋,花卷1个,黄瓜'},
+    {id:'page-2-3_dinner_4',name:'虾仁豆腐煲+清炒菠菜',emoji:'🍚',category:'主食',desc:'虾仁30g,豆腐100g,菠菜80g'},
+    {id:'page-2-3_dinner_5',name:'银耳莲子羹+蒸红薯+凉拌三丝',emoji:'🍠',category:'主食',desc:'银耳10g,莲子10g,红薯1个,黄瓜萝卜粉丝'},
+    {id:'page-2-3_dinner_6',name:'蒸水蛋+炒西兰花+小米粥',emoji:'🍲',category:'主食',desc:'蛋2个,西兰花80g,小米粥'},
+    {id:'page-2-3_dinner_7',name:'鲫鱼豆腐汤煮面+青菜',emoji:'🍜',category:'主食',desc:'鲫鱼汤200ml,豆腐60g,面80g,青菜'},
+    {id:'page-2-3_dinner_8',name:'木耳炒山药+蒸鸡胸肉',emoji:'🍚',category:'主食',desc:'木耳山药各50g,鸡胸60g'},
+    {id:'page-2-3_dinner_9',name:'冬瓜排骨汤+炒芦笋',emoji:'🍚',category:'主食',desc:'冬瓜50g,排骨60g,芦笋80g'},
+    {id:'page-2-3_dinner_10',name:'紫菜虾皮馄饨+烫青菜',emoji:'🦐',category:'主食',desc:'小馄饨8个,紫菜虾皮汤底,青菜'},
+    {id:'page-2-3_dinner_11',name:'红烧带鱼+炒莴笋丝',emoji:'🍚',category:'主食',desc:'带鱼80g红烧,莴笋80g'},
+    {id:'page-2-3_dinner_13',name:'肉末茄子煲+蒜蓉菜心',emoji:'🍚',category:'主食',desc:'茄子80g,肉末30g,菜心80g'},
+    {id:'page-2-3_dinner_14',name:'西葫芦炒蛋+白灼虾+杂粮粥',emoji:'🍲',category:'主食',desc:'西葫芦80g,蛋2个,虾50g,杂粮粥'},
+    {id:'page-2-3_dinner_15',name:'香煎豆腐+炒豆芽',emoji:'🍚',category:'主食',desc:'老豆腐100g煎至金黄,豆芽80g'},
+    {id:'page-2-3_dinner_16',name:'黄焖鸡+炒油麦菜',emoji:'🍚',category:'主食',desc:'鸡腿1个,香菇土豆,油麦菜80g'},
+    {id:'page-2-3_dinner_17',name:'丝瓜炒蛋+蒸排骨',emoji:'🍚',category:'主食',desc:'丝瓜80g,蛋2个,排骨60g'},
+    {id:'page-2-3_dinner_20',name:'黑椒牛柳炒意面+蔬菜沙拉',emoji:'🍜',category:'主食',desc:'意面100g,牛柳50g,彩椒,沙拉'},
+    {id:'page-2-3_dinner_23',name:'炸鸡排+蔬菜沙拉+小米粥',emoji:'🍲',category:'主食',desc:'鸡胸肉60g炸制,沙拉,小米粥'},
+    {id:'page-2-3_dinner_25',name:'叉烧肉+炒芥蓝',emoji:'🍚',category:'主食',desc:'叉烧60g,芥蓝80g'},
+    {id:'page-2-3_dinner_26',name:'大盘鸡拌面+拍黄瓜',emoji:'🍜',category:'主食',desc:'鸡肉60g,土豆,宽面100g,黄瓜'},
+    {id:'page-2-3_dinner_27',name:'孜然烤羊排+凉拌番茄+馕',emoji:'🍖',category:'主食',desc:'小羊排1根,番茄1个,馕半张'},
+    {id:'page-2-3_dinner_28',name:'黑椒牛仔骨+蒜蓉芦笋',emoji:'🍚',category:'主食',desc:'牛仔骨80g,芦笋80g'},
+    {id:'page-2-3_dinner_29',name:'泰式打抛猪肉饭+凉拌青木瓜',emoji:'🍚',category:'主食',desc:'猪肉末50g,九层塔,煎蛋,青木瓜'},
+    {id:'page-2-3_dinner_30',name:'芝士焗大虾意面+蔬菜汤',emoji:'🍜',category:'主食',desc:'虾100g,意面100g,芝士20g,蔬菜汤'},
+  ],
+  soup: [
+    {id:'page-2-3_soup_1',name:'冬瓜薏米排骨汤',emoji:'🍲',category:'汤品',desc:'冬瓜100g,薏米20g,排骨50g'},
+    {id:'page-2-3_soup_2',name:'番茄蛋花汤',emoji:'🥚',category:'汤品',desc:'番茄1个,蛋1个,葱花'},
+    {id:'page-2-3_soup_3',name:'紫菜虾皮汤',emoji:'🦐',category:'汤品',desc:'紫菜5g,虾皮10g,葱花'},
+    {id:'page-2-3_soup_4',name:'丝瓜蛋汤',emoji:'🥚',category:'汤品',desc:'丝瓜80g,蛋1个'},
+    {id:'page-2-3_soup_5',name:'白萝卜排骨汤',emoji:'🍲',category:'汤品',desc:'白萝卜100g,排骨60g,姜'},
+    {id:'page-2-3_soup_6',name:'山药玉米排骨汤',emoji:'🥔',category:'汤品',desc:'山药50g,玉米半根,排骨50g'},
+    {id:'page-2-3_soup_7',name:'豆腐海带汤',emoji:'🧈',category:'汤品',desc:'嫩豆腐80g,海带结30g,味噌'},
+    {id:'page-2-3_soup_8',name:'莲藕花生猪骨汤',emoji:'🥓',category:'汤品',desc:'莲藕80g,花生20g,猪骨50g'},
+    {id:'page-2-3_soup_9',name:'百合雪梨瘦肉汤',emoji:'🍖',category:'汤品',desc:'百合15g,雪梨半个,瘦肉30g'},
+    {id:'page-2-3_soup_10',name:'节瓜咸蛋汤',emoji:'🥚',category:'汤品',desc:'节瓜80g,咸蛋半个'},
+    {id:'page-2-3_soup_13',name:'鲫鱼豆腐汤',emoji:'🐟',category:'汤品',desc:'鲫鱼1条,豆腐100g,姜'},
+    {id:'page-2-3_soup_14',name:'黄豆猪蹄汤',emoji:'🥓',category:'汤品',desc:'黄豆30g,猪蹄80g'},
+    {id:'page-2-3_soup_15',name:'玉米胡萝卜鸡汤',emoji:'🍗',category:'汤品',desc:'玉米半根,胡萝卜1根,鸡块60g'},
+    {id:'page-2-3_soup_16',name:'菌菇鸡汤',emoji:'🍗',category:'汤品',desc:'各种菌菇80g,鸡块60g'},
+    {id:'page-2-3_soup_17',name:'西洋菜陈肾汤',emoji:'🍲',category:'汤品',desc:'西洋菜80g,陈肾20g,瘦肉'},
+    {id:'page-2-3_soup_18',name:'番茄牛尾汤',emoji:'🥩',category:'汤品',desc:'牛尾80g,番茄2个,洋葱'},
+    {id:'page-2-3_soup_19',name:'冬瓜老鸭汤',emoji:'🦆',category:'汤品',desc:'冬瓜150g,鸭肉80g,薏米'},
+    {id:'page-2-3_soup_20',name:'胡萝卜马蹄猪骨汤',emoji:'🥓',category:'汤品',desc:'胡萝卜马蹄各60g,猪骨50g'},
+  ],
+},
+'page-4-6': {
+  breakfast: [
+    {id:'page-4-6_breakfast_1',name:'小米南瓜粥+煮鸡蛋',emoji:'🍲',category:'主食',desc:'小米30g,南瓜40g,鸡蛋1个'},
+    {id:'page-4-6_breakfast_2',name:'牛奶麦片+全麦面包',emoji:'🍜',category:'主食',desc:'牛奶200ml,燕麦15g,全麦吐司1片'},
+    {id:'page-4-6_breakfast_3',name:'蔬菜瘦肉粥',emoji:'🍲',category:'主食',desc:'大米30g,瘦猪肉20g,青菜30g'},
+    {id:'page-4-6_breakfast_4',name:'番茄鸡蛋面',emoji:'🍜',category:'主食',desc:'手擀面60g,番茄1个,鸡蛋1个'},
+    {id:'page-4-6_breakfast_5',name:'小笼包+豆浆',emoji:'🥟',category:'主食',desc:'小笼包4个,无糖豆浆200ml'},
+    {id:'page-4-6_breakfast_6',name:'紫菜虾皮蛋花汤+花卷',emoji:'🥚',category:'主食',desc:'紫菜少许,虾皮,鸡蛋1个,花卷1个'},
+    {id:'page-4-6_breakfast_7',name:'红薯小米粥+卤蛋',emoji:'🍲',category:'主食',desc:'红薯40g,小米25g,卤蛋1个'},
+    {id:'page-4-6_breakfast_8',name:'鲜肉馄饨+凉拌黄瓜',emoji:'🍖',category:'主食',desc:'大馄饨8个,黄瓜半根切丝'},
+    {id:'page-4-6_breakfast_9',name:'牛奶燕麦粥+苹果',emoji:'🍲',category:'主食',desc:'牛奶180ml,燕麦20g,苹果半个'},
+    {id:'page-4-6_breakfast_10',name:'鸡蛋灌饼(少油)',emoji:'🥚',category:'主食',desc:'面饼1张,鸡蛋1个,少量生菜'},
+    {id:'page-4-6_breakfast_11',name:'蔬菜肉丝炒面',emoji:'🍜',category:'主食',desc:'面条70g,肉丝20g,胡萝卜丝,青椒'},
+    {id:'page-4-6_breakfast_12',name:'豆腐脑+油条(小)',emoji:'🧈',category:'主食',desc:'嫩豆腐1碗,小油条半根'},
+    {id:'page-4-6_breakfast_13',name:'南瓜馒头+牛奶',emoji:'🍞',category:'主食',desc:'南瓜馒头1个,牛奶200ml'},
+    {id:'page-4-6_breakfast_15',name:'韭菜盒子(蒸)+小米粥',emoji:'🍲',category:'主食',desc:'蒸韭菜盒2个,小米粥1碗'},
+    {id:'page-4-6_breakfast_16',name:'番茄疙瘩汤+馒头',emoji:'🍞',category:'主食',desc:'面粉40g,番茄1个,馒头1个'},
+    {id:'page-4-6_breakfast_17',name:'鸡蛋蔬菜饼+牛奶',emoji:'🥛',category:'主食',desc:'鸡蛋1个,面粉30g,蔬菜碎,牛奶'},
+    {id:'page-4-6_breakfast_18',name:'山药排骨汤+白粥',emoji:'🍲',category:'主食',desc:'山药30g,排骨1块,白粥1碗'},
+    {id:'page-4-6_breakfast_19',name:'芝士火腿三明治',emoji:'🥪',category:'主食',desc:'吐司2片,芝士1片,火腿2片'},
+    {id:'page-4-6_breakfast_20',name:'青菜猪肝粥+卤蛋',emoji:'🍲',category:'主食',desc:'大米30g,猪肝20g,青菜20g'},
+    {id:'page-4-6_breakfast_21',name:'葱油拌面+紫菜蛋汤',emoji:'🍜',category:'主食',desc:'面条70g,葱花,酱油少许,配汤'},
+    {id:'page-4-6_breakfast_22',name:'玉米汁+包子',emoji:'🌽',category:'主食',desc:'鲜玉米1根榨汁,肉包1个'},
+    {id:'page-4-6_breakfast_23',name:'蒸蛋羹+小肉包',emoji:'🥚',category:'主食',desc:'鸡蛋2个蒸羹,小肉包2个'},
+    {id:'page-4-6_breakfast_24',name:'红豆糯米粥+茶叶蛋',emoji:'🍲',category:'主食',desc:'糯米20g,红豆15g,茶叶蛋1个'},
+    {id:'page-4-6_breakfast_25',name:'虾仁蛋炒饭',emoji:'🍚',category:'主食',desc:'米饭50g,虾仁20g,鸡蛋1个,豌豆'},
+    {id:'page-4-6_breakfast_26',name:'鲜虾云吞面',emoji:'🍜',category:'主食',desc:'云吞8个,细面60g,青菜烫熟'},
+    {id:'page-4-6_breakfast_27',name:'牛奶土司+煎蛋',emoji:'🥛',category:'主食',desc:'吐司2片,牛奶200ml,荷包蛋1个'},
+    {id:'page-4-6_breakfast_28',name:'皮蛋瘦肉粥+油条',emoji:'🍲',category:'主食',desc:'大米30g,皮蛋四分之一个,肉丝15g'},
+    {id:'page-4-6_breakfast_29',name:'韭菜饺子(水煮)+醋碟',emoji:'🥟',category:'主食',desc:'水饺8个,韭菜鸡蛋馅'},
+    {id:'page-4-6_breakfast_30',name:'五谷豆浆+烧麦',emoji:'🌾',category:'主食',desc:'五谷豆浆200ml,烧麦3个'},
+    {id:'page-4-6_breakfast_31',name:'鸡蛋汉堡',emoji:'🥚',category:'主食',desc:'鸡蛋1个,小圆面包,沙拉酱'},
+    {id:'page-4-6_breakfast_32',name:'蔬菜蛋花汤+花卷',emoji:'🥚',category:'主食',desc:'时蔬30g,鸡蛋1个,花卷1个'},
+    {id:'page-4-6_breakfast_33',name:'肉夹馍(迷你)',emoji:'🍖',category:'主食',desc:'小馍1个,卤肉末适量'},
+    {id:'page-4-6_breakfast_34',name:'八宝粥+卤蛋',emoji:'🍲',category:'主食',desc:'八宝米30g,慢炖1小时,卤蛋1个'},
+    {id:'page-4-6_breakfast_35',name:'意大利肉酱面(儿童版)',emoji:'🍜',category:'主食',desc:'意面60g,肉末番茄酱(不辣)'},
+    {id:'page-4-6_breakfast_36',name:'酸奶杯+坚果+全麦饼干',emoji:'🥛',category:'主食',desc:'酸奶150g,杏仁碎,全麦饼干2块'},
+    {id:'page-4-6_breakfast_37',name:'阳春面+卤蛋',emoji:'🍜',category:'主食',desc:'细面70g,葱油清汤,卤蛋1个'},
+    {id:'page-4-6_breakfast_38',name:'鸡蛋卷饼+豆浆',emoji:'🥚',category:'主食',desc:'薄饼1张,鸡蛋,生菜,豆浆200ml'},
+    {id:'page-4-6_breakfast_39',name:'红薯粥+茶叶蛋',emoji:'🍲',category:'主食',desc:'大米25g,红薯40g,茶叶蛋1个'},
+    {id:'page-4-6_breakfast_40',name:'咖喱鸡肉饭(儿童微辣)',emoji:'🍚',category:'主食',desc:'米饭50g,鸡肉30g,土豆胡萝卜,淡咖喱'},
+    {id:'page-4-6_breakfast_41',name:'鲜蔬蛋饼+牛奶',emoji:'🥛',category:'主食',desc:'面粉30g,鸡蛋1个,西葫芦胡萝卜丝'},
+    {id:'page-4-6_breakfast_42',name:'排骨汤面+小菜',emoji:'🍜',category:'主食',desc:'手擀面70g,排骨1块炖汤,腌萝卜'},
+    {id:'page-4-6_breakfast_43',name:'玉米馒头+牛奶+水果',emoji:'🍞',category:'主食',desc:'玉米馒头1个,牛奶200ml,时令水果'},
+    {id:'page-4-6_breakfast_44',name:'银耳莲子羹+小蛋糕',emoji:'🥚',category:'主食',desc:'银耳5g,莲子5g,冰糖,小蛋糕1块'},
+    {id:'page-4-6_breakfast_45',name:'牛肉洋葱炒饭',emoji:'🍚',category:'主食',desc:'米饭50g,牛肉末20g,洋葱碎'},
+    {id:'page-4-6_breakfast_46',name:'小笼包+紫菜汤',emoji:'🥟',category:'主食',desc:'小笼包5个,紫菜虾皮蛋汤'},
+    {id:'page-4-6_breakfast_47',name:'蔬菜烘蛋+吐司',emoji:'🥚',category:'主食',desc:'鸡蛋2个,彩椒丁,芝士碎,吐司'},
+    {id:'page-4-6_breakfast_48',name:'绿豆粥+茶叶蛋+咸菜',emoji:'🍲',category:'主食',desc:'大米20g,绿豆15g,茶叶蛋,咸菜少许'},
+    {id:'page-4-6_breakfast_49',name:'火腿芝士三明治+牛奶',emoji:'🥛',category:'主食',desc:'吐司2片,火腿,芝士,牛奶200ml'},
+    {id:'page-4-6_breakfast_50',name:'鸡汤米线+卤蛋',emoji:'🥚',category:'主食',desc:'米线70g,鸡汤,卤蛋1个,青菜'},
+    {id:'page-4-6_breakfast_51',name:'南瓜饼+豆浆',emoji:'🎃',category:'主食',desc:'南瓜糯米饼2块,豆浆200ml'},
+    {id:'page-4-6_breakfast_52',name:'肉丸汤面+拍黄瓜',emoji:'🍜',category:'主食',desc:'面条70g,肉丸3个,黄瓜半根'},
+    {id:'page-4-6_breakfast_53',name:'燕麦牛奶粥+煮蛋+水果',emoji:'🍲',category:'主食',desc:'燕麦20g,牛奶200ml,鸡蛋,水果'},
+    {id:'page-4-6_breakfast_54',name:'韭菜合子+小米粥',emoji:'🍲',category:'主食',desc:'韭菜合子2个(烙),小米粥1碗'},
+    {id:'page-4-6_breakfast_55',name:'番茄牛腩饭(儿童份)',emoji:'🍚',category:'主食',desc:'米饭50g,牛腩30g,番茄土豆炖烂'},
+    {id:'page-4-6_breakfast_56',name:'鸡蛋灌饼+豆浆',emoji:'🥚',category:'主食',desc:'面饼1张,鸡蛋,生菜,豆浆200ml'},
+    {id:'page-4-6_breakfast_57',name:'杂粮粥+酱牛肉+花卷',emoji:'🍲',category:'主食',desc:'多种谷物熬粥,酱牛肉2片,花卷1个'},
+    {id:'page-4-6_breakfast_58',name:'鲜虾粥+卤蛋+小菜',emoji:'🍲',category:'主食',desc:'大米30g,鲜虾4只,卤蛋1个'},
+    {id:'page-4-6_breakfast_59',name:'蔬菜披萨(迷你)+牛奶',emoji:'🥛',category:'主食',desc:'6寸披萨1块,牛奶200ml'},
+    {id:'page-4-6_breakfast_60',name:'酸辣粉(儿童微辣)+蛋',emoji:'🥚',category:'主食',desc:'红薯粉条70g,醋微量,鸡蛋1个'},
+    {id:'page-4-6_breakfast_61',name:'红糖馒头+豆浆+水果',emoji:'🍞',category:'主食',desc:'红糖馒头1个,豆浆200ml,水果'},
+    {id:'page-4-6_breakfast_62',name:'鸡蛋酱拌面+黄瓜',emoji:'🍜',category:'主食',desc:'面条70g,鸡蛋酱,黄瓜丝'},
+    {id:'page-4-6_breakfast_63',name:'紫薯银耳羹+包子',emoji:'🍠',category:'主食',desc:'紫薯30g,银耳5g,肉包1个'},
+    {id:'page-4-6_breakfast_64',name:'扬州炒饭(儿童版)',emoji:'🍚',category:'主食',desc:'米饭50g,鸡蛋,火腿丁,豌豆,虾仁'},
+    {id:'page-4-6_breakfast_65',name:'豆浆+油条+茶叶蛋',emoji:'🥚',category:'主食',desc:'豆浆200ml,油条半根,茶叶蛋1个'},
+  ],
+  lunch: [
+    {id:'page-4-6_lunch_1',name:'清蒸鲈鱼+蒜蓉西兰花+杂粮饭',emoji:'🍚',category:'主食',desc:'鲈鱼80g,西兰花80g,杂粮饭100g'},
+    {id:'page-4-6_lunch_2',name:'番茄炒蛋+白灼虾',emoji:'🍚',category:'主食',desc:'番茄1个,鸡蛋1个,虾仁50g'},
+    {id:'page-4-6_lunch_3',name:'蒸水蛋+清炒菜心+红烧鸡腿',emoji:'🍚',category:'主食',desc:'蛋1个,菜心80g,鸡腿1个'},
+    {id:'page-4-6_lunch_4',name:'香菇滑鸡+上汤娃娃菜',emoji:'🍚',category:'主食',desc:'鸡腿肉60g,香菇30g,娃娃菜100g'},
+    {id:'page-4-6_lunch_5',name:'银鱼蒸蛋+肉末四季豆',emoji:'🍚',category:'主食',desc:'银鱼15g,蛋1个,四季豆60g,肉末20g'},
+    {id:'page-4-6_lunch_6',name:'白切鸡+姜葱蘸料+蚝油生菜',emoji:'🍚',category:'主食',desc:'鸡肉60g,生菜100g'},
+    {id:'page-4-6_lunch_7',name:'清蒸桂花鱼+上汤豆苗',emoji:'🍚',category:'主食',desc:'桂花鱼80g,豆苗80g'},
+    {id:'page-4-6_lunch_8',name:'木耳炒蛋+白灼秋葵',emoji:'🍚',category:'主食',desc:'木耳30g,蛋2个,秋葵60g'},
+    {id:'page-4-6_lunch_9',name:'虾仁蒸豆腐+清炒西葫芦',emoji:'🍚',category:'主食',desc:'虾仁30g,嫩豆腐80g,西葫芦80g'},
+    {id:'page-4-6_lunch_10',name:'蒸鸡肉饼+炒莴笋丝',emoji:'🍚',category:'主食',desc:'鸡胸肉60g搅泥蒸饼,莴笋80g'},
+    {id:'page-4-6_lunch_11',name:'红烧排骨+炒空心菜',emoji:'🍚',category:'主食',desc:'排骨80g,空心菜100g'},
+    {id:'page-4-6_lunch_12',name:'宫保鸡丁(微辣少油)+炒豆芽',emoji:'🍚',category:'主食',desc:'鸡丁50g,花生10g,黄瓜丁,豆芽80g'},
+    {id:'page-4-6_lunch_13',name:'番茄牛腩+炒圆白菜',emoji:'🍚',category:'主食',desc:'牛腩60g,番茄1个,圆白菜80g'},
+    {id:'page-4-6_lunch_14',name:'京酱肉丝+清炒荷兰豆+荷叶饼',emoji:'🍖',category:'主食',desc:'猪肉丝50g,豆腐皮20g,葱丝,荷兰豆80g'},
+    {id:'page-4-6_lunch_15',name:'香煎马鲛鱼+蒜蓉炒菠菜',emoji:'🍚',category:'主食',desc:'马鲛鱼80g,菠菜100g'},
+    {id:'page-4-6_lunch_16',name:'土豆炖鸡块+凉拌黄瓜',emoji:'🍚',category:'主食',desc:'鸡块60g,土豆50g,黄瓜80g'},
+    {id:'page-4-6_lunch_17',name:'豆豉蒸排骨+炒苋菜',emoji:'🍚',category:'主食',desc:'排骨80g,豆豉少许,苋菜80g'},
+    {id:'page-4-6_lunch_18',name:'鱼香肉丝+炒莴笋',emoji:'🍚',category:'主食',desc:'猪肉丝50g,木耳胡萝卜笋丝,莴笋80g'},
+    {id:'page-4-6_lunch_19',name:'西芹炒虾仁+番茄蛋花汤',emoji:'🍚',category:'主食',desc:'虾仁50g,西芹80g,番茄蛋汤'},
+    {id:'page-4-6_lunch_20',name:'葱爆牛肉+蚝油生菜',emoji:'🍚',category:'主食',desc:'牛肉60g,大葱30g,生菜100g'},
+    {id:'page-4-6_lunch_21',name:'麻婆豆腐+炒青菜',emoji:'🍚',category:'主食',desc:'嫩豆腐100g,猪肉末20g,郫县豆瓣,青菜'},
+    {id:'page-4-6_lunch_22',name:'炸鸡翅2个+蔬菜沙拉',emoji:'🍚',category:'主食',desc:'鸡翅2个(空气炸锅),沙拉'},
+    {id:'page-4-6_lunch_23',name:'红烧牛腩面+烫青菜',emoji:'🍜',category:'主食',desc:'牛腩60g,面条120g,青菜80g'},
+    {id:'page-4-6_lunch_24',name:'糖醋里脊(少油版)+清炒西兰花',emoji:'🍚',category:'主食',desc:'猪里脊60g糖醋汁,西兰花80g'},
+    {id:'page-4-6_lunch_25',name:'干炒牛河(少油)+紫菜蛋汤',emoji:'🥚',category:'主食',desc:'河粉150g,牛肉50g,豆芽,紫菜蛋汤'},
+    {id:'page-4-6_lunch_26',name:'孜然羊肉+炒土豆丝',emoji:'🍚',category:'主食',desc:'羊肉片60g,孜然,土豆丝80g'},
+    {id:'page-4-6_lunch_27',name:'回锅肉(少油)+炒卷心菜',emoji:'🍚',category:'主食',desc:'五花肉薄片50g,蒜苗豆瓣,卷心菜'},
+    {id:'page-4-6_lunch_28',name:'可乐鸡翅+白灼西兰花',emoji:'🍚',category:'主食',desc:'鸡翅3个,可乐少许,西兰花80g'},
+    {id:'page-4-6_lunch_29',name:'卤肉饭+卤蛋半个+烫青菜',emoji:'🍚',category:'主食',desc:'卤肉50g,卤汁少许,卤蛋半个,米饭,青菜'},
+    {id:'page-4-6_lunch_30',name:'芝士焗鸡排意面+蔬菜汤',emoji:'🍜',category:'主食',desc:'鸡排60g,意面100g,芝士20g,蔬菜汤'},
+  ],
+  dinner: [
+    {id:'page-4-6_dinner_1',name:'小米南瓜粥+蒸饺3个+凉拌木耳',emoji:'🍲',category:'主食',desc:'小米20g,南瓜30g,蒸饺3个,木耳'},
+    {id:'page-4-6_dinner_2',name:'清蒸鱼+蒜蓉粉丝蒸娃娃菜',emoji:'🍚',category:'主食',desc:'鱼80g,娃娃菜100g,粉丝20g'},
+    {id:'page-4-6_dinner_3',name:'番茄鸡蛋疙瘩汤+小花卷+拍黄瓜',emoji:'🥚',category:'主食',desc:'面粉50g,番茄鸡蛋,花卷1个,黄瓜'},
+    {id:'page-4-6_dinner_4',name:'虾仁豆腐煲+清炒菠菜',emoji:'🍚',category:'主食',desc:'虾仁30g,豆腐100g,菠菜80g'},
+    {id:'page-4-6_dinner_5',name:'银耳莲子羹+蒸红薯+凉拌三丝',emoji:'🍠',category:'主食',desc:'银耳10g,莲子10g,红薯1个,黄瓜萝卜粉丝'},
+    {id:'page-4-6_dinner_6',name:'蒸水蛋+炒西兰花+小米粥',emoji:'🍲',category:'主食',desc:'蛋2个,西兰花80g,小米粥'},
+    {id:'page-4-6_dinner_7',name:'鲫鱼豆腐汤煮面+青菜',emoji:'🍜',category:'主食',desc:'鲫鱼汤200ml,豆腐60g,面80g,青菜'},
+    {id:'page-4-6_dinner_8',name:'木耳炒山药+蒸鸡胸肉',emoji:'🍚',category:'主食',desc:'木耳山药各50g,鸡胸60g'},
+    {id:'page-4-6_dinner_9',name:'冬瓜排骨汤+炒芦笋',emoji:'🍚',category:'主食',desc:'冬瓜50g,排骨60g,芦笋80g'},
+    {id:'page-4-6_dinner_10',name:'紫菜虾皮馄饨+烫青菜',emoji:'🦐',category:'主食',desc:'小馄饨8个,紫菜虾皮汤底,青菜'},
+    {id:'page-4-6_dinner_11',name:'红烧带鱼+炒莴笋丝',emoji:'🍚',category:'主食',desc:'带鱼80g红烧,莴笋80g'},
+    {id:'page-4-6_dinner_12',name:'咖喱鸡肉+西兰花',emoji:'🍚',category:'主食',desc:'鸡肉50g,咖喱块,土豆胡萝卜,西兰花'},
+    {id:'page-4-6_dinner_13',name:'肉末茄子煲+蒜蓉菜心',emoji:'🍚',category:'主食',desc:'茄子80g,肉末30g,菜心80g'},
+    {id:'page-4-6_dinner_14',name:'西葫芦炒蛋+白灼虾+杂粮粥',emoji:'🍲',category:'主食',desc:'西葫芦80g,蛋2个,虾50g,杂粮粥'},
+    {id:'page-4-6_dinner_15',name:'香煎豆腐+炒豆芽',emoji:'🍚',category:'主食',desc:'老豆腐100g煎至金黄,豆芽80g'},
+    {id:'page-4-6_dinner_16',name:'黄焖鸡+炒油麦菜',emoji:'🍚',category:'主食',desc:'鸡腿1个,香菇土豆,油麦菜80g'},
+    {id:'page-4-6_dinner_17',name:'丝瓜炒蛋+蒸排骨',emoji:'🍚',category:'主食',desc:'丝瓜80g,蛋2个,排骨60g'},
+    {id:'page-4-6_dinner_18',name:'酸辣土豆丝(微辣)+煎鸡排+小米粥',emoji:'🍲',category:'主食',desc:'土豆80g,鸡排50g,小米粥'},
+    {id:'page-4-6_dinner_19',name:'地三鲜(少油)+蒸蛋',emoji:'🍚',category:'主食',desc:'茄子土豆青椒各40g,蛋1个'},
+    {id:'page-4-6_dinner_20',name:'黑椒牛柳炒意面+蔬菜沙拉',emoji:'🍜',category:'主食',desc:'意面100g,牛柳50g,彩椒,沙拉'},
+    {id:'page-4-6_dinner_21',name:'麻婆豆腐+蒜蓉西兰花',emoji:'🍚',category:'主食',desc:'豆腐100g,肉末20g,郫县豆瓣,西兰花'},
+    {id:'page-4-6_dinner_22',name:'糖醋排骨+白灼菜心',emoji:'🍚',category:'主食',desc:'排骨80g糖醋,菜心80g'},
+    {id:'page-4-6_dinner_23',name:'炸鸡排+蔬菜沙拉+小米粥',emoji:'🍲',category:'主食',desc:'鸡胸肉60g炸制,沙拉,小米粥'},
+    {id:'page-4-6_dinner_24',name:'川味水煮鱼(微辣)+炒空心菜',emoji:'🍚',category:'主食',desc:'鱼片80g,豆芽,豆瓣酱,空心菜'},
+    {id:'page-4-6_dinner_25',name:'叉烧肉+炒芥蓝',emoji:'🍚',category:'主食',desc:'叉烧60g,芥蓝80g'},
+    {id:'page-4-6_dinner_26',name:'大盘鸡拌面+拍黄瓜',emoji:'🍜',category:'主食',desc:'鸡肉60g,土豆,宽面100g,黄瓜'},
+    {id:'page-4-6_dinner_27',name:'孜然烤羊排+凉拌番茄+馕',emoji:'🍖',category:'主食',desc:'小羊排1根,番茄1个,馕半张'},
+    {id:'page-4-6_dinner_28',name:'黑椒牛仔骨+蒜蓉芦笋',emoji:'🍚',category:'主食',desc:'牛仔骨80g,芦笋80g'},
+    {id:'page-4-6_dinner_29',name:'泰式打抛猪肉饭+凉拌青木瓜',emoji:'🍚',category:'主食',desc:'猪肉末50g,九层塔,煎蛋,青木瓜'},
+    {id:'page-4-6_dinner_30',name:'芝士焗大虾意面+蔬菜汤',emoji:'🍜',category:'主食',desc:'虾100g,意面100g,芝士20g,蔬菜汤'},
+  ],
+  soup: [
+    {id:'page-4-6_soup_1',name:'冬瓜薏米排骨汤',emoji:'🍲',category:'汤品',desc:'冬瓜100g,薏米20g,排骨50g'},
+    {id:'page-4-6_soup_2',name:'番茄蛋花汤',emoji:'🥚',category:'汤品',desc:'番茄1个,蛋1个,葱花'},
+    {id:'page-4-6_soup_3',name:'紫菜虾皮汤',emoji:'🦐',category:'汤品',desc:'紫菜5g,虾皮10g,葱花'},
+    {id:'page-4-6_soup_4',name:'丝瓜蛋汤',emoji:'🥚',category:'汤品',desc:'丝瓜80g,蛋1个'},
+    {id:'page-4-6_soup_5',name:'白萝卜排骨汤',emoji:'🍲',category:'汤品',desc:'白萝卜100g,排骨60g,姜'},
+    {id:'page-4-6_soup_6',name:'山药玉米排骨汤',emoji:'🥔',category:'汤品',desc:'山药50g,玉米半根,排骨50g'},
+    {id:'page-4-6_soup_7',name:'豆腐海带汤',emoji:'🧈',category:'汤品',desc:'嫩豆腐80g,海带结30g,味噌'},
+    {id:'page-4-6_soup_8',name:'莲藕花生猪骨汤',emoji:'🥓',category:'汤品',desc:'莲藕80g,花生20g,猪骨50g'},
+    {id:'page-4-6_soup_9',name:'百合雪梨瘦肉汤',emoji:'🍖',category:'汤品',desc:'百合15g,雪梨半个,瘦肉30g'},
+    {id:'page-4-6_soup_10',name:'节瓜咸蛋汤',emoji:'🥚',category:'汤品',desc:'节瓜80g,咸蛋半个'},
+    {id:'page-4-6_soup_13',name:'鲫鱼豆腐汤',emoji:'🐟',category:'汤品',desc:'鲫鱼1条,豆腐100g,姜'},
+    {id:'page-4-6_soup_14',name:'黄豆猪蹄汤',emoji:'🥓',category:'汤品',desc:'黄豆30g,猪蹄80g'},
+    {id:'page-4-6_soup_15',name:'玉米胡萝卜鸡汤',emoji:'🍗',category:'汤品',desc:'玉米半根,胡萝卜1根,鸡块60g'},
+    {id:'page-4-6_soup_16',name:'菌菇鸡汤',emoji:'🍗',category:'汤品',desc:'各种菌菇80g,鸡块60g'},
+    {id:'page-4-6_soup_17',name:'西洋菜陈肾汤',emoji:'🍲',category:'汤品',desc:'西洋菜80g,陈肾20g,瘦肉'},
+    {id:'page-4-6_soup_18',name:'番茄牛尾汤',emoji:'🥩',category:'汤品',desc:'牛尾80g,番茄2个,洋葱'},
+    {id:'page-4-6_soup_19',name:'冬瓜老鸭汤',emoji:'🦆',category:'汤品',desc:'冬瓜150g,鸭肉80g,薏米'},
+    {id:'page-4-6_soup_20',name:'胡萝卜马蹄猪骨汤',emoji:'🥓',category:'汤品',desc:'胡萝卜马蹄各60g,猪骨50g'},
+  ],
+},
+'page-6-10': {
+  breakfast: [
+    {id:'page-6-10_breakfast_1',name:'牛奶麦片+全麦面包+煎蛋',emoji:'🍜',category:'主食',desc:'牛奶250ml,燕麦20g,全麦吐司2片,荷包蛋'},
+    {id:'page-6-10_breakfast_2',name:'小米南瓜粥+卤蛋+小菜',emoji:'🍲',category:'主食',desc:'小米35g,南瓜50g,卤蛋1个,腌萝卜'},
+    {id:'page-6-10_breakfast_3',name:'番茄鸡蛋面+水果',emoji:'🍜',category:'主食',desc:'手擀面80g,番茄2个,鸡蛋1个,苹果'},
+    {id:'page-6-10_breakfast_4',name:'小笼包+豆浆+茶叶蛋',emoji:'🥚',category:'主食',desc:'小笼包6个,豆浆250ml,茶叶蛋1个'},
+    {id:'page-6-10_breakfast_5',name:'蔬菜瘦肉粥+花卷',emoji:'🍲',category:'主食',desc:'大米35g,瘦肉25g,青菜,花卷1个'},
+    {id:'page-6-10_breakfast_6',name:'三明治(火腿芝士)+牛奶',emoji:'🥛',category:'主食',desc:'吐司3片,火腿3片,芝士1片,牛奶250ml'},
+    {id:'page-6-10_breakfast_7',name:'鲜肉馄饨+凉拌黄瓜',emoji:'🍖',category:'主食',desc:'大馄饨10个,黄瓜1根,醋碟'},
+    {id:'page-6-10_breakfast_8',name:'红薯小米粥+煮蛋+咸菜',emoji:'🍲',category:'主食',desc:'红薯50g,小米30g,水煮蛋1个'},
+    {id:'page-6-10_breakfast_9',name:'鸡蛋灌饼+豆浆+水果',emoji:'🥚',category:'主食',desc:'面饼1张,鸡蛋1个,豆浆250ml,香蕉'},
+    {id:'page-6-10_breakfast_10',name:'阳春面+卤蛋+小菜',emoji:'🍜',category:'主食',desc:'细面80g,葱油清汤,卤蛋1个,咸菜'},
+    {id:'page-6-10_breakfast_11',name:'皮蛋瘦肉粥+油条',emoji:'🍲',category:'主食',desc:'大米35g,皮蛋半个,肉丝20g,小油条'},
+    {id:'page-6-10_breakfast_12',name:'韭菜饺子+醋碟+小米粥',emoji:'🍲',category:'主食',desc:'水饺12个,韭菜鸡蛋/肉馅,粥'},
+    {id:'page-6-10_breakfast_13',name:'牛奶土司+火腿+煎蛋',emoji:'🥛',category:'主食',desc:'吐司3片,牛奶250ml,火腿2片,荷包蛋'},
+    {id:'page-6-10_breakfast_14',name:'蔬菜蛋炒饭+紫菜汤',emoji:'🍚',category:'主食',desc:'米饭60g,鸡蛋1个,豌豆胡萝卜丁'},
+    {id:'page-6-10_breakfast_15',name:'葱油拌面+卤蛋+豆浆',emoji:'🍜',category:'主食',desc:'面条80g,葱花酱油,卤蛋,豆浆'},
+    {id:'page-6-10_breakfast_16',name:'玉米汁+肉包+煮蛋',emoji:'🥚',category:'主食',desc:'鲜玉米1根榨汁,肉包1个,鸡蛋1个'},
+    {id:'page-6-10_breakfast_17',name:'八宝粥+茶叶蛋+小菜',emoji:'🍲',category:'主食',desc:'八宝米35g,慢炖,茶叶蛋1个,咸菜'},
+    {id:'page-6-10_breakfast_18',name:'咖喱鸡肉饭(儿童)',emoji:'🍚',category:'主食',desc:'米饭60g,鸡肉40g,土豆胡萝卜淡咖喱'},
+    {id:'page-6-10_breakfast_19',name:'意大利肉酱面+牛奶',emoji:'🍜',category:'主食',desc:'意面80g,番茄肉酱,牛奶200ml'},
+    {id:'page-6-10_breakfast_20',name:'豆腐脑+油条+咸菜',emoji:'🧈',category:'主食',desc:'嫩豆腐1碗,油条1根,咸菜'},
+    {id:'page-6-10_breakfast_21',name:'鸡蛋汉堡+牛奶+水果',emoji:'🥛',category:'主食',desc:'鸡蛋1个,圆面包,牛奶250ml,橙子'},
+    {id:'page-6-10_breakfast_22',name:'鲜虾云吞面+卤蛋',emoji:'🍜',category:'主食',desc:'云吞10个,面80g,鸡汤,卤蛋'},
+    {id:'page-6-10_breakfast_23',name:'蔬菜烘蛋+吐司+牛奶',emoji:'🥛',category:'主食',desc:'鸡蛋2个,彩椒蘑菇,吐司2片,牛奶'},
+    {id:'page-6-10_breakfast_24',name:'牛肉洋葱炒饭+番茄汤',emoji:'🍚',category:'主食',desc:'米饭60g,牛肉末25g,洋葱,番茄蛋汤'},
+    {id:'page-6-10_breakfast_25',name:'韭菜盒子(烙)+小米粥+蛋',emoji:'🍲',category:'主食',desc:'韭菜盒2个,粥1碗,水煮蛋1个'},
+    {id:'page-6-10_breakfast_26',name:'五谷豆浆+烧麦+水果',emoji:'🌾',category:'主食',desc:'五谷豆浆250ml,烧麦4个,水果'},
+    {id:'page-6-10_breakfast_27',name:'排骨汤面+小菜',emoji:'🍜',category:'主食',desc:'面条80g,排骨1块炖汤,腌菜'},
+    {id:'page-6-10_breakfast_28',name:'扬州炒饭(儿童)+紫菜汤',emoji:'🍚',category:'主食',desc:'米饭60g,鸡蛋,火腿丁,豌豆,虾仁'},
+    {id:'page-6-10_breakfast_29',name:'肉夹馍+绿豆粥+蛋',emoji:'🍲',category:'主食',desc:'肉夹馍1个,绿豆粥,水煮蛋'},
+    {id:'page-6-10_breakfast_30',name:'番茄疙瘩汤+馒头+咸菜',emoji:'🍞',category:'主食',desc:'面粉50g,番茄2个,馒头,咸菜'},
+    {id:'page-6-10_breakfast_31',name:'火腿芝士三明治+牛奶',emoji:'🥛',category:'主食',desc:'吐司3片,火腿芝士,牛奶250ml'},
+    {id:'page-6-10_breakfast_32',name:'鸡汤米线+卤蛋+青菜',emoji:'🥚',category:'主食',desc:'米线80g,鸡汤,卤蛋,青菜烫熟'},
+    {id:'page-6-10_breakfast_33',name:'南瓜馒头+牛奶+煮蛋+水果',emoji:'🍞',category:'主食',desc:'南瓜馒头1个,牛奶250ml,蛋,水果'},
+    {id:'page-6-10_breakfast_34',name:'银耳莲子羹+小蛋糕+牛奶',emoji:'🥛',category:'主食',desc:'银耳莲子冰糖,蛋糕1块,牛奶'},
+    {id:'page-6-10_breakfast_35',name:'咖喱牛肉饭(微辣)',emoji:'🍚',category:'主食',desc:'米饭60g,牛肉35g,土豆胡萝卜咖喱'},
+    {id:'page-6-10_breakfast_36',name:'鲜虾粥+卤蛋+花生米',emoji:'🍲',category:'主食',desc:'大米35g,鲜虾6只,卤蛋,花生'},
+    {id:'page-6-10_breakfast_37',name:'鸡蛋卷饼+豆浆+水果',emoji:'🥚',category:'主食',desc:'薄饼,鸡蛋,生菜,豆浆250ml,水果'},
+    {id:'page-6-10_breakfast_38',name:'蔬菜披萨+牛奶+水果',emoji:'🥛',category:'主食',desc:'6寸披萨1块,牛奶250ml,水果'},
+    {id:'page-6-10_breakfast_39',name:'酸辣粉(微辣)+卤蛋',emoji:'🥚',category:'主食',desc:'红薯粉条80g,醋微量,卤蛋1个'},
+    {id:'page-6-10_breakfast_40',name:'杂粮粥+酱牛肉+花卷+蛋',emoji:'🍲',category:'主食',desc:'多谷物粥,酱牛肉3片,花卷,蛋'},
+    {id:'page-6-10_breakfast_41',name:'红烧牛肉面(儿童)',emoji:'🍜',category:'主食',desc:'面条80g,牛肉块3块,原汤,青菜'},
+    {id:'page-6-10_breakfast_42',name:'红糖馒头+豆浆+蛋+水果',emoji:'🍞',category:'主食',desc:'红糖馒头1个,豆浆250ml,蛋,水果'},
+    {id:'page-6-10_breakfast_43',name:'鸡蛋酱拌面+黄瓜',emoji:'🍜',category:'主食',desc:'面条80g,鸡蛋酱,黄瓜丝,蒜末'},
+    {id:'page-6-10_breakfast_44',name:'紫薯银耳羹+肉包+牛奶',emoji:'🥛',category:'主食',desc:'紫薯40g,银耳,肉包1个,牛奶'},
+    {id:'page-6-10_breakfast_45',name:'咖喱鸡肉炒饭+蔬菜汤',emoji:'🍚',category:'主食',desc:'米饭60g,鸡肉40g,咖喱,蔬菜汤'},
+    {id:'page-6-10_breakfast_46',name:'豆浆+油条+茶叶蛋+小菜',emoji:'🥚',category:'主食',desc:'豆浆250ml,油条1根,茶叶蛋,咸菜'},
+    {id:'page-6-10_breakfast_47',name:'牛肉面+卤蛋+小菜',emoji:'🍜',category:'主食',desc:'拉面80g,牛肉3片,原汤,卤蛋,咸菜'},
+    {id:'page-6-10_breakfast_48',name:'蛋炒饭+紫菜蛋花汤',emoji:'🍚',category:'主食',desc:'米饭60g,鸡蛋1个,葱花,配汤'},
+    {id:'page-6-10_breakfast_49',name:'煎饼果子(儿童版)+豆浆',emoji:'🥞',category:'主食',desc:'薄饼1张,鸡蛋1个,脆饼,豆浆250ml'},
+    {id:'page-6-10_breakfast_50',name:'玉米饼+牛奶+水果+坚果',emoji:'🥛',category:'主食',desc:'玉米饼2块,牛奶250ml,水果,杏仁'},
+    {id:'page-6-10_breakfast_51',name:'蔬菜蛋饼+小米粥+卤蛋',emoji:'🍲',category:'主食',desc:'面粉40g,鸡蛋1个,蔬菜丝,粥,蛋'},
+    {id:'page-6-10_breakfast_52',name:'排骨焖饭+番茄蛋汤',emoji:'🍚',category:'主食',desc:'米饭60g,排骨1块,土豆胡萝卜焖'},
+    {id:'page-6-10_breakfast_53',name:'馄饨+烧麦+豆浆',emoji:'🌾',category:'主食',desc:'大馄饨8个,烧麦3个,豆浆250ml'},
+    {id:'page-6-10_breakfast_54',name:'南瓜粥+茶叶蛋+花生+咸菜',emoji:'🍲',category:'主食',desc:'大米25g,南瓜50g,蛋,花生,咸菜'},
+    {id:'page-6-10_breakfast_55',name:'火腿蛋炒饭+蔬菜汤',emoji:'🍚',category:'主食',desc:'米饭60g,火腿丁,鸡蛋,蔬菜汤'},
+    {id:'page-6-10_breakfast_56',name:'肉丸子汤面+卤蛋',emoji:'🍜',category:'主食',desc:'面条80g,肉丸4个,原汤,卤蛋'},
+    {id:'page-6-10_breakfast_57',name:'燕麦牛奶粥+煮蛋+面包+水果',emoji:'🍲',category:'主食',desc:'燕麦25g,牛奶250ml,蛋,吐司,水果'},
+    {id:'page-6-10_breakfast_58',name:'韭菜鸡蛋饺子+醋碟+粥',emoji:'🍲',category:'主食',desc:'水饺12个,韭菜蛋馅,小米粥'},
+    {id:'page-6-10_breakfast_59',name:'咖喱土豆鸡肉饭+牛奶',emoji:'🍚',category:'主食',desc:'鸡肉40g,土豆,淡咖喱,牛奶'},
+    {id:'page-6-10_breakfast_60',name:'鸡蛋饼+豆浆+水果+坚果',emoji:'🥚',category:'主食',desc:'面饼1张,鸡蛋1个,豆浆,水果,核桃'},
+  ],
+  lunch: [
+    {id:'page-6-10_lunch_1',name:'清蒸鲈鱼+蒜蓉西兰花+杂粮饭',emoji:'🍚',category:'主食',desc:'鲈鱼80g,西兰花80g,杂粮饭100g'},
+    {id:'page-6-10_lunch_2',name:'番茄炒蛋+白灼虾',emoji:'🍚',category:'主食',desc:'番茄1个,鸡蛋1个,虾仁50g'},
+    {id:'page-6-10_lunch_3',name:'蒸水蛋+清炒菜心+红烧鸡腿',emoji:'🍚',category:'主食',desc:'蛋1个,菜心80g,鸡腿1个'},
+    {id:'page-6-10_lunch_4',name:'香菇滑鸡+上汤娃娃菜',emoji:'🍚',category:'主食',desc:'鸡腿肉60g,香菇30g,娃娃菜100g'},
+    {id:'page-6-10_lunch_5',name:'银鱼蒸蛋+肉末四季豆',emoji:'🍚',category:'主食',desc:'银鱼15g,蛋1个,四季豆60g,肉末20g'},
+    {id:'page-6-10_lunch_6',name:'白切鸡+姜葱蘸料+蚝油生菜',emoji:'🍚',category:'主食',desc:'鸡肉60g,生菜100g'},
+    {id:'page-6-10_lunch_7',name:'清蒸桂花鱼+上汤豆苗',emoji:'🍚',category:'主食',desc:'桂花鱼80g,豆苗80g'},
+    {id:'page-6-10_lunch_8',name:'木耳炒蛋+白灼秋葵',emoji:'🍚',category:'主食',desc:'木耳30g,蛋2个,秋葵60g'},
+    {id:'page-6-10_lunch_9',name:'虾仁蒸豆腐+清炒西葫芦',emoji:'🍚',category:'主食',desc:'虾仁30g,嫩豆腐80g,西葫芦80g'},
+    {id:'page-6-10_lunch_10',name:'蒸鸡肉饼+炒莴笋丝',emoji:'🍚',category:'主食',desc:'鸡胸肉60g搅泥蒸饼,莴笋80g'},
+    {id:'page-6-10_lunch_11',name:'红烧排骨+炒空心菜',emoji:'🍚',category:'主食',desc:'排骨80g,空心菜100g'},
+    {id:'page-6-10_lunch_12',name:'宫保鸡丁(微辣少油)+炒豆芽',emoji:'🍚',category:'主食',desc:'鸡丁50g,花生10g,黄瓜丁,豆芽80g'},
+    {id:'page-6-10_lunch_13',name:'番茄牛腩+炒圆白菜',emoji:'🍚',category:'主食',desc:'牛腩60g,番茄1个,圆白菜80g'},
+    {id:'page-6-10_lunch_14',name:'京酱肉丝+清炒荷兰豆+荷叶饼',emoji:'🍖',category:'主食',desc:'猪肉丝50g,豆腐皮20g,葱丝,荷兰豆80g'},
+    {id:'page-6-10_lunch_15',name:'香煎马鲛鱼+蒜蓉炒菠菜',emoji:'🍚',category:'主食',desc:'马鲛鱼80g,菠菜100g'},
+    {id:'page-6-10_lunch_16',name:'土豆炖鸡块+凉拌黄瓜',emoji:'🍚',category:'主食',desc:'鸡块60g,土豆50g,黄瓜80g'},
+    {id:'page-6-10_lunch_17',name:'豆豉蒸排骨+炒苋菜',emoji:'🍚',category:'主食',desc:'排骨80g,豆豉少许,苋菜80g'},
+    {id:'page-6-10_lunch_18',name:'鱼香肉丝+炒莴笋',emoji:'🍚',category:'主食',desc:'猪肉丝50g,木耳胡萝卜笋丝,莴笋80g'},
+    {id:'page-6-10_lunch_19',name:'西芹炒虾仁+番茄蛋花汤',emoji:'🍚',category:'主食',desc:'虾仁50g,西芹80g,番茄蛋汤'},
+    {id:'page-6-10_lunch_20',name:'葱爆牛肉+蚝油生菜',emoji:'🍚',category:'主食',desc:'牛肉60g,大葱30g,生菜100g'},
+    {id:'page-6-10_lunch_21',name:'麻婆豆腐+炒青菜',emoji:'🍚',category:'主食',desc:'嫩豆腐100g,猪肉末20g,郫县豆瓣,青菜'},
+    {id:'page-6-10_lunch_22',name:'炸鸡翅2个+蔬菜沙拉',emoji:'🍚',category:'主食',desc:'鸡翅2个(空气炸锅),沙拉'},
+    {id:'page-6-10_lunch_23',name:'红烧牛腩面+烫青菜',emoji:'🍜',category:'主食',desc:'牛腩60g,面条120g,青菜80g'},
+    {id:'page-6-10_lunch_24',name:'糖醋里脊(少油版)+清炒西兰花',emoji:'🍚',category:'主食',desc:'猪里脊60g糖醋汁,西兰花80g'},
+    {id:'page-6-10_lunch_25',name:'干炒牛河(少油)+紫菜蛋汤',emoji:'🥚',category:'主食',desc:'河粉150g,牛肉50g,豆芽,紫菜蛋汤'},
+    {id:'page-6-10_lunch_26',name:'孜然羊肉+炒土豆丝',emoji:'🍚',category:'主食',desc:'羊肉片60g,孜然,土豆丝80g'},
+    {id:'page-6-10_lunch_27',name:'回锅肉(少油)+炒卷心菜',emoji:'🍚',category:'主食',desc:'五花肉薄片50g,蒜苗豆瓣,卷心菜'},
+    {id:'page-6-10_lunch_28',name:'可乐鸡翅+白灼西兰花',emoji:'🍚',category:'主食',desc:'鸡翅3个,可乐少许,西兰花80g'},
+    {id:'page-6-10_lunch_29',name:'卤肉饭+卤蛋半个+烫青菜',emoji:'🍚',category:'主食',desc:'卤肉50g,卤汁少许,卤蛋半个,米饭,青菜'},
+    {id:'page-6-10_lunch_30',name:'芝士焗鸡排意面+蔬菜汤',emoji:'🍜',category:'主食',desc:'鸡排60g,意面100g,芝士20g,蔬菜汤'},
+  ],
+  dinner: [
+    {id:'page-6-10_dinner_1',name:'小米南瓜粥+蒸饺3个+凉拌木耳',emoji:'🍲',category:'主食',desc:'小米20g,南瓜30g,蒸饺3个,木耳'},
+    {id:'page-6-10_dinner_2',name:'清蒸鱼+蒜蓉粉丝蒸娃娃菜',emoji:'🍚',category:'主食',desc:'鱼80g,娃娃菜100g,粉丝20g'},
+    {id:'page-6-10_dinner_3',name:'番茄鸡蛋疙瘩汤+小花卷+拍黄瓜',emoji:'🥚',category:'主食',desc:'面粉50g,番茄鸡蛋,花卷1个,黄瓜'},
+    {id:'page-6-10_dinner_4',name:'虾仁豆腐煲+清炒菠菜',emoji:'🍚',category:'主食',desc:'虾仁30g,豆腐100g,菠菜80g'},
+    {id:'page-6-10_dinner_5',name:'银耳莲子羹+蒸红薯+凉拌三丝',emoji:'🍠',category:'主食',desc:'银耳10g,莲子10g,红薯1个,黄瓜萝卜粉丝'},
+    {id:'page-6-10_dinner_6',name:'蒸水蛋+炒西兰花+小米粥',emoji:'🍲',category:'主食',desc:'蛋2个,西兰花80g,小米粥'},
+    {id:'page-6-10_dinner_7',name:'鲫鱼豆腐汤煮面+青菜',emoji:'🍜',category:'主食',desc:'鲫鱼汤200ml,豆腐60g,面80g,青菜'},
+    {id:'page-6-10_dinner_8',name:'木耳炒山药+蒸鸡胸肉',emoji:'🍚',category:'主食',desc:'木耳山药各50g,鸡胸60g'},
+    {id:'page-6-10_dinner_9',name:'冬瓜排骨汤+炒芦笋',emoji:'🍚',category:'主食',desc:'冬瓜50g,排骨60g,芦笋80g'},
+    {id:'page-6-10_dinner_10',name:'紫菜虾皮馄饨+烫青菜',emoji:'🦐',category:'主食',desc:'小馄饨8个,紫菜虾皮汤底,青菜'},
+    {id:'page-6-10_dinner_11',name:'红烧带鱼+炒莴笋丝',emoji:'🍚',category:'主食',desc:'带鱼80g红烧,莴笋80g'},
+    {id:'page-6-10_dinner_12',name:'咖喱鸡肉+西兰花',emoji:'🍚',category:'主食',desc:'鸡肉50g,咖喱块,土豆胡萝卜,西兰花'},
+    {id:'page-6-10_dinner_13',name:'肉末茄子煲+蒜蓉菜心',emoji:'🍚',category:'主食',desc:'茄子80g,肉末30g,菜心80g'},
+    {id:'page-6-10_dinner_14',name:'西葫芦炒蛋+白灼虾+杂粮粥',emoji:'🍲',category:'主食',desc:'西葫芦80g,蛋2个,虾50g,杂粮粥'},
+    {id:'page-6-10_dinner_15',name:'香煎豆腐+炒豆芽',emoji:'🍚',category:'主食',desc:'老豆腐100g煎至金黄,豆芽80g'},
+    {id:'page-6-10_dinner_16',name:'黄焖鸡+炒油麦菜',emoji:'🍚',category:'主食',desc:'鸡腿1个,香菇土豆,油麦菜80g'},
+    {id:'page-6-10_dinner_17',name:'丝瓜炒蛋+蒸排骨',emoji:'🍚',category:'主食',desc:'丝瓜80g,蛋2个,排骨60g'},
+    {id:'page-6-10_dinner_18',name:'酸辣土豆丝(微辣)+煎鸡排+小米粥',emoji:'🍲',category:'主食',desc:'土豆80g,鸡排50g,小米粥'},
+    {id:'page-6-10_dinner_19',name:'地三鲜(少油)+蒸蛋',emoji:'🍚',category:'主食',desc:'茄子土豆青椒各40g,蛋1个'},
+    {id:'page-6-10_dinner_20',name:'黑椒牛柳炒意面+蔬菜沙拉',emoji:'🍜',category:'主食',desc:'意面100g,牛柳50g,彩椒,沙拉'},
+    {id:'page-6-10_dinner_21',name:'麻婆豆腐+蒜蓉西兰花',emoji:'🍚',category:'主食',desc:'豆腐100g,肉末20g,郫县豆瓣,西兰花'},
+    {id:'page-6-10_dinner_22',name:'糖醋排骨+白灼菜心',emoji:'🍚',category:'主食',desc:'排骨80g糖醋,菜心80g'},
+    {id:'page-6-10_dinner_23',name:'炸鸡排+蔬菜沙拉+小米粥',emoji:'🍲',category:'主食',desc:'鸡胸肉60g炸制,沙拉,小米粥'},
+    {id:'page-6-10_dinner_24',name:'川味水煮鱼(微辣)+炒空心菜',emoji:'🍚',category:'主食',desc:'鱼片80g,豆芽,豆瓣酱,空心菜'},
+    {id:'page-6-10_dinner_25',name:'叉烧肉+炒芥蓝',emoji:'🍚',category:'主食',desc:'叉烧60g,芥蓝80g'},
+    {id:'page-6-10_dinner_26',name:'大盘鸡拌面+拍黄瓜',emoji:'🍜',category:'主食',desc:'鸡肉60g,土豆,宽面100g,黄瓜'},
+    {id:'page-6-10_dinner_27',name:'孜然烤羊排+凉拌番茄+馕',emoji:'🍖',category:'主食',desc:'小羊排1根,番茄1个,馕半张'},
+    {id:'page-6-10_dinner_28',name:'黑椒牛仔骨+蒜蓉芦笋',emoji:'🍚',category:'主食',desc:'牛仔骨80g,芦笋80g'},
+    {id:'page-6-10_dinner_29',name:'泰式打抛猪肉饭+凉拌青木瓜',emoji:'🍚',category:'主食',desc:'猪肉末50g,九层塔,煎蛋,青木瓜'},
+    {id:'page-6-10_dinner_30',name:'芝士焗大虾意面+蔬菜汤',emoji:'🍜',category:'主食',desc:'虾100g,意面100g,芝士20g,蔬菜汤'},
+  ],
+  soup: [
+    {id:'page-6-10_soup_1',name:'冬瓜薏米排骨汤',emoji:'🍲',category:'汤品',desc:'冬瓜100g,薏米20g,排骨50g'},
+    {id:'page-6-10_soup_2',name:'番茄蛋花汤',emoji:'🥚',category:'汤品',desc:'番茄1个,蛋1个,葱花'},
+    {id:'page-6-10_soup_3',name:'紫菜虾皮汤',emoji:'🦐',category:'汤品',desc:'紫菜5g,虾皮10g,葱花'},
+    {id:'page-6-10_soup_4',name:'丝瓜蛋汤',emoji:'🥚',category:'汤品',desc:'丝瓜80g,蛋1个'},
+    {id:'page-6-10_soup_5',name:'白萝卜排骨汤',emoji:'🍲',category:'汤品',desc:'白萝卜100g,排骨60g,姜'},
+    {id:'page-6-10_soup_6',name:'山药玉米排骨汤',emoji:'🥔',category:'汤品',desc:'山药50g,玉米半根,排骨50g'},
+    {id:'page-6-10_soup_7',name:'豆腐海带汤',emoji:'🧈',category:'汤品',desc:'嫩豆腐80g,海带结30g,味噌'},
+    {id:'page-6-10_soup_8',name:'莲藕花生猪骨汤',emoji:'🥓',category:'汤品',desc:'莲藕80g,花生20g,猪骨50g'},
+    {id:'page-6-10_soup_9',name:'百合雪梨瘦肉汤',emoji:'🍖',category:'汤品',desc:'百合15g,雪梨半个,瘦肉30g'},
+    {id:'page-6-10_soup_10',name:'节瓜咸蛋汤',emoji:'🥚',category:'汤品',desc:'节瓜80g,咸蛋半个'},
+    {id:'page-6-10_soup_11',name:'罗宋汤',emoji:'🍲',category:'汤品',desc:'牛肉50g,番茄土豆胡萝卜洋葱,番茄酱'},
+    {id:'page-6-10_soup_12',name:'酸辣汤',emoji:'🍲',category:'汤品',desc:'豆腐木耳蛋花笋丝,醋胡椒粉'},
+    {id:'page-6-10_soup_13',name:'鲫鱼豆腐汤',emoji:'🐟',category:'汤品',desc:'鲫鱼1条,豆腐100g,姜'},
+    {id:'page-6-10_soup_14',name:'黄豆猪蹄汤',emoji:'🥓',category:'汤品',desc:'黄豆30g,猪蹄80g'},
+    {id:'page-6-10_soup_15',name:'玉米胡萝卜鸡汤',emoji:'🍗',category:'汤品',desc:'玉米半根,胡萝卜1根,鸡块60g'},
+    {id:'page-6-10_soup_16',name:'菌菇鸡汤',emoji:'🍗',category:'汤品',desc:'各种菌菇80g,鸡块60g'},
+    {id:'page-6-10_soup_17',name:'西洋菜陈肾汤',emoji:'🍲',category:'汤品',desc:'西洋菜80g,陈肾20g,瘦肉'},
+    {id:'page-6-10_soup_18',name:'番茄牛尾汤',emoji:'🥩',category:'汤品',desc:'牛尾80g,番茄2个,洋葱'},
+    {id:'page-6-10_soup_19',name:'冬瓜老鸭汤',emoji:'🦆',category:'汤品',desc:'冬瓜150g,鸭肉80g,薏米'},
+    {id:'page-6-10_soup_20',name:'胡萝卜马蹄猪骨汤',emoji:'🥓',category:'汤品',desc:'胡萝卜马蹄各60g,猪骨50g'},
+  ],
+},
+'page-11-13': {
+  breakfast: [
+    {id:'page-11-13_breakfast_1',name:'牛奶麦片+全麦面包+煎蛋+水果',emoji:'🍜',category:'主食',desc:'牛奶300ml,燕麦25g,吐司2片,荷包蛋,香蕉'},
+    {id:'page-11-13_breakfast_2',name:'小米南瓜粥+卤蛋+花生+小菜',emoji:'🍲',category:'主食',desc:'小米40g,南瓜60g,卤蛋1个,花生米'},
+    {id:'page-11-13_breakfast_3',name:'番茄鸡蛋面+水果+牛奶',emoji:'🍜',category:'主食',desc:'手擀面90g,番茄2个,鸡蛋1个,苹果,牛奶'},
+    {id:'page-11-13_breakfast_4',name:'小笼包+豆浆+茶叶蛋+咸菜',emoji:'🥚',category:'主食',desc:'小笼包8个,豆浆300ml,茶叶蛋,咸菜'},
+    {id:'page-11-13_breakfast_5',name:'蔬菜瘦肉粥+花卷+卤蛋',emoji:'🍲',category:'主食',desc:'大米40g,瘦肉30g,青菜,花卷,卤蛋'},
+    {id:'page-11-13_breakfast_6',name:'三明治(火腿芝士培根)+牛奶',emoji:'🥛',category:'主食',desc:'吐司3片,火腿,芝士,培根1片,牛奶'},
+    {id:'page-11-13_breakfast_7',name:'鲜肉馄饨+凉拌黄瓜+醋碟',emoji:'🍖',category:'主食',desc:'大馄饨12个,黄瓜1根,醋蒜碟'},
+    {id:'page-11-13_breakfast_8',name:'红薯小米粥+煮蛋+咸菜+花生',emoji:'🍲',category:'主食',desc:'红薯60g,小米35g,水煮蛋1个,花生'},
+    {id:'page-11-13_breakfast_9',name:'鸡蛋灌饼+豆浆+水果',emoji:'🥚',category:'主食',desc:'面饼1张,鸡蛋1个,豆浆300ml,橙子'},
+    {id:'page-11-13_breakfast_10',name:'阳春面+卤蛋+小菜+花生米',emoji:'🍜',category:'主食',desc:'细面90g,葱油清汤,卤蛋1个,咸菜'},
+    {id:'page-11-13_breakfast_11',name:'皮蛋瘦肉粥+油条+咸菜',emoji:'🍲',category:'主食',desc:'大米40g,皮蛋半个,肉丝25g,油条'},
+    {id:'page-11-13_breakfast_12',name:'韭菜饺子+醋碟+小米粥+花生',emoji:'🍲',category:'主食',desc:'水饺15个,韭菜肉馅,小米粥,花生'},
+    {id:'page-11-13_breakfast_13',name:'牛奶土司+火腿+煎蛋+水果',emoji:'🥛',category:'主食',desc:'吐司3片,牛奶300ml,火腿2片,荷包蛋'},
+    {id:'page-11-13_breakfast_14',name:'蛋炒饭+紫菜蛋花汤+小菜',emoji:'🍚',category:'主食',desc:'米饭70g,鸡蛋1个,葱花,配汤,咸菜'},
+    {id:'page-11-13_breakfast_15',name:'葱油拌面+卤蛋+豆浆+花生米',emoji:'🍜',category:'主食',desc:'面条90g,葱花酱油,卤蛋,豆浆'},
+    {id:'page-11-13_breakfast_16',name:'玉米汁+肉包+煮蛋+水果',emoji:'🥚',category:'主食',desc:'鲜玉米1根榨汁,肉包1个,鸡蛋,水果'},
+    {id:'page-11-13_breakfast_17',name:'八宝粥+茶叶蛋+小菜+花生',emoji:'🍲',category:'主食',desc:'八宝米40g慢炖,茶叶蛋,咸菜,花生'},
+    {id:'page-11-13_breakfast_18',name:'咖喱鸡肉饭+牛奶+水果',emoji:'🍚',category:'主食',desc:'鸡肉50g,淡咖喱,牛奶,水果'},
+    {id:'page-11-13_breakfast_19',name:'意大利肉酱面+沙拉+牛奶',emoji:'🍜',category:'主食',desc:'意面90g,番茄肉酱,蔬菜沙拉,牛奶'},
+    {id:'page-11-13_breakfast_20',name:'豆腐脑+油条+咸菜+茶叶蛋',emoji:'🥚',category:'主食',desc:'嫩豆腐1碗,油条1根,咸菜,蛋'},
+    {id:'page-11-13_breakfast_21',name:'鸡蛋汉堡+牛奶+水果',emoji:'🥛',category:'主食',desc:'鸡蛋1个,圆面包,牛奶300ml,香蕉'},
+    {id:'page-11-13_breakfast_22',name:'鲜虾云吞面+卤蛋+青菜',emoji:'🍜',category:'主食',desc:'云吞12个,面90g,鸡汤,卤蛋,青菜'},
+    {id:'page-11-13_breakfast_23',name:'蔬菜烘蛋+吐司+牛奶+水果',emoji:'🥛',category:'主食',desc:'鸡蛋2个,彩椒蘑菇芝士,吐司,牛奶'},
+    {id:'page-11-13_breakfast_24',name:'牛肉洋葱炒饭+番茄汤+花生',emoji:'🍚',category:'主食',desc:'米饭70g,牛肉30g,洋葱,番茄汤,花生'},
+    {id:'page-11-13_breakfast_25',name:'韭菜盒子+小米粥+蛋+花生',emoji:'🍲',category:'主食',desc:'韭菜盒2个(烙),小米粥,水煮蛋,花生'},
+    {id:'page-11-13_breakfast_26',name:'五谷豆浆+烧麦+水果+坚果',emoji:'🌾',category:'主食',desc:'豆浆300ml,烧麦5个,水果,杏仁'},
+    {id:'page-11-13_breakfast_27',name:'排骨汤面+小菜+卤蛋',emoji:'🍜',category:'主食',desc:'面条90g,排骨炖汤,腌菜,卤蛋'},
+    {id:'page-11-13_breakfast_28',name:'扬州炒饭+紫菜汤+花生',emoji:'🍚',category:'主食',desc:'米饭70g,鸡蛋火腿豌豆虾仁,配汤'},
+    {id:'page-11-13_breakfast_29',name:'肉夹馍+绿豆粥+蛋+花生米',emoji:'🍲',category:'主食',desc:'肉夹馍1个,绿豆粥,水煮蛋,花生'},
+    {id:'page-11-13_breakfast_30',name:'番茄疙瘩汤+馒头+咸菜+蛋',emoji:'🍞',category:'主食',desc:'面粉60g,番茄2个,馒头,咸菜,蛋'},
+    {id:'page-11-13_breakfast_31',name:'火腿芝士三明治+牛奶+水果',emoji:'🥛',category:'主食',desc:'吐司3片,火腿芝士,牛奶300ml,水果'},
+    {id:'page-11-13_breakfast_32',name:'鸡汤米线+卤蛋+青菜+花生',emoji:'🥚',category:'主食',desc:'米线90g,鸡汤,卤蛋,青菜,花生'},
+    {id:'page-11-13_breakfast_33',name:'南瓜馒头+牛奶+煮蛋+水果+坚果',emoji:'🍞',category:'主食',desc:'南瓜馒头1-2个,牛奶,蛋,水果,核桃'},
+    {id:'page-11-13_breakfast_34',name:'银耳莲子羹+蛋糕+牛奶+水果',emoji:'🥛',category:'主食',desc:'银耳莲子冰糖,蛋糕2块,牛奶,水果'},
+    {id:'page-11-13_breakfast_35',name:'咖喱牛肉饭(微辣)+牛奶',emoji:'🍚',category:'主食',desc:'米饭70g,牛肉45g,土豆胡萝卜咖喱,牛奶'},
+    {id:'page-11-13_breakfast_36',name:'鲜虾粥+卤蛋+花生米+小菜',emoji:'🍲',category:'主食',desc:'大米40g,鲜虾8只,卤蛋,花生,咸菜'},
+    {id:'page-11-13_breakfast_37',name:'鸡蛋卷饼+豆浆+水果+坚果',emoji:'🥚',category:'主食',desc:'薄饼,鸡蛋,生菜,豆浆300ml,水果,核桃'},
+    {id:'page-11-13_breakfast_38',name:'蔬菜披萨+牛奶+沙拉',emoji:'🥛',category:'主食',desc:'8寸披萨1块,牛奶300ml,蔬菜沙拉'},
+    {id:'page-11-13_breakfast_39',name:'酸辣粉(微辣)+卤蛋+花生',emoji:'🥚',category:'主食',desc:'红薯粉条90g,醋微量,卤蛋,花生'},
+    {id:'page-11-13_breakfast_40',name:'杂粮粥+酱牛肉+花卷+蛋+花生',emoji:'🍲',category:'主食',desc:'多谷物粥,酱牛肉4片,花卷,蛋,花生'},
+    {id:'page-11-13_breakfast_41',name:'红烧牛肉面+卤蛋+小菜+花生',emoji:'🍜',category:'主食',desc:'拉面90g,牛肉4片,原汤,卤蛋,咸菜'},
+    {id:'page-11-13_breakfast_42',name:'红糖馒头+豆浆+蛋+水果+花生',emoji:'🍞',category:'主食',desc:'红糖馒头1个,豆浆300ml,蛋,水果,花生'},
+    {id:'page-11-13_breakfast_43',name:'鸡蛋酱拌面+黄瓜+花生米',emoji:'🍜',category:'主食',desc:'面条90g,鸡蛋酱,黄瓜丝,花生'},
+    {id:'page-11-13_breakfast_44',name:'紫薯银耳羹+肉包+牛奶+水果',emoji:'🥛',category:'主食',desc:'紫薯50g,银耳,肉包1-2个,牛奶,水果'},
+    {id:'page-11-13_breakfast_45',name:'咖喱鸡肉炒饭+蔬菜汤+花生',emoji:'🍚',category:'主食',desc:'米饭70g,鸡肉50g,咖喱,蔬菜汤,花生'},
+    {id:'page-11-13_breakfast_46',name:'豆浆+油条+茶叶蛋+小菜+花生',emoji:'🥚',category:'主食',desc:'豆浆300ml,油条1根,茶叶蛋,咸菜,花生'},
+    {id:'page-11-13_breakfast_47',name:'兰州拉面+卤蛋+花生',emoji:'🍜',category:'主食',desc:'拉面90g,牛肉4片,清汤,卤蛋,花生'},
+    {id:'page-11-13_breakfast_48',name:'蛋炒饭+紫菜蛋花汤+小菜+花生',emoji:'🍚',category:'主食',desc:'米饭70g,鸡蛋1个,葱花,配汤,咸菜,花生'},
+    {id:'page-11-13_breakfast_49',name:'煎饼果子+豆浆+水果',emoji:'🥞',category:'主食',desc:'薄饼1张,鸡蛋1个,脆饼,豆浆300ml,水果'},
+    {id:'page-11-13_breakfast_50',name:'玉米饼+牛奶+水果+坚果+花生',emoji:'🥛',category:'主食',desc:'玉米饼2块,牛奶300ml,水果,杏仁,花生'},
+    {id:'page-11-13_breakfast_51',name:'蔬菜蛋饼+小米粥+卤蛋+花生',emoji:'🍲',category:'主食',desc:'面粉50g,鸡蛋1个,蔬菜丝,粥,蛋,花生'},
+    {id:'page-11-13_breakfast_52',name:'排骨焖饭+番茄蛋汤+水果',emoji:'🍚',category:'主食',desc:'米饭70g,排骨1块焖,配汤,水果'},
+    {id:'page-11-13_breakfast_53',name:'馄饨+烧麦+豆浆+花生',emoji:'🌾',category:'主食',desc:'大馄饨10个,烧麦4个,豆浆300ml,花生'},
+    {id:'page-11-13_breakfast_54',name:'南瓜粥+茶叶蛋+花生+咸菜',emoji:'🍲',category:'主食',desc:'大米30g,南瓜60g,蛋,花生,咸菜'},
+    {id:'page-11-13_breakfast_55',name:'火腿蛋炒饭+蔬菜汤+花生',emoji:'🍚',category:'主食',desc:'米饭70g,火腿丁,鸡蛋,蔬菜汤,花生'},
+    {id:'page-11-13_breakfast_56',name:'肉丸子汤面+卤蛋+花生',emoji:'🍜',category:'主食',desc:'面条90g,肉丸5个,原汤,卤蛋,花生'},
+    {id:'page-11-13_breakfast_57',name:'燕麦牛奶粥+煮蛋+面包+水果+坚果',emoji:'🍲',category:'主食',desc:'燕麦30g,牛奶300ml,蛋,吐司,水果,核桃'},
+    {id:'page-11-13_breakfast_58',name:'韭菜鸡蛋饺子+醋碟+粥+花生',emoji:'🍲',category:'主食',desc:'水饺15个,韭菜蛋馅,小米粥,花生'},
+    {id:'page-11-13_breakfast_59',name:'咖喱土豆牛肉饭+牛奶+水果',emoji:'🍚',category:'主食',desc:'牛肉50g,土豆,淡咖喱,牛奶,水果'},
+    {id:'page-11-13_breakfast_60',name:'鸡蛋饼+豆浆+水果+坚果+花生',emoji:'🥚',category:'主食',desc:'面饼1张,鸡蛋1个,豆浆,水果,核桃,花生'},
+  ],
+  lunch: [
+    {id:'page-11-13_lunch_1',name:'清蒸鲈鱼+蒜蓉西兰花+杂粮饭',emoji:'🍚',category:'主食',desc:'鲈鱼80g,西兰花80g,杂粮饭100g'},
+    {id:'page-11-13_lunch_2',name:'番茄炒蛋+白灼虾',emoji:'🍚',category:'主食',desc:'番茄1个,鸡蛋1个,虾仁50g'},
+    {id:'page-11-13_lunch_3',name:'蒸水蛋+清炒菜心+红烧鸡腿',emoji:'🍚',category:'主食',desc:'蛋1个,菜心80g,鸡腿1个'},
+    {id:'page-11-13_lunch_4',name:'香菇滑鸡+上汤娃娃菜',emoji:'🍚',category:'主食',desc:'鸡腿肉60g,香菇30g,娃娃菜100g'},
+    {id:'page-11-13_lunch_5',name:'银鱼蒸蛋+肉末四季豆',emoji:'🍚',category:'主食',desc:'银鱼15g,蛋1个,四季豆60g,肉末20g'},
+    {id:'page-11-13_lunch_6',name:'白切鸡+姜葱蘸料+蚝油生菜',emoji:'🍚',category:'主食',desc:'鸡肉60g,生菜100g'},
+    {id:'page-11-13_lunch_7',name:'清蒸桂花鱼+上汤豆苗',emoji:'🍚',category:'主食',desc:'桂花鱼80g,豆苗80g'},
+    {id:'page-11-13_lunch_8',name:'木耳炒蛋+白灼秋葵',emoji:'🍚',category:'主食',desc:'木耳30g,蛋2个,秋葵60g'},
+    {id:'page-11-13_lunch_9',name:'虾仁蒸豆腐+清炒西葫芦',emoji:'🍚',category:'主食',desc:'虾仁30g,嫩豆腐80g,西葫芦80g'},
+    {id:'page-11-13_lunch_10',name:'蒸鸡肉饼+炒莴笋丝',emoji:'🍚',category:'主食',desc:'鸡胸肉60g搅泥蒸饼,莴笋80g'},
+    {id:'page-11-13_lunch_11',name:'红烧排骨+炒空心菜',emoji:'🍚',category:'主食',desc:'排骨80g,空心菜100g'},
+    {id:'page-11-13_lunch_12',name:'宫保鸡丁(微辣少油)+炒豆芽',emoji:'🍚',category:'主食',desc:'鸡丁50g,花生10g,黄瓜丁,豆芽80g'},
+    {id:'page-11-13_lunch_13',name:'番茄牛腩+炒圆白菜',emoji:'🍚',category:'主食',desc:'牛腩60g,番茄1个,圆白菜80g'},
+    {id:'page-11-13_lunch_14',name:'京酱肉丝+清炒荷兰豆+荷叶饼',emoji:'🍖',category:'主食',desc:'猪肉丝50g,豆腐皮20g,葱丝,荷兰豆80g'},
+    {id:'page-11-13_lunch_15',name:'香煎马鲛鱼+蒜蓉炒菠菜',emoji:'🍚',category:'主食',desc:'马鲛鱼80g,菠菜100g'},
+    {id:'page-11-13_lunch_16',name:'土豆炖鸡块+凉拌黄瓜',emoji:'🍚',category:'主食',desc:'鸡块60g,土豆50g,黄瓜80g'},
+    {id:'page-11-13_lunch_17',name:'豆豉蒸排骨+炒苋菜',emoji:'🍚',category:'主食',desc:'排骨80g,豆豉少许,苋菜80g'},
+    {id:'page-11-13_lunch_18',name:'鱼香肉丝+炒莴笋',emoji:'🍚',category:'主食',desc:'猪肉丝50g,木耳胡萝卜笋丝,莴笋80g'},
+    {id:'page-11-13_lunch_19',name:'西芹炒虾仁+番茄蛋花汤',emoji:'🍚',category:'主食',desc:'虾仁50g,西芹80g,番茄蛋汤'},
+    {id:'page-11-13_lunch_20',name:'葱爆牛肉+蚝油生菜',emoji:'🍚',category:'主食',desc:'牛肉60g,大葱30g,生菜100g'},
+    {id:'page-11-13_lunch_21',name:'麻婆豆腐+炒青菜',emoji:'🍚',category:'主食',desc:'嫩豆腐100g,猪肉末20g,郫县豆瓣,青菜'},
+    {id:'page-11-13_lunch_22',name:'炸鸡翅2个+蔬菜沙拉',emoji:'🍚',category:'主食',desc:'鸡翅2个(空气炸锅),沙拉'},
+    {id:'page-11-13_lunch_23',name:'红烧牛腩面+烫青菜',emoji:'🍜',category:'主食',desc:'牛腩60g,面条120g,青菜80g'},
+    {id:'page-11-13_lunch_24',name:'糖醋里脊(少油版)+清炒西兰花',emoji:'🍚',category:'主食',desc:'猪里脊60g糖醋汁,西兰花80g'},
+    {id:'page-11-13_lunch_25',name:'干炒牛河(少油)+紫菜蛋汤',emoji:'🥚',category:'主食',desc:'河粉150g,牛肉50g,豆芽,紫菜蛋汤'},
+    {id:'page-11-13_lunch_26',name:'孜然羊肉+炒土豆丝',emoji:'🍚',category:'主食',desc:'羊肉片60g,孜然,土豆丝80g'},
+    {id:'page-11-13_lunch_27',name:'回锅肉(少油)+炒卷心菜',emoji:'🍚',category:'主食',desc:'五花肉薄片50g,蒜苗豆瓣,卷心菜'},
+    {id:'page-11-13_lunch_28',name:'可乐鸡翅+白灼西兰花',emoji:'🍚',category:'主食',desc:'鸡翅3个,可乐少许,西兰花80g'},
+    {id:'page-11-13_lunch_29',name:'卤肉饭+卤蛋半个+烫青菜',emoji:'🍚',category:'主食',desc:'卤肉50g,卤汁少许,卤蛋半个,米饭,青菜'},
+    {id:'page-11-13_lunch_30',name:'芝士焗鸡排意面+蔬菜汤',emoji:'🍜',category:'主食',desc:'鸡排60g,意面100g,芝士20g,蔬菜汤'},
+  ],
+  dinner: [
+    {id:'page-11-13_dinner_1',name:'小米南瓜粥+蒸饺3个+凉拌木耳',emoji:'🍲',category:'主食',desc:'小米20g,南瓜30g,蒸饺3个,木耳'},
+    {id:'page-11-13_dinner_2',name:'清蒸鱼+蒜蓉粉丝蒸娃娃菜',emoji:'🍚',category:'主食',desc:'鱼80g,娃娃菜100g,粉丝20g'},
+    {id:'page-11-13_dinner_3',name:'番茄鸡蛋疙瘩汤+小花卷+拍黄瓜',emoji:'🥚',category:'主食',desc:'面粉50g,番茄鸡蛋,花卷1个,黄瓜'},
+    {id:'page-11-13_dinner_4',name:'虾仁豆腐煲+清炒菠菜',emoji:'🍚',category:'主食',desc:'虾仁30g,豆腐100g,菠菜80g'},
+    {id:'page-11-13_dinner_5',name:'银耳莲子羹+蒸红薯+凉拌三丝',emoji:'🍠',category:'主食',desc:'银耳10g,莲子10g,红薯1个,黄瓜萝卜粉丝'},
+    {id:'page-11-13_dinner_6',name:'蒸水蛋+炒西兰花+小米粥',emoji:'🍲',category:'主食',desc:'蛋2个,西兰花80g,小米粥'},
+    {id:'page-11-13_dinner_7',name:'鲫鱼豆腐汤煮面+青菜',emoji:'🍜',category:'主食',desc:'鲫鱼汤200ml,豆腐60g,面80g,青菜'},
+    {id:'page-11-13_dinner_8',name:'木耳炒山药+蒸鸡胸肉',emoji:'🍚',category:'主食',desc:'木耳山药各50g,鸡胸60g'},
+    {id:'page-11-13_dinner_9',name:'冬瓜排骨汤+炒芦笋',emoji:'🍚',category:'主食',desc:'冬瓜50g,排骨60g,芦笋80g'},
+    {id:'page-11-13_dinner_10',name:'紫菜虾皮馄饨+烫青菜',emoji:'🦐',category:'主食',desc:'小馄饨8个,紫菜虾皮汤底,青菜'},
+    {id:'page-11-13_dinner_11',name:'红烧带鱼+炒莴笋丝',emoji:'🍚',category:'主食',desc:'带鱼80g红烧,莴笋80g'},
+    {id:'page-11-13_dinner_12',name:'咖喱鸡肉+西兰花',emoji:'🍚',category:'主食',desc:'鸡肉50g,咖喱块,土豆胡萝卜,西兰花'},
+    {id:'page-11-13_dinner_13',name:'肉末茄子煲+蒜蓉菜心',emoji:'🍚',category:'主食',desc:'茄子80g,肉末30g,菜心80g'},
+    {id:'page-11-13_dinner_14',name:'西葫芦炒蛋+白灼虾+杂粮粥',emoji:'🍲',category:'主食',desc:'西葫芦80g,蛋2个,虾50g,杂粮粥'},
+    {id:'page-11-13_dinner_15',name:'香煎豆腐+炒豆芽',emoji:'🍚',category:'主食',desc:'老豆腐100g煎至金黄,豆芽80g'},
+    {id:'page-11-13_dinner_16',name:'黄焖鸡+炒油麦菜',emoji:'🍚',category:'主食',desc:'鸡腿1个,香菇土豆,油麦菜80g'},
+    {id:'page-11-13_dinner_17',name:'丝瓜炒蛋+蒸排骨',emoji:'🍚',category:'主食',desc:'丝瓜80g,蛋2个,排骨60g'},
+    {id:'page-11-13_dinner_18',name:'酸辣土豆丝(微辣)+煎鸡排+小米粥',emoji:'🍲',category:'主食',desc:'土豆80g,鸡排50g,小米粥'},
+    {id:'page-11-13_dinner_19',name:'地三鲜(少油)+蒸蛋',emoji:'🍚',category:'主食',desc:'茄子土豆青椒各40g,蛋1个'},
+    {id:'page-11-13_dinner_20',name:'黑椒牛柳炒意面+蔬菜沙拉',emoji:'🍜',category:'主食',desc:'意面100g,牛柳50g,彩椒,沙拉'},
+    {id:'page-11-13_dinner_21',name:'麻婆豆腐+蒜蓉西兰花',emoji:'🍚',category:'主食',desc:'豆腐100g,肉末20g,郫县豆瓣,西兰花'},
+    {id:'page-11-13_dinner_22',name:'糖醋排骨+白灼菜心',emoji:'🍚',category:'主食',desc:'排骨80g糖醋,菜心80g'},
+    {id:'page-11-13_dinner_23',name:'炸鸡排+蔬菜沙拉+小米粥',emoji:'🍲',category:'主食',desc:'鸡胸肉60g炸制,沙拉,小米粥'},
+    {id:'page-11-13_dinner_24',name:'川味水煮鱼(微辣)+炒空心菜',emoji:'🍚',category:'主食',desc:'鱼片80g,豆芽,豆瓣酱,空心菜'},
+    {id:'page-11-13_dinner_25',name:'叉烧肉+炒芥蓝',emoji:'🍚',category:'主食',desc:'叉烧60g,芥蓝80g'},
+    {id:'page-11-13_dinner_26',name:'大盘鸡拌面+拍黄瓜',emoji:'🍜',category:'主食',desc:'鸡肉60g,土豆,宽面100g,黄瓜'},
+    {id:'page-11-13_dinner_27',name:'孜然烤羊排+凉拌番茄+馕',emoji:'🍖',category:'主食',desc:'小羊排1根,番茄1个,馕半张'},
+    {id:'page-11-13_dinner_28',name:'黑椒牛仔骨+蒜蓉芦笋',emoji:'🍚',category:'主食',desc:'牛仔骨80g,芦笋80g'},
+    {id:'page-11-13_dinner_29',name:'泰式打抛猪肉饭+凉拌青木瓜',emoji:'🍚',category:'主食',desc:'猪肉末50g,九层塔,煎蛋,青木瓜'},
+    {id:'page-11-13_dinner_30',name:'芝士焗大虾意面+蔬菜汤',emoji:'🍜',category:'主食',desc:'虾100g,意面100g,芝士20g,蔬菜汤'},
+  ],
+  soup: [
+    {id:'page-11-13_soup_1',name:'冬瓜薏米排骨汤',emoji:'🍲',category:'汤品',desc:'冬瓜100g,薏米20g,排骨50g'},
+    {id:'page-11-13_soup_2',name:'番茄蛋花汤',emoji:'🥚',category:'汤品',desc:'番茄1个,蛋1个,葱花'},
+    {id:'page-11-13_soup_3',name:'紫菜虾皮汤',emoji:'🦐',category:'汤品',desc:'紫菜5g,虾皮10g,葱花'},
+    {id:'page-11-13_soup_4',name:'丝瓜蛋汤',emoji:'🥚',category:'汤品',desc:'丝瓜80g,蛋1个'},
+    {id:'page-11-13_soup_5',name:'白萝卜排骨汤',emoji:'🍲',category:'汤品',desc:'白萝卜100g,排骨60g,姜'},
+    {id:'page-11-13_soup_6',name:'山药玉米排骨汤',emoji:'🥔',category:'汤品',desc:'山药50g,玉米半根,排骨50g'},
+    {id:'page-11-13_soup_7',name:'豆腐海带汤',emoji:'🧈',category:'汤品',desc:'嫩豆腐80g,海带结30g,味噌'},
+    {id:'page-11-13_soup_8',name:'莲藕花生猪骨汤',emoji:'🥓',category:'汤品',desc:'莲藕80g,花生20g,猪骨50g'},
+    {id:'page-11-13_soup_9',name:'百合雪梨瘦肉汤',emoji:'🍖',category:'汤品',desc:'百合15g,雪梨半个,瘦肉30g'},
+    {id:'page-11-13_soup_10',name:'节瓜咸蛋汤',emoji:'🥚',category:'汤品',desc:'节瓜80g,咸蛋半个'},
+    {id:'page-11-13_soup_11',name:'罗宋汤',emoji:'🍲',category:'汤品',desc:'牛肉50g,番茄土豆胡萝卜洋葱,番茄酱'},
+    {id:'page-11-13_soup_12',name:'酸辣汤',emoji:'🍲',category:'汤品',desc:'豆腐木耳蛋花笋丝,醋胡椒粉'},
+    {id:'page-11-13_soup_13',name:'鲫鱼豆腐汤',emoji:'🐟',category:'汤品',desc:'鲫鱼1条,豆腐100g,姜'},
+    {id:'page-11-13_soup_14',name:'黄豆猪蹄汤',emoji:'🥓',category:'汤品',desc:'黄豆30g,猪蹄80g'},
+    {id:'page-11-13_soup_15',name:'玉米胡萝卜鸡汤',emoji:'🍗',category:'汤品',desc:'玉米半根,胡萝卜1根,鸡块60g'},
+    {id:'page-11-13_soup_16',name:'菌菇鸡汤',emoji:'🍗',category:'汤品',desc:'各种菌菇80g,鸡块60g'},
+    {id:'page-11-13_soup_17',name:'西洋菜陈肾汤',emoji:'🍲',category:'汤品',desc:'西洋菜80g,陈肾20g,瘦肉'},
+    {id:'page-11-13_soup_18',name:'番茄牛尾汤',emoji:'🥩',category:'汤品',desc:'牛尾80g,番茄2个,洋葱'},
+    {id:'page-11-13_soup_19',name:'冬瓜老鸭汤',emoji:'🦆',category:'汤品',desc:'冬瓜150g,鸭肉80g,薏米'},
+    {id:'page-11-13_soup_20',name:'胡萝卜马蹄猪骨汤',emoji:'🥓',category:'汤品',desc:'胡萝卜马蹄各60g,猪骨50g'},
+  ],
+},
+};/* ===== 状态管理 ===== */
+const state={currentPage:'page-0-6',mode:'single',currentDay:'mon',selections:{},collapsed:{},removedDishes:{},selectedEmoji:{}};
+function initSelections(){
+  AGE_PAGES.forEach(p=>{
+    if(!p.hasMeals)return;
+    state.selections[p.id]={single:{breakfast:[],lunch:[],dinner:[],soup:[]},custom:{breakfast:[],lunch:[],dinner:[],soup:[]}};
+    state.selections[p.id].weekly={};
+    DAY_KEYS.forEach(d=>{state.selections[p.id].weekly[d]={breakfast:[],lunch:[],dinner:[],soup:[],custom:{breakfast:[],lunch:[],dinner:[],soup:[]}};});
+    state.collapsed[p.id]={breakfast:false,lunch:false,dinner:false,soup:false};
+    state.removedDishes[p.id]={breakfast:new Set(),lunch:new Set(),dinner:new Set(),soup:new Set()};
+  });
+}
+initSelections();
+
+/* ===== localStorage 持久化 ===== */
+const DISH_STATE_KEY='meal-planner-dish-state';
+function saveDishState(){
+  try{
+    const data={removedDishes:{},selections:{},collapsed:{}};
+    Object.keys(state.removedDishes).forEach(pid=>{
+      data.removedDishes[pid]={};
+      MEAL_KEYS.forEach(m=>{data.removedDishes[pid][m]=Array.from(state.removedDishes[pid][m]);});
+    });
+    Object.keys(state.selections).forEach(pid=>{
+      const pg=state.selections[pid];
+      data.selections[pid]={
+        single:pg.single,
+        custom:pg.custom.map?pg.custom:JSON.parse(JSON.stringify(pg.custom)),
+        weekly:{}
+      };
+      Object.keys(pg.weekly).forEach(d=>{
+        data.selections[pid].weekly[d]={
+          breakfast:pg.weekly[d].breakfast,
+          lunch:pg.weekly[d].lunch,
+          dinner:pg.weekly[d].dinner,
+          soup:pg.weekly[d].soup,
+          custom:JSON.parse(JSON.stringify(pg.weekly[d].custom))
+        };
+      });
+    });
+    Object.keys(state.collapsed).forEach(pid=>{
+      if(!data.collapsed[pid])data.collapsed[pid]={};
+      MEAL_KEYS.forEach(m=>{data.collapsed[pid][m]=!!state.collapsed[pid][m];});
+    });
+    localStorage.setItem(DISH_STATE_KEY,JSON.stringify(data));
+  }catch(e){}
+}
+function loadDishState(){
+  try{
+    const raw=localStorage.getItem(DISH_STATE_KEY);
+    if(!raw)return;
+    const data=JSON.parse(raw);
+    if(data.removedDishes){
+      Object.keys(data.removedDishes).forEach(pid=>{
+        if(!state.removedDishes[pid])state.removedDishes[pid]={breakfast:new Set(),lunch:new Set(),dinner:new Set(),soup:new Set()};
+        MEAL_KEYS.forEach(m=>{
+          if(data.removedDishes[pid][m])state.removedDishes[pid][m]=new Set(data.removedDishes[pid][m]);
+        });
+      });
+    }
+    if(data.selections){
+      Object.keys(data.selections).forEach(pid=>{
+        const saved=data.selections[pid];
+        const pg=state.selections[pid];if(!pg)return;
+        MEAL_KEYS.forEach(m=>{pg.single[m]=saved.single[m]||[];});
+        // custom: restore custom dish objects
+        MEAL_KEYS.forEach(m=>{pg.custom[m]=saved.custom[m]||[];});
+        if(saved.weekly){
+          Object.keys(saved.weekly).forEach(d=>{
+            if(pg.weekly[d]){
+              MEAL_KEYS.forEach(m=>{pg.weekly[d][m]=saved.weekly[d][m]||[];});
+              pg.weekly[d].custom=JSON.parse(JSON.stringify(saved.weekly[d].custom||{breakfast:[],lunch:[],dinner:[],soup:[]}));
+            }
+          });
+        }
+      });
+    }
+    // restore collapsed state
+    if(data.collapsed){
+      Object.keys(data.collapsed).forEach(pid=>{
+        if(!state.collapsed[pid])state.collapsed[pid]={breakfast:false,lunch:false,dinner:false,soup:false};
+        MEAL_KEYS.forEach(m=>{
+          if(typeof data.collapsed[pid][m]==='boolean')state.collapsed[pid][m]=data.collapsed[pid][m];
+        });
+      });
+    }
+  }catch(e){}
+}
+loadDishState();
+
+function getDish(pageId,meal,dishId){
+  const data=DISH_DATA[pageId];if(!data||!data[meal])return null;
+  const found=data[meal].find(d=>d.id===dishId);
+  if(found)return found;
+  const pg=state.selections[pageId];if(!pg)return null;
+  const customSrc=state.mode==='single'?pg.custom:pg.weekly[state.currentDay]?.custom;
+  if(customSrc&&customSrc[meal])return customSrc[meal].find(d=>d.id===dishId);
+  return null;
+}
+function getCurrentSelections(pageId){
+  const pid=pageId||state.currentPage;
+  const pg=state.selections[pid];if(!pg)return null;
+  const base=state.mode==='single'?pg.single:pg.weekly[state.currentDay];
+  const customSrc=state.mode==='single'?pg.custom:pg.weekly[state.currentDay]?.custom;
+  const merged={breakfast:[...base.breakfast],lunch:[...base.lunch],dinner:[...base.dinner],soup:[...base.soup]};
+  if(customSrc){
+    Object.keys(customSrc).forEach(k=>{if(merged[k])merged[k]=merged[k].concat(customSrc[k]);});
+  }
+  return merged;
+}
+function getDaySelections(pageId,dayIndex){
+  const pg=state.selections[pageId];if(!pg)return null;
+  const dayKey=DAY_KEYS[dayIndex]||DAY_KEYS[0];
+  const base=pg.weekly[dayKey];
+  if(!base)return null;
+  const customSrc=pg.weekly[dayKey]?.custom;
+  const merged={breakfast:[...base.breakfast],lunch:[...base.lunch],dinner:[...base.dinner],soup:[...base.soup]};
+  if(customSrc){Object.keys(customSrc).forEach(k=>{if(merged[k])merged[k]=merged[k].concat(customSrc[k]);});}
+  return merged;
+}
+
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.remove('show'),1800);}
+
+function renderNav(){
+  const nav=document.getElementById('age-nav');nav.innerHTML='';
+  AGE_PAGES.forEach(p=>{const b=document.createElement('button');b.className='nav-item'+(p.id===state.currentPage?' active':'');b.textContent=p.label;b.dataset.page=p.id;b.setAttribute('role','tab');b.addEventListener('click',()=>switchPage(p.id));nav.appendChild(b);});
+}
+
+function renderPage(page){
+  let h='<div class="age-page'+(page.id===state.currentPage?' active':'')+'" id="'+page.id+'">';
+  h+='<section class="container diet-section">';
+  h+='<div class="diet-hero"><img src="'+IMAGE_DATA[page.id]+'" class="diet-hero-icon" alt="'+page.label+'配图" /><h2>'+page.heroTitle+'</h2><p>'+page.heroDesc+'</p></div>';
+  h+='<div class="diet-grid">';
+  page.dietCards.forEach(c=>{h+='<div class="diet-card'+(c.type==='danger'?' danger':'')+(c.type==='tip'?' tip':'')+'">';
+    h+='<div class="diet-card-head"><div class="diet-card-icon '+c.type+' emoji">'+c.icon+'</div><h3>'+c.title+'</h3></div><ul>';
+    c.items.forEach(it=>{h+='<li>'+it+'</li>';});h+='</ul></div>';});
+  h+='</div><div class="global-warning"><div class="global-warning-head"><h3>⚠️ 全年龄段通用红线</h3></div><ul class="global-warning-grid">';
+  GLOBAL_WARNINGS.forEach(w=>{h+='<li>'+w+'</li>';});h+='</ul></div></section>';
+  h+='<div class="note-bar-wrap"><div class="note-bar"><span class="note-label">宝宝备注</span><input class="note-input" type="text" placeholder="输入宝宝名字或备注..." maxlength="20" data-note-for="'+page.id+'"/></div></div>';
+if(page.hasMeals){h+=renderMealSection(page);}
+  else{h+='<section class="container no-meals-box"><div class="no-meals-inner"><span class="emoji">🍼</span><h3>本阶段无需餐谱规划</h3><p>0-6月龄以纯母乳或配方奶为唯一食物，无需添加辅食。请遵循上方膳食特点中的喂养建议。</p></div></section>';}
+  h+='</div>';return h;
+}
+
+function renderMealSection(page){
+  let h='<section class="meal-section-wrap"><div class="container">';
+  h+='<div class="meal-section-title"><h2>餐谱规划</h2>';
+  h+='<div class="title-divider"><span class="divider-line"></span><span class="divider-icon emoji">🥣</span><span class="divider-line"></span></div><p>自由勾选候选菜品，不限数量，支持单日/整周双模式</p></div>';
+  h+='<svg class="wave-divider" viewBox="0 0 420 22"><path d="M0,11 Q52.5,1 105,11 T210,11 T315,11 T420,11" fill="none" stroke="#E8A87C" stroke-width="1.5" opacity="0.35"/></svg>';
+  h+='<div class="mode-switcher"><div class="mode-tabs" id="mode-tabs-'+page.id+'">';
+  h+='<button class="mode-tab'+(state.mode==='single'?' active':'')+'" data-mode="single">单日</button>';
+  h+='<button class="mode-tab'+(state.mode==='weekly'?' active':'')+'" data-mode="weekly">整周</button></div></div>';
+  if(state.mode==='weekly'){h+='<div class="daybar-wrap"><div class="daybar" id="daybar-'+page.id+'">';
+    DAYS.forEach((dn,i)=>{h+='<button class="daytab'+(DAY_KEYS[i]===state.currentDay?' active':'')+'" data-day="'+DAY_KEYS[i]+'">'+dn+'</button>';});
+    h+='</div></div>';}
+  h+=renderMealNav(page.id);
+  h+=renderSummaryBar(page.id);
+  MEAL_KEYS.forEach(meal=>{h+=renderMealBlock(page.id,meal);});
+  h+='</div></section>';return h;
+}
+
+function renderSummaryBar(pageId){
+  const sel=getCurrentSelections(pageId);if(!sel)return '';
+  let h='<div class="summary-bar no-export"><div class="summary-left">';
+  MEAL_KEYS.forEach(m=>{const cnt=sel[m].length;h+='<span class="summary-chip '+MEAL_BADGE[m]+'">'+MEAL_NAMES[m]+' <b>'+cnt+'</b></span>';});
+  h+='</div><div class="summary-actions">';
+  h+='<button class="btn btn-secondary" style="padding:6px 14px;font-size:13px;" id="btn-clear-'+pageId+'">清空'+(state.mode==='weekly'?'当日':'')+'</button>';
+  h+='</div></div>';return h;
+}
+
+function renderMealNav(pageId){
+  const sel=getCurrentSelections(pageId);if(!sel)return '';
+  let h='';
+  MEAL_KEYS.forEach(m=>{
+    const cnt=sel[m].length;
+    h+='<button class="meal-nav-btn '+MEAL_BADGE[m]+'" data-scroll-to="'+m+'" data-page="'+pageId+'">';
+    h+='<span class="meal-nav-badge">'+(cnt||'0')+'</span>'+MEAL_ICON[m]+' '+MEAL_NAMES[m];
+    h+='</button>';
+  });
+  return h;
+}
+
+function renderMealBlock(pageId,meal){
+  if(!DISH_DATA[pageId]||!DISH_DATA[pageId][meal])return '';
+  const sel=getCurrentSelections(pageId);if(!sel)return '';
+  const selected=sel[meal];
+  const dishes=DISH_DATA[pageId][meal].filter(d=>!state.removedDishes[pageId]?.[meal]?.has(d.id));
+  const isCollapsed=state.collapsed[pageId]?.[meal];
+  const pg=state.selections[pageId];
+  const customSrc=state.mode==='single'?pg.custom:pg.weekly[state.currentDay]?.custom;
+  const customDishes=customSrc?.[meal]||[];
+
+  let h='<div class="meal-block'+(isCollapsed?' collapsed':'')+'" data-meal="'+meal+'" data-page="'+pageId+'" id="meal-'+meal+'">';
+  h+='<div class="meal-head"><div class="meal-head-left">';
+  h+='<span class="meal-badge '+MEAL_BADGE[meal]+'"><span class="emoji">'+MEAL_ICON[meal]+'</span>'+MEAL_NAMES[meal]+'</span>';
+  h+='<span class="meal-title">'+MEAL_SUBTITLE[meal]+'</span></div>';
+  h+='<span class="plate-count">已选 <b>'+selected.length+'</b> 道</span>';
+  h+='<button class="meal-toggle" aria-label="收起/展开"><svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg></button></div>';
+  h+='<div class="meal-body">';
+  if(selected.length===0){
+    h+='<div class="plate empty"><div class="empty-icon emoji">🍽️</div><div class="empty-text">点击下方菜品，加入'+MEAL_NAMES[meal]+'</div></div>';
+  }else{
+    h+='<div class="plate"><div class="plate-chips">';
+    selected.forEach(id=>{
+      const d=getDish(pageId,meal,id);if(!d)return;
+      const isCustom=id.startsWith('custom_');
+      h+='<span class="plate-chip"><span class="pc-emoji emoji">'+d.emoji+'</span>'+d.name+
+        '<span class="pc-cat">'+d.category+(isCustom?'·自定义':'')+'</span>'+
+        '<button class="pc-remove" data-page="'+pageId+'" data-meal="'+meal+'" data-dish="'+id+'" aria-label="移除">✕</button></span>';
+    });
+    h+='</div></div>';
+  }
+  h+='<div class="add-dish-row"><button class="add-dish-btn" data-page="'+pageId+'" data-meal="'+meal+'">➕ 自定义添加菜品</button>';
+  h+='<div style="display:none;width:100%;" class="add-dish-form">';
+  h+='<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">';
+  h+='<input class="add-dish-input show" placeholder="输入菜品名称后确认..." data-page="'+pageId+'" data-meal="'+meal+'" style="display:block;flex:1;">';
+  h+='<button class="add-dish-confirm show" data-page="'+pageId+'" data-meal="'+meal+'">✓ 添加</button>';
+  h+='<button class="add-dish-cancel" data-page="'+pageId+'" data-meal="'+meal+'">✕ 取消</button></div>';
+  h+='<div class="emoji-picker show" data-page="'+pageId+'" data-picker-for="'+meal+'">';
+  h+='<div class="emoji-picker-label">🎨 选择图标</div>';
+  h+='<div class="emoji-picker-grid" id="ep-grid-'+pageId+'-'+meal+'"></div>';
+  h+='</div></div></div>';
+  h+='<div class="candidates-label"><span class="emoji">👉</span> 候选菜品（点击选择/取消）</div>';
+  h+='<div class="dish-grid">';
+  dishes.forEach(d=>{
+    const isSel=selected.includes(d.id);
+    h+='<button class="dish-card'+(isSel?' selected':'')+'" data-page="'+pageId+'" data-meal="'+meal+'" data-dish="'+d.id+'">';
+    h+='<div class="dc-del" data-page="'+pageId+'" data-meal="'+meal+'" data-dish="'+d.id+'">✕</div>';
+    h+='<div class="dc-check">✓</div><div class="dc-top"><div class="dish-emoji-box emoji">'+d.emoji+'</div><div class="dish-name">'+d.name+'</div></div>';
+    h+='<div class="dish-tags"><span class="tag-nutri" data-cat="'+d.category+'">'+d.category+'</span></div>';
+    h+='<div class="dish-desc">'+d.desc+'</div></button>';
+  });
+  customDishes.forEach(d=>{
+    const isSel=selected.includes(d.id);
+    h+='<button class="dish-card'+(isSel?' selected':'')+'" data-page="'+pageId+'" data-meal="'+meal+'" data-dish="'+d.id+'" data-custom="1">';
+    h+='<div class="dc-del" data-page="'+pageId+'" data-meal="'+meal+'" data-dish="'+d.id+'">✕</div>';
+    h+='<div class="dc-check">✓</div><div class="dc-top"><div class="dish-emoji-box emoji">'+d.emoji+'</div><div class="dish-name">'+d.name+'</div></div>';
+    h+='<div class="dish-tags"><span class="tag-nutri" data-cat="自定义">'+d.category+'</span></div>';
+    h+='<div class="dish-desc">'+d.desc+'</div></button>';
+  });
+  h+='</div></div></div>';return h;
+}
+
+/* ===== Sticky Meal Nav ===== */
+function updateMealNav(){
+  const wrap=document.getElementById('meal-nav-wrap');
+  const nav=document.getElementById('meal-nav');
+  const page=AGE_PAGES.find(p=>p.id===state.currentPage);
+  if(!page||!page.hasMeals){if(wrap)wrap.classList.remove('show');return;}
+  if(wrap)wrap.classList.add('show');
+  if(nav)nav.innerHTML=renderMealNav(state.currentPage);
+}
+function scrollToMeal(meal){
+  const el=document.getElementById('meal-'+meal);
+  if(el){el.scrollIntoView({behavior:'smooth',block:'start'});}
+}
+
+/* ===== Core Functions ===== */
+function renderAllPages(){const main=document.getElementById('app-main');main.innerHTML='';AGE_PAGES.forEach(p=>{main.insertAdjacentHTML('beforeend',renderPage(p));});bindEvents();updateMealNav();}
+function switchPage(pageId){state.currentPage=pageId;document.body.setAttribute('data-age',pageId);document.querySelectorAll('.age-page').forEach(p=>p.classList.remove('active'));document.getElementById(pageId).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active',n.dataset.page===pageId));
+  updateMealNav();
+  window.scrollTo({top:0,behavior:'smooth'});}
+function switchMode(mode){state.mode=mode;rerenderCurrentPage();}
+function switchDay(dayKey){state.currentDay=dayKey;rerenderCurrentPage();}
+function rerenderCurrentPage(){const page=AGE_PAGES.find(p=>p.id===state.currentPage);if(!page)return;const oldEl=document.getElementById(page.id);const tmp=document.createElement('div');tmp.innerHTML=renderPage(page);oldEl.parentNode.replaceChild(tmp.firstElementChild,oldEl);bindEvents();updateMealNav();saveDishState();}
+function toggleCollapse(pageId,meal){if(!state.collapsed[pageId])return;state.collapsed[pageId][meal]=!state.collapsed[pageId][meal];rerenderCurrentPage();}
+
+function toggleDish(pageId,meal,dishId){
+  const pg=state.selections[pageId];if(!pg)return;
+  const base=state.mode==='single'?pg.single:pg.weekly[state.currentDay];
+  const arr=base[meal];const idx=arr.indexOf(dishId);
+  if(idx>=0){arr.splice(idx,1);}else{arr.push(dishId);}
+  rerenderCurrentPage();
+}
+function deleteOriginalDish(pageId,meal,dishId){
+  if(!state.removedDishes[pageId])state.removedDishes[pageId]={breakfast:new Set(),lunch:new Set(),dinner:new Set(),soup:new Set()};
+  state.removedDishes[pageId][meal].add(dishId);
+  const pg=state.selections[pageId];if(!pg)return;
+  const base=state.mode==='single'?pg.single:pg.weekly[state.currentDay];
+  const idx=base[meal].indexOf(dishId);
+  if(idx>=0)base[meal].splice(idx,1);
+  showToast('已删除菜品');rerenderCurrentPage();
+}
+function handleDishDelete(pageId,meal,dishId){
+  const pg=state.selections[pageId];if(!pg)return;
+  const base=state.mode==='single'?pg.single:pg.weekly[state.currentDay];
+  const isSelected=base[meal].includes(dishId);
+  if(isSelected){removeDishDirect(pageId,meal,dishId);}
+  else{deleteOriginalDish(pageId,meal,dishId);}
+}
+function removeDishDirect(pageId,meal,dishId){
+  const pg=state.selections[pageId];if(!pg)return;
+  const base=state.mode==='single'?pg.single:pg.weekly[state.currentDay];
+  const arr=base[meal];const idx=arr.indexOf(dishId);
+  if(idx>=0){arr.splice(idx,1);}
+  if(dishId.startsWith('custom_')){
+    const customArr=state.mode==='single'?pg.custom[meal]:pg.weekly[state.currentDay].custom[meal];
+    const ci=customArr.findIndex(d=>d.id===dishId);
+    if(ci>=0)customArr.splice(ci,1);
+  }
+  rerenderCurrentPage();
+}
+function clearCurrent(){
+  const pid=state.currentPage;
+  const pg=state.selections[pid];if(!pg)return;
+  if(state.mode==='single'){
+    MEAL_KEYS.forEach(m=>{pg.single[m]=[];pg.custom[m]=[];});
+  }else{
+    const day=pg.weekly[state.currentDay];if(!day)return;
+    MEAL_KEYS.forEach(m=>{day[m]=[];day.custom[m]=[];});
+  }
+  saveDishState();
+  rerenderCurrentPage();
+  showToast('已清空菜单');
+}
+function resetRemovedDishes(pageId){
+  if(!state.removedDishes[pageId])return;
+  MEAL_KEYS.forEach(m=>{state.removedDishes[pageId][m]=new Set();});
+  rerenderCurrentPage();showToast('已恢复默认菜品');
+}
+
+function showAddInput(btn){const row=btn.closest('.add-dish-row');const form=row.querySelector('.add-dish-form');form.style.display='block';const pageId=btn.dataset.page;const meal=btn.dataset.meal;const key=pageId+'_'+meal;state.selectedEmoji[key]='🍽️';const grid=document.getElementById('ep-grid-'+pageId+'-'+meal);if(grid){grid.innerHTML='';EMOJI_CATEGORIES.forEach(cat=>{cat.icons.forEach(em=>{const el=document.createElement('span');el.className='emoji-picker-item';el.textContent=el.dataset.emoji=em;el.addEventListener('click',()=>pickEmoji(el,key));grid.appendChild(el);});});}row.querySelector('.add-dish-input').focus();btn.style.display='none';}
+function pickEmoji(emojiEl,key){const em=emojiEl.dataset.emoji;state.selectedEmoji[key]=em;emojiEl.parentElement.querySelectorAll('.emoji-picker-item').forEach(e=>e.classList.remove('selected'));emojiEl.classList.add('selected');}
+function confirmAddDish(input){const name=input.value.trim();if(!name){showToast('请输入菜品名称');return;}
+  const pageId=input.dataset.page;const meal=input.dataset.meal;
+  const pg=state.selections[pageId];if(!pg)return;
+  const dishId='custom_'+Date.now()+'_'+Math.random().toString(36).slice(2,8);
+  const key=pageId+'_'+meal;
+  const chosenEmoji=(state.selectedEmoji&&state.selectedEmoji[key])?state.selectedEmoji[key]:'🍽️';
+  const customObj={id:dishId,name:name,emoji:chosenEmoji,category:'自定义',desc:'用户自定义添加的菜品'};
+  if(state.mode==='single'){pg.custom[meal].push(customObj);pg.single[meal].push(dishId);}
+  else{pg.weekly[state.currentDay].custom[meal].push(customObj);pg.weekly[state.currentDay][meal].push(dishId);}
+  showToast('已添加：'+name);rerenderCurrentPage();
+}
+function cancelAddDish(btn){const form=btn.closest('.add-dish-form');const row=form.closest('.add-dish-row');form.style.display='none';row.querySelector('.add-dish-input').value='';const addBtn=row.querySelector('.add-dish-btn');if(addBtn)addBtn.style.display='';}
+
+/* ===== Events ===== */
+function bindEvents(){
+  document.querySelectorAll('.mode-tab').forEach(t=>{t.addEventListener('click',()=>switchMode(t.dataset.mode));});
+  document.querySelectorAll('.daytab').forEach(t=>{t.addEventListener('click',()=>switchDay(t.dataset.day));});
+  document.querySelectorAll('.dish-card').forEach(c=>{c.addEventListener('click',(e)=>{
+    if(e.target.classList.contains('dc-del'))return;
+    toggleDish(c.dataset.page,c.dataset.meal,c.dataset.dish);
+  });});
+  document.querySelectorAll('.dc-del').forEach(b=>{b.addEventListener('click',(e)=>{e.stopPropagation();handleDishDelete(b.dataset.page,b.dataset.meal,b.dataset.dish);});});
+  document.querySelectorAll('.pc-remove').forEach(b=>{b.addEventListener('click',(e)=>{e.stopPropagation();removeDishDirect(b.dataset.page,b.dataset.meal,b.dataset.dish);});});
+  document.querySelectorAll('[id^="btn-clear-"]').forEach(b=>{b.addEventListener('click',clearCurrent);});
+  document.querySelectorAll('.meal-toggle').forEach(b=>{b.addEventListener('click',()=>{
+    const block=b.closest('.meal-block');toggleCollapse(block.dataset.page,block.dataset.meal);
+  });});
+  document.querySelectorAll('.add-dish-btn').forEach(b=>{b.addEventListener('click',()=>showAddInput(b));});
+  document.querySelectorAll('.add-dish-confirm').forEach(b=>{b.addEventListener('click',()=>confirmAddDish(b.parentElement.querySelector('.add-dish-input')));});
+  document.querySelectorAll('.add-dish-cancel').forEach(b=>{b.addEventListener('click',()=>cancelAddDish(b));});
+  document.querySelectorAll('.add-dish-input').forEach(i=>{i.addEventListener('keydown',(e)=>{if(e.key==='Enter')confirmAddDish(i);if(e.key==='Escape')cancelAddDish(i.parentElement.querySelector('.add-dish-cancel'));});});
+  // meal nav clicks
+  document.querySelectorAll('.meal-nav-btn').forEach(b=>{b.addEventListener('click',()=>scrollToMeal(b.dataset.scrollTo));});
+initNotes();}
+
+/* ===== Export — Fixed: use visible temp container ===== */
+function exportScreenshot(){
+  const page=AGE_PAGES.find(p=>p.id===state.currentPage);
+  if(!page||!page.hasMeals){showToast('当前页面无餐谱可导出');return;}
+  if(typeof html2canvas==='undefined'){showToast('截图库加载失败，请检查网络');return;}
+  const sel=getCurrentSelections(page.id);if(!sel){showToast('暂无选择数据');return;}
+  showToast('正在生成餐谱图片…');
+
+  const tmpDiv=document.createElement('div');
+  const ageBg=getComputedStyle(document.body).getPropertyValue('--color-bg').trim()||'#FFF9F2';
+  tmpDiv.style.cssText='position:fixed;top:0;left:0;width:960px;background:'+ageBg+';padding:36px;font-family:var(--font-body);z-index:9999;overflow-y:auto;';
+
+  let eh='<div style="text-align:center;margin-bottom:20px;padding-bottom:14px;border-bottom:3px double '+getComputedStyle(document.documentElement).getPropertyValue('--color-primary').trim()+';">';
+  eh+='<h2 style="font-size:24px;font-weight:900;color:#4A3F35;">童趣餐谱 · '+page.label+'</h2>';
+  eh+='<p style="font-size:13px;color:#7D7067;">'+(state.mode==='single'?'今日菜单':'整周日程')+' · 菜单详情</p></div>';
+
+  if(state.mode==='single'){
+    eh+=buildExportBlocks(page,sel);
+  }else{
+    // ── Weekly: compact 2/3-column grid instead of vertical stack ──
+    eh+='<div class="export-weekly-grid">';
+    DAYS.forEach((dn,i)=>{
+      eh+='<div class="export-day-card">';
+      eh+='<div class="export-day-label">📅 '+dn+'</div>';
+      MEAL_KEYS.forEach(meal=>{
+        const daySel=getDaySelections(page.id,i);
+        if(daySel&&daySel[meal]&&daySel[meal].length>0){
+          eh+='<div style="margin-bottom:8px;">';
+          eh+='<div class="export-meal-label '+MEAL_BADGE[meal]+'"><span>'+MEAL_ICON[meal]+'</span>'+MEAL_NAMES[meal]+'</div>';
+          eh+='<div class="export-dish-list">';
+          daySel[meal].forEach(id=>{const d=getDish(page.id,meal,id);if(!d)return;
+            eh+='<span class="export-dish"><span>'+d.emoji+'</span>'+d.name+'</span>';});
+          eh+='</div></div>';
+        }
+      });
+      eh+='</div>';
+    });
+    eh+='</div>';
+  }
+  eh+='<div style="margin-top:24px;padding-top:14px;border-top:1.5px dashed #F0E8DD;font-size:11px;color:#A39585;text-align:center;line-height:1.7;">本餐谱仅供参考，具体营养需求请咨询专业营养师或医生。<br>数据来源：中国居民膳食指南（2022）</div>';
+
+  tmpDiv.innerHTML=eh;
+  document.body.appendChild(tmpDiv);
+
+  /* 注入备注标签到导出内容 */
+  var noteInput=document.querySelector('.note-input[data-note-for="'+page.id+'"]');
+  if(noteInput&&noteInput.value.trim()){
+    var badge=document.createElement('div');
+    badge.className='note-badge export-note-badge';
+    badge.textContent=noteInput.value.trim();
+    badge.style.cssText='display:inline-block!important;position:absolute;top:10px;right:16px;background:linear-gradient(135deg,'+getComputedStyle(document.documentElement).getPropertyValue('--color-primary').trim()+',#F0B890);color:#fff;font-size:15px;font-weight:800;padding:7px 20px;border-radius:999px;z-index:20;box-shadow:0 3px 12px rgba(0,0,0,0.15);white-space:nowrap;';
+    tmpDiv.style.position='relative';
+    tmpDiv.appendChild(badge);
+  }
+
+
+  setTimeout(()=>{
+    html2canvas(tmpDiv,{backgroundColor:ageBg,scale:2,useCORS:true,logging:false}).then(canvas=>{
+      const fileName='儿童餐谱_'+page.label+'_'+(state.mode==='single'?'单日':'整周')+'.jpg';
+      const imgUrl=canvas.toDataURL('image/jpeg',0.92);
+      document.body.removeChild(tmpDiv);
+      // 弹出图片预览弹窗，用户可长按保存到相册（所有手机通用）
+      showImagePreview(imgUrl,fileName,canvas);
+    }).catch(err=>{console.error(err);showToast('导出失败，请重试');try{document.body.removeChild(tmpDiv);}catch(e){}});
+  },200);
+}
+function showImagePreview(imgUrl,fileName,canvas){
+  const overlay=document.createElement('div');
+  overlay.className='img-preview-overlay';
+  // 提示文字
+  const tip=document.createElement('div');
+  tip.className='preview-tip';
+  const isMobile=/Mobi|Android|iPhone/i.test(navigator.userAgent);
+  tip.innerHTML=isMobile
+    ?'<b>长按图片</b> → 保存到相册<br>也可点击下方按钮下载或分享'
+    :'右键图片 → 另存为<br>也可点击下方按钮下载';
+  overlay.appendChild(tip);
+  // 图片
+  const img=document.createElement('img');
+  img.src=imgUrl;
+  overlay.appendChild(img);
+  // 操作按钮
+  const actions=document.createElement('div');
+  actions.className='preview-actions';
+  // 下载按钮（所有平台）
+  const btnDown=document.createElement('button');
+  btnDown.className='btn-download';
+  btnDown.textContent='下载图片';
+  btnDown.onclick=function(){
+    const link=document.createElement('a');link.download=fileName;
+    link.href=imgUrl;link.click();
+    showToast('图片已下载');
+  };
+  actions.appendChild(btnDown);
+  // 分享按钮（仅手机+支持Share API时显示）
+  canvas.toBlob(function(blob){
+    if(blob&&navigator.share&&navigator.canShare){
+      const file=new File([blob],fileName,{type:'image/jpeg'});
+      if(navigator.canShare({files:[file]})){
+        const btnShare=document.createElement('button');
+        btnShare.className='btn-share';
+        btnShare.textContent='分享';
+        btnShare.onclick=function(){
+          navigator.share({files:[file]}).catch(()=>{});
+        };
+        actions.appendChild(btnShare);
+      }
+    }
+  },'image/jpeg',0.92);
+  // 关闭按钮
+  const btnClose=document.createElement('button');
+  btnClose.className='btn-close';
+  btnClose.textContent='关闭';
+  btnClose.onclick=function(){document.body.removeChild(overlay);};
+  actions.appendChild(btnClose);
+  overlay.appendChild(actions);
+  // 点击背景区域也可关闭
+  overlay.addEventListener('click',function(e){
+    if(e.target===overlay)document.body.removeChild(overlay);
+  });
+  document.body.appendChild(overlay);
+}
+
+function buildExportBlocks(page,sel){
+  let h='';
+  MEAL_KEYS.forEach(meal=>{
+    h+='<div style="margin-bottom:16px;">';
+    h+='<div class="export-meal-label '+MEAL_BADGE[meal]+'"><span>'+MEAL_ICON[meal]+'</span>'+MEAL_NAMES[meal]+'</div>';
+    if(sel[meal].length===0){h+='<div style="font-size:13px;color:#A39585;padding-left:8px;font-style:italic;">暂未选择菜品</div>';}
+    else{h+='<div class="export-dish-list">';
+      sel[meal].forEach(id=>{const d=getDish(page.id,meal,id);if(!d)return;
+        h+='<span class="export-dish"><span>'+d.emoji+'</span>'+d.name+'</span>';});
+      h+='</div>';}
+    h+='</div>';
+  });
+  return h;
+}
+
+
+/* ─── 备注标签功能 ─── */
+/* 备注标签功能 JS */
+const NOTE_STORAGE_KEY='meal-planner-notes';
+function initNotes(){
+  try{
+    const saved=localStorage.getItem(NOTE_STORAGE_KEY);
+    const notes=saved?JSON.parse(saved):{};
+    document.querySelectorAll('.note-input').forEach(function(inp){
+      const pid=inp.getAttribute('data-note-for');
+      inp.value=(notes&&notes[pid])?notes[pid]:inp.value||'大宝';
+      inp.addEventListener('input',saveNotes);
+    });
+  }catch(e){}
+}
+function saveNotes(){
+  try{
+    const notes={};
+    document.querySelectorAll('.note-input').forEach(function(inp){
+      const val=inp.value.trim();
+      if(val)notes[inp.getAttribute('data-note-for')]=val;
+    });
+    localStorage.setItem(NOTE_STORAGE_KEY,JSON.stringify(notes));
+  }catch(e){}
+}
+function getNoteForPage(pid){
+  var el=document.querySelector('[data-note-for="'+pid+'"]');
+  return el?el.value.trim():'';
+}
+
+
+/* Init */
+document.getElementById('btn-export').addEventListener('click',exportScreenshot);
+renderNav();renderAllPages();
+document.body.setAttribute('data-age',state.currentPage);
+
+</script></body></html>
