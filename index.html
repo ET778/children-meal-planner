@@ -105,7 +105,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .export-mode .note-badge{display:block;}
 
 
-.diet-section{padding:24px 0 32px;}
+.diet-section{padding:16px 0 24px;}
 .diet-hero{text-align:center;margin-bottom:32px;}
 .diet-hero-icon{width:80px;height:80px;border-radius:50%;object-fit:cover;margin:0 auto 16px;display:block;box-shadow:var(--shadow-warm-sm);border:2px solid var(--color-primary-light);}
 .diet-hero h2{font-size:28px;font-weight:900;color:var(--color-text-primary);}
@@ -139,7 +139,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .global-warning-grid li::before{content:"⚠";position:absolute;left:0;top:0;font-size:12px;color:var(--color-warm-red);}
 
 .meal-section-wrap{padding:0 0 44px;}
-.meal-section-title{text-align:center;margin:32px 0 24px;}.meal-section-title h2{font-size:26px;font-weight:900;color:var(--color-text-primary);}
+.meal-section-title{text-align:center;margin:16px 0 24px;}.meal-section-title h2{font-size:26px;font-weight:900;color:var(--color-text-primary);}
 .title-divider{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:12px;}
 .title-divider .divider-line{width:70px;height:2px;background:linear-gradient(90deg,transparent,var(--color-primary),transparent);border-radius:1px;}
 .wave-divider{width:100%;max-width:420px;height:22px;margin:0 auto 16px;display:block;opacity:0.45;}
@@ -1285,6 +1285,7 @@ function renderNav(){
 
 function renderPage(page){
   let h='<div class="age-page'+(page.id===state.currentPage?' active':'')+'" id="'+page.id+'">';
+  if(page.hasMeals){h+='<div class="meal-nav-wrap show"><div class="meal-nav">'+renderMealNav(page.id)+'</div></div>';}
   h+='<section class="container diet-section">';
   h+='<div class="diet-hero"><img src="'+IMAGE_DATA[page.id]+'" class="diet-hero-icon" alt="'+page.label+'配图" /><h2>'+page.heroTitle+'</h2><p>'+page.heroDesc+'</p></div>';
   h+='<div class="diet-grid">';
@@ -1310,7 +1311,6 @@ function renderMealSection(page){
   if(state.mode==='weekly'){h+='<div class="daybar-wrap"><div class="daybar" id="daybar-'+page.id+'">';
     DAYS.forEach((dn,i)=>{h+='<button class="daytab'+(DAY_KEYS[i]===state.currentDay?' active':'')+'" data-day="'+DAY_KEYS[i]+'">'+dn+'</button>';});
     h+='</div></div>';}
-  h+=renderMealNav(page.id);
   h+=renderSummaryBar(page.id);
   MEAL_KEYS.forEach(meal=>{h+=renderMealBlock(page.id,meal);});
   h+='</div></section>';return h;
@@ -1400,9 +1400,11 @@ function renderMealBlock(pageId,meal){
 
 /* ===== Sticky Meal Nav ===== */
 function updateMealNav(){
-  const wrap=document.getElementById('meal-nav-wrap');
-  const nav=document.getElementById('meal-nav');
   const page=AGE_PAGES.find(p=>p.id===state.currentPage);
+  const activePage=document.getElementById(state.currentPage);
+  if(!activePage)return;
+  const wrap=activePage.querySelector('.meal-nav-wrap');
+  const nav=activePage.querySelector('.meal-nav');
   if(!page||!page.hasMeals){if(wrap)wrap.classList.remove('show');return;}
   if(wrap)wrap.classList.add('show');
   if(nav)nav.innerHTML=renderMealNav(state.currentPage);
@@ -1412,15 +1414,29 @@ function scrollToMeal(meal){
   if(el){el.scrollIntoView({behavior:'smooth',block:'start'});}
 }
 
+function adjustStickyTops(){
+  const header=document.querySelector('.app-header');
+  const ageNav=document.querySelector('.age-nav-wrap');
+  const mealNavs=document.querySelectorAll('.meal-nav-wrap');
+  if(header&&ageNav){
+    ageNav.style.top=header.offsetHeight+'px';
+  }
+  if(header&&ageNav){
+    const top=header.offsetHeight+ageNav.offsetHeight;
+    mealNavs.forEach(nav=>{nav.style.top=top+'px';});
+  }
+}
+
 /* ===== Core Functions ===== */
 function renderAllPages(){const main=document.getElementById('app-main');main.innerHTML='';AGE_PAGES.forEach(p=>{main.insertAdjacentHTML('beforeend',renderPage(p));});bindEvents();updateMealNav();}
 function switchPage(pageId){state.currentPage=pageId;document.body.setAttribute('data-age',pageId);document.querySelectorAll('.age-page').forEach(p=>p.classList.remove('active'));document.getElementById(pageId).classList.add('active');
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active',n.dataset.page===pageId));
   updateMealNav();
+  adjustStickyTops();
   window.scrollTo({top:0,behavior:'smooth'});}
 function switchMode(mode){state.mode=mode;rerenderCurrentPage();}
 function switchDay(dayKey){state.currentDay=dayKey;rerenderCurrentPage();}
-function rerenderCurrentPage(){const page=AGE_PAGES.find(p=>p.id===state.currentPage);if(!page)return;const oldEl=document.getElementById(page.id);const tmp=document.createElement('div');tmp.innerHTML=renderPage(page);oldEl.parentNode.replaceChild(tmp.firstElementChild,oldEl);bindEvents();updateMealNav();saveDishState();}
+function rerenderCurrentPage(){const page=AGE_PAGES.find(p=>p.id===state.currentPage);if(!page)return;const oldEl=document.getElementById(page.id);const tmp=document.createElement('div');tmp.innerHTML=renderPage(page);oldEl.parentNode.replaceChild(tmp.firstElementChild,oldEl);bindEvents();updateMealNav();saveDishState();adjustStickyTops();}
 function toggleCollapse(pageId,meal){if(!state.collapsed[pageId])return;state.collapsed[pageId][meal]=!state.collapsed[pageId][meal];rerenderCurrentPage();}
 
 function toggleDish(pageId,meal,dishId){
@@ -1661,5 +1677,7 @@ function getNoteForPage(pid){
 document.getElementById('btn-export').addEventListener('click',exportScreenshot);
 renderNav();renderAllPages();
 document.body.setAttribute('data-age',state.currentPage);
+adjustStickyTops();
+window.addEventListener('resize',adjustStickyTops);
 
 </script></body></html>
