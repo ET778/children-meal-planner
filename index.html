@@ -1407,11 +1407,28 @@ function updateMealNav(){
   const nav=activePage.querySelector('.meal-nav');
   if(!page||!page.hasMeals){if(wrap)wrap.classList.remove('show');return;}
   if(wrap)wrap.classList.add('show');
-  if(nav)nav.innerHTML=renderMealNav(state.currentPage);
+  if(nav){
+    nav.innerHTML=renderMealNav(state.currentPage);
+    nav.querySelectorAll('.meal-nav-btn').forEach(btn=>{
+      btn.addEventListener('click',()=>scrollToMeal(btn.dataset.scrollTo));
+    });
+  }
 }
 function scrollToMeal(meal){
-  const el=document.getElementById('meal-'+meal);
-  if(el){el.scrollIntoView({behavior:'smooth',block:'start'});}
+  const activePage=document.getElementById(state.currentPage);
+  if(!activePage)return;
+  const el=activePage.querySelector('[data-meal="'+meal+'"]');
+  if(!el)return;
+  activePage.querySelectorAll('.meal-nav-btn').forEach(btn=>{
+    btn.classList.toggle('active',btn.dataset.scrollTo===meal);
+  });
+  const stickyOffset=
+    (document.querySelector('.app-header')?.offsetHeight||0)+
+    (document.querySelector('.age-nav-wrap')?.offsetHeight||0)+
+    (activePage.querySelector('.meal-nav-wrap')?.offsetHeight||0)+
+    12;
+  const top=el.getBoundingClientRect().top+window.pageYOffset-stickyOffset;
+  window.scrollTo({top,behavior:'smooth'});
 }
 
 function adjustStickyTops(){
@@ -1526,8 +1543,6 @@ function bindEvents(){
   document.querySelectorAll('.add-dish-confirm').forEach(b=>{b.addEventListener('click',()=>confirmAddDish(b.parentElement.querySelector('.add-dish-input')));});
   document.querySelectorAll('.add-dish-cancel').forEach(b=>{b.addEventListener('click',()=>cancelAddDish(b));});
   document.querySelectorAll('.add-dish-input').forEach(i=>{i.addEventListener('keydown',(e)=>{if(e.key==='Enter')confirmAddDish(i);if(e.key==='Escape')cancelAddDish(i.parentElement.querySelector('.add-dish-cancel'));});});
-  // meal nav clicks
-  document.querySelectorAll('.meal-nav-btn').forEach(b=>{b.addEventListener('click',()=>scrollToMeal(b.dataset.scrollTo));});
 initNotes();}
 
 /* ===== Export — Fixed: use visible temp container ===== */
