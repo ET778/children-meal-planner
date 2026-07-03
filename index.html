@@ -1416,6 +1416,9 @@ function updateMealNav(){
     nav.querySelectorAll('.meal-nav-btn').forEach(btn=>{
       btn.addEventListener('click',()=>scrollToMeal(btn.dataset.scrollTo));
     });
+    nav.querySelectorAll('.meal-nav-clear').forEach(btn=>{
+      btn.addEventListener('click',clearCurrent);
+    });
   }
 }
 function scrollToMeal(meal){
@@ -1595,12 +1598,13 @@ function exportScreenshot(){
   tmpDiv.innerHTML=eh;
   document.body.appendChild(tmpDiv);
 
-  /* 注入备注标签到导出内容 */
+  /* 注入备注标签到导出内容 — 角色属性，始终显示 */
   var noteInput=document.querySelector('.note-input[data-note-for="'+page.id+'"]');
-  if(noteInput&&noteInput.value.trim()){
+  var noteText=(noteInput&&noteInput.value.trim())||noteInput?.placeholder||'大宝';
+  if(noteText){
     var badge=document.createElement('div');
     badge.className='note-badge export-note-badge';
-    badge.textContent=noteInput.value.trim();
+    badge.textContent=noteText;
     badge.style.cssText='display:inline-block!important;position:absolute;top:10px;right:16px;background:linear-gradient(135deg,'+getComputedStyle(document.documentElement).getPropertyValue('--color-primary').trim()+',#F0B890);color:#fff;font-size:15px;font-weight:800;padding:7px 20px;border-radius:999px;z-index:20;box-shadow:0 3px 12px rgba(0,0,0,0.15);white-space:nowrap;';
     tmpDiv.style.position='relative';
     tmpDiv.appendChild(badge);
