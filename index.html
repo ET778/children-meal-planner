@@ -1582,7 +1582,8 @@ function exportScreenshot(){
       MEAL_KEYS.forEach(meal=>{
         const daySel=getDaySelections(page.id,i);
         if(daySel&&daySel[meal]&&daySel[meal].length>0){
-          eh+='<div style="margin-bottom:6px;">';
+          eh+='<div style="margin-bottom:8px;">';
+          eh+='<div class="export-meal-label '+MEAL_BADGE[meal]+'"><span>'+MEAL_ICON[meal]+'</span>'+MEAL_NAMES[meal]+'</div>';
           eh+='<div class="export-dish-list">';
           daySel[meal].forEach(id=>{const d=getDish(page.id,meal,id);if(!d)return;
             eh+='<span class="export-dish"><span>'+d.emoji+'</span>'+d.name+'</span>';});
