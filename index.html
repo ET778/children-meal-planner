@@ -78,8 +78,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* ─── 粘性餐次快捷导航 ─── */
 .meal-nav-wrap{background:var(--color-surface);border-bottom:1px solid var(--color-border);position:sticky;top:147px;z-index:85;display:none;}
 .meal-nav-wrap.show{display:block;}
-.meal-nav{display:flex;gap:6px;padding:8px 16px;overflow-x:auto;scrollbar-width:none;max-width:1180px;margin:0 auto;}
-.meal-nav-btn{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:999px;font-size:12.5px;font-weight:700;color:var(--color-text-secondary);transition:all 0.2s ease;white-space:nowrap;border:1.5px solid transparent;cursor:pointer;}
+.meal-nav{display:flex;gap:4px;padding:8px 16px 8px 16px;overflow-x:auto;scrollbar-width:none;max-width:1180px;margin:0 auto;-webkit-overflow-scrolling:touch;}
+.meal-nav::after{content:'';flex:0 0 auto;width:28px;min-width:28px;pointer-events:none;background:linear-gradient(90deg,transparent,var(--color-surface));margin-left:-20px;flex-shrink:0;}
+.meal-nav-btn{flex:0 0 auto;display:inline-flex;align-items:center;gap:5px;padding:7px 13px;border-radius:999px;font-size:12.5px;font-weight:700;color:var(--color-text-secondary);transition:all 0.2s ease;white-space:nowrap;border:1.5px solid transparent;cursor:pointer;}
 .meal-nav-btn:hover:not(.active){background:var(--color-surface-hover);border-color:var(--color-border);}
 .meal-nav-btn.active{color:#fff;box-shadow:0 2px 8px rgba(74,63,53,0.2);}
 .meal-nav-btn.early.active{background:linear-gradient(135deg,#C8A800,#9B7D00);}
@@ -89,6 +90,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .meal-nav-badge{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;font-size:11px;font-weight:900;background:var(--color-primary-light);color:var(--color-primary);transition:all 0.2s ease;}
 .meal-nav-btn.active .meal-nav-badge{background:rgba(255,255,255,0.3);color:#fff;}
 @media(min-width:1024px){.meal-nav{justify-content:center;padding:8px 24px;}}
+.meal-nav-clear{flex:0 0 auto;display:inline-flex;align-items:center;gap:4px;padding:7px 14px;border-radius:999px;font-size:12px;font-weight:700;color:#E07A5F;transition:all 0.2s ease;white-space:nowrap;border:1.5px solid #E07A5F;cursor:pointer;background:transparent;}
+.meal-nav-clear:hover{background:#F9E0D8;}
 .age-page{display:none;animation:pageIn 0.35s ease;}.age-page.active{display:block;}
 @keyframes pageIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
 
@@ -1294,7 +1297,7 @@ function renderPage(page){
     c.items.forEach(it=>{h+='<li>'+it+'</li>';});h+='</ul></div>';});
   h+='</div><div class="global-warning"><div class="global-warning-head"><h3>⚠️ 全年龄段通用红线</h3></div><ul class="global-warning-grid">';
   GLOBAL_WARNINGS.forEach(w=>{h+='<li>'+w+'</li>';});h+='</ul></div></section>';
-  h+='<div class="note-bar-wrap"><div class="note-bar"><span class="note-label">宝宝备注</span><input class="note-input" type="text" placeholder="输入宝宝名字或备注..." maxlength="20" data-note-for="'+page.id+'"/></div></div>';
+  h+='<div class="note-bar-wrap"><div class="note-bar"><span class="note-label">宝宝备注</span><input class="note-input" type="text" placeholder="大宝" maxlength="20" data-note-for="'+page.id+'"/></div></div>';
 if(page.hasMeals){h+=renderMealSection(page);}
   else{h+='<section class="container no-meals-box"><div class="no-meals-inner"><span class="emoji">🍼</span><h3>本阶段无需餐谱规划</h3><p>0-6月龄以纯母乳或配方奶为唯一食物，无需添加辅食。请遵循上方膳食特点中的喂养建议。</p></div></section>';}
   h+='</div>';return h;
@@ -1311,7 +1314,7 @@ function renderMealSection(page){
   if(state.mode==='weekly'){h+='<div class="daybar-wrap"><div class="daybar" id="daybar-'+page.id+'">';
     DAYS.forEach((dn,i)=>{h+='<button class="daytab'+(DAY_KEYS[i]===state.currentDay?' active':'')+'" data-day="'+DAY_KEYS[i]+'">'+dn+'</button>';});
     h+='</div></div>';}
-  h+=renderSummaryBar(page.id);
+  // summary bar removed — top sticky nav (position 1) now serves as nav + clear
   MEAL_KEYS.forEach(meal=>{h+=renderMealBlock(page.id,meal);});
   h+='</div></section>';return h;
 }
@@ -1334,6 +1337,7 @@ function renderMealNav(pageId){
     h+='<span class="meal-nav-badge">'+(cnt||'0')+'</span>'+MEAL_ICON[m]+' '+MEAL_NAMES[m];
     h+='</button>';
   });
+  h+='<button class="meal-nav-clear" data-clear-page="'+pageId+'">清空</button>';
   return h;
 }
 
@@ -1493,11 +1497,13 @@ function removeDishDirect(pageId,meal,dishId){
 }
 function clearCurrent(){
   const pid=state.currentPage;
-  const pg=state.selections[pid];if(!pg)return;
+  const pg=state.selections[pid];
+  if(!pg){showToast('当前无可清空的菜单');return;}
   if(state.mode==='single'){
     MEAL_KEYS.forEach(m=>{pg.single[m]=[];pg.custom[m]=[];});
   }else{
-    const day=pg.weekly[state.currentDay];if(!day)return;
+    const day=pg.weekly[state.currentDay];
+    if(!day){showToast('当前无可清空的菜单');return;}
     MEAL_KEYS.forEach(m=>{day[m]=[];day.custom[m]=[];});
   }
   saveDishState();
@@ -1536,6 +1542,7 @@ function bindEvents(){
   document.querySelectorAll('.dc-del').forEach(b=>{b.addEventListener('click',(e)=>{e.stopPropagation();handleDishDelete(b.dataset.page,b.dataset.meal,b.dataset.dish);});});
   document.querySelectorAll('.pc-remove').forEach(b=>{b.addEventListener('click',(e)=>{e.stopPropagation();removeDishDirect(b.dataset.page,b.dataset.meal,b.dataset.dish);});});
   document.querySelectorAll('[id^="btn-clear-"]').forEach(b=>{b.addEventListener('click',clearCurrent);});
+  document.querySelectorAll('.meal-nav-clear').forEach(b=>{b.addEventListener('click',clearCurrent);});
   document.querySelectorAll('.meal-toggle').forEach(b=>{b.addEventListener('click',()=>{
     const block=b.closest('.meal-block');toggleCollapse(block.dataset.page,block.dataset.meal);
   });});
@@ -1572,8 +1579,7 @@ function exportScreenshot(){
       MEAL_KEYS.forEach(meal=>{
         const daySel=getDaySelections(page.id,i);
         if(daySel&&daySel[meal]&&daySel[meal].length>0){
-          eh+='<div style="margin-bottom:8px;">';
-          eh+='<div class="export-meal-label '+MEAL_BADGE[meal]+'"><span>'+MEAL_ICON[meal]+'</span>'+MEAL_NAMES[meal]+'</div>';
+          eh+='<div style="margin-bottom:6px;">';
           eh+='<div class="export-dish-list">';
           daySel[meal].forEach(id=>{const d=getDish(page.id,meal,id);if(!d)return;
             eh+='<span class="export-dish"><span>'+d.emoji+'</span>'+d.name+'</span>';});
@@ -1663,11 +1669,9 @@ function buildExportBlocks(page,sel){
 const NOTE_STORAGE_KEY='meal-planner-notes';
 function initNotes(){
   try{
-    const saved=localStorage.getItem(NOTE_STORAGE_KEY);
-    const notes=saved?JSON.parse(saved):{};
+    // Clear stale notes so fresh placeholder shows
+    localStorage.removeItem(NOTE_STORAGE_KEY);
     document.querySelectorAll('.note-input').forEach(function(inp){
-      const pid=inp.getAttribute('data-note-for');
-      inp.value=(notes&&notes[pid])?notes[pid]:inp.value||'大宝';
       inp.addEventListener('input',saveNotes);
     });
   }catch(e){}
