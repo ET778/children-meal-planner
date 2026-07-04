@@ -1674,9 +1674,11 @@ function buildExportBlocks(page,sel){
 const NOTE_STORAGE_KEY='meal-planner-notes';
 function initNotes(){
   try{
-    // Clear stale notes so fresh placeholder shows
-    localStorage.removeItem(NOTE_STORAGE_KEY);
+    const saved=localStorage.getItem(NOTE_STORAGE_KEY);
+    const notes=saved?JSON.parse(saved):{};
     document.querySelectorAll('.note-input').forEach(function(inp){
+      const pid=inp.getAttribute('data-note-for');
+      inp.value=(notes&&notes[pid])?notes[pid]:'';
       inp.addEventListener('input',saveNotes);
     });
   }catch(e){}
