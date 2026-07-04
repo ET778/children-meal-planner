@@ -260,6 +260,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .img-preview-overlay .btn-close{background:#555;color:#fff;}
 .img-preview-overlay .btn-share{background:var(--color-accent);color:#fff;}
 .img-preview-overlay .btn-download{background:#4CAF50;color:#fff;}
+.img-preview-overlay .btn-pc-download{background:linear-gradient(135deg,#E8986A,#C47844);padding:12px 28px;font-size:16px;cursor:pointer;border:none;border-radius:14px;font-weight:800;box-shadow:0 3px 12px rgba(232,152,106,0.35);transition:all 0.2s ease;}
+.img-preview-overlay .btn-pc-download:hover{transform:translateY(-1px);box-shadow:0 5px 18px rgba(232,152,106,0.45);}
 @media(max-width:639px){
   .brand-text p{display:none;}.diet-hero h2{font-size:23px;}.dish-grid{grid-template-columns:repeat(2,1fr);}
   .daytab{min-width:54px;padding:9px 8px;font-size:12px;}.summary-bar{flex-direction:column;align-items:stretch;}
@@ -1631,20 +1633,37 @@ function showImagePreview(imgUrl,fileName,canvas){
   const isMobile=/Mobi|Android|iPhone/i.test(navigator.userAgent);
   tip.innerHTML=isMobile
     ?'<b>长按图片</b> → 保存到相册'
-    :'右键图片 → 另存为';
+    :'<b>点击下载</b> 或 右键 → 另存为';
   overlay.appendChild(tip);
   // 图片
   const img=document.createElement('img');
   img.src=imgUrl;
   overlay.appendChild(img);
-  // 操作按钮：仅保留一个提示性按钮
+  // 操作按钮
   const actions=document.createElement('div');
   actions.className='preview-actions';
-  const btnHint=document.createElement('button');
-  btnHint.className='btn-download';
-  btnHint.textContent='长按保存相册';
-  btnHint.onclick=function(){showToast('请长按上方图片保存到相册');};
-  actions.appendChild(btnHint);
+  if(isMobile){
+    const btnHint=document.createElement('button');
+    btnHint.className='btn-download';
+    btnHint.textContent='长按保存相册';
+    btnHint.onclick=function(){showToast('请长按上方图片保存到相册');};
+    actions.appendChild(btnHint);
+  }else{
+    const btnDL=document.createElement('button');
+    btnDL.className='btn-download btn-pc-download';
+    btnDL.textContent='📥 下载图片';
+    btnDL.onclick=function(){
+      canvas.toBlob(function(blob){
+        if(!blob){showToast('生成失败');return;}
+        const url=URL.createObjectURL(blob);
+        const a=document.createElement('a');
+        a.href=url;a.download=fileName;document.body.appendChild(a);a.click();
+        setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(url);},100);
+        showToast('已开始下载：'+fileName);
+      },'image/jpeg',0.92);
+    };
+    actions.appendChild(btnDL);
+  }
   overlay.appendChild(actions);
   // 点击背景区域也可关闭
   overlay.addEventListener('click',function(e){
