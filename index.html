@@ -1617,10 +1617,21 @@ function exportScreenshot(){
   setTimeout(()=>{
     html2canvas(tmpDiv,{backgroundColor:ageBg,scale:2,useCORS:true,logging:false}).then(canvas=>{
       const fileName='儿童餐谱_'+page.label+'_'+(state.mode==='single'?'单日':'整周')+'.jpg';
-      const imgUrl=canvas.toDataURL('image/jpeg',0.92);
       document.body.removeChild(tmpDiv);
-      // 弹出图片预览弹窗，用户可长按保存到相册（所有手机通用）
-      showImagePreview(imgUrl,fileName,canvas);
+      const isMobile=/Mobi|Android|iPhone/i.test(navigator.userAgent);
+      if(isMobile){
+        const imgUrl=canvas.toDataURL('image/jpeg',0.92);
+        showImagePreview(imgUrl,fileName,canvas);
+      }else{
+        canvas.toBlob(function(blob){
+          if(!blob){showToast('导出失败');return;}
+          const url=URL.createObjectURL(blob);
+          const a=document.createElement('a');
+          a.href=url;a.download=fileName;document.body.appendChild(a);a.click();
+          setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(url);},100);
+          showToast('已保存：'+fileName);
+        },'image/jpeg',0.92);
+      }
     }).catch(err=>{console.error(err);showToast('导出失败，请重试');try{document.body.removeChild(tmpDiv);}catch(e){}});
   },200);
 }
