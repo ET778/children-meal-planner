@@ -1619,16 +1619,19 @@ function exportScreenshot(){
       const fileName='儿童餐谱_'+page.label+'_'+(state.mode==='single'?'单日':'整周')+'.jpg';
       document.body.removeChild(tmpDiv);
       const isMobile=/Mobi|Android|iPhone/i.test(navigator.userAgent);
+      const imgUrl=canvas.toDataURL('image/jpeg',0.92);
       if(isMobile){
-        const imgUrl=canvas.toDataURL('image/jpeg',0.92);
         showImagePreview(imgUrl,fileName,canvas);
       }else{
+        // PC: canvas→blob→blobURL→a.download 触发下载
         canvas.toBlob(function(blob){
           if(!blob){showToast('导出失败');return;}
           const url=URL.createObjectURL(blob);
           const a=document.createElement('a');
-          a.href=url;a.download=fileName;document.body.appendChild(a);a.click();
-          setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(url);},100);
+          a.href=url;a.download=fileName;
+          document.body.appendChild(a);
+          a.click();
+          setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(url);},500);
           showToast('已保存：'+fileName);
         },'image/jpeg',0.92);
       }
