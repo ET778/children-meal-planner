@@ -151,7 +151,7 @@
     </view>
   </view>
 
-  <canvas canvas-id="posterCanvas" class="poster-canvas" style="height: {{posterHeight}}px;"></canvas>
+  <canvas canvas-id="posterCanvas" class="poster-canvas" style="width: {{posterWidth}}px; height: {{posterHeight}}px;"></canvas>
 
   <view class="footer">
     <view class="disc-title">免责声明</view>

@@ -56,6 +56,7 @@ Page({
     activeMealKey: 'breakfast',
     showPoster: false,
     posterImage: '',
+    posterWidth: 640,
     posterHeight: 760
   },
 
@@ -338,11 +339,149 @@ Page({
 
   drawPoster() {
     const lines = this.buildPosterLines();
+    if (this.data.mode === 'weekly') {
+      this.drawWeeklyPoster();
+      return;
+    }
+
     const width = 640;
     const lineHeight = 38;
-    const posterHeight = Math.max(760, 260 + lines.length * lineHeight);
-    this.setData({ posterHeight });
+    const contentHeight = lines.reduce((total, line) => total + (line.height || lineHeight), 0);
+    const posterHeight = Math.max(760, 170 + contentHeight + 76);
 
+    // Let the resized canvas settle before drawing the poster.
+    this.setData({ posterWidth: width, posterHeight }, () => {
+      setTimeout(() => this.renderPoster(lines, width, posterHeight, lineHeight), 80);
+    });
+  },
+
+  drawWeeklyPoster() {
+    const width = 900;
+    const padding = 32;
+    const gap = 20;
+    const columnWidth = (width - padding * 2 - gap) / 2;
+    const cards = this.buildWeeklyCards(columnWidth);
+    const rows = [];
+    for (let index = 0; index < cards.length; index += 2) {
+      const left = cards[index];
+      const right = cards[index + 1];
+      rows.push({ left, right, height: Math.max(left.height, right ? right.height : 0) });
+    }
+    const posterHeight = Math.max(1280, 160 + rows.reduce((total, row) => total + row.height + gap, 0) + 64);
+
+    this.setData({ posterWidth: width, posterHeight }, () => {
+      setTimeout(() => this.renderWeeklyPoster(rows, width, posterHeight, padding, gap, columnWidth), 80);
+    });
+  },
+
+  buildWeeklyCards(columnWidth) {
+    const pageId = this.data.currentPageId;
+    const weekly = (this.data.selections[pageId] && this.data.selections[pageId].weekly) || {};
+    const charsPerLine = Math.max(10, Math.floor((columnWidth - 40) / 20));
+
+    return DATA.DAY_KEYS.map((dayKey, index) => {
+      const daySelection = weekly[dayKey] || makeEmptyMeals();
+      const custom = daySelection.custom || makeEmptyMeals();
+      const lines = [];
+
+      DATA.MEAL_KEYS.forEach((meal) => {
+        const originals = (DATA.DISH_DATA[pageId] && DATA.DISH_DATA[pageId][meal]) || [];
+        const pool = originals.concat(custom[meal] || []);
+        const dishes = (daySelection[meal] || [])
+          .map((id) => pool.find((dish) => dish.id === id))
+          .filter(Boolean);
+        if (!dishes.length) return;
+
+        const text = DATA.MEAL_NAMES[meal] + '\uFF1A' + dishes.map((dish) => dish.emoji + dish.name).join('\u3001');
+        const lineCount = Math.max(1, Math.ceil(text.length / charsPerLine));
+        lines.push({ text, height: lineCount * 30 + 12 });
+      });
+
+      if (!lines.length) lines.push({ text: '-', height: 42 });
+      return {
+        title: DATA.DAYS[index],
+        lines,
+        height: 64 + lines.reduce((total, line) => total + line.height, 0) + 18
+      };
+    });
+  },
+
+  drawPosterCard(ctx, x, y, width, height, radius, fill, stroke) {
+    const right = x + width;
+    const bottom = y + height;
+    ctx.beginPath();
+    ctx.moveTo(x + radius, y);
+    ctx.lineTo(right - radius, y);
+    ctx.quadraticCurveTo(right, y, right, y + radius);
+    ctx.lineTo(right, bottom - radius);
+    ctx.quadraticCurveTo(right, bottom, right - radius, bottom);
+    ctx.lineTo(x + radius, bottom);
+    ctx.quadraticCurveTo(x, bottom, x, bottom - radius);
+    ctx.lineTo(x, y + radius);
+    ctx.quadraticCurveTo(x, y, x + radius, y);
+    ctx.closePath();
+    ctx.setFillStyle(fill);
+    ctx.fill();
+    ctx.setStrokeStyle(stroke);
+    ctx.setLineWidth(1);
+    ctx.stroke();
+  },
+  renderWeeklyPoster(rows, width, posterHeight, padding, gap, columnWidth) {
+    const ctx = wx.createCanvasContext('posterCanvas', this);
+    ctx.setFillStyle('#fff9f2');
+    ctx.fillRect(0, 0, width, posterHeight);
+    ctx.setFillStyle('#f4c7a8');
+    ctx.fillRect(0, 0, width, 132);
+    ctx.setFillStyle('#4a3f35');
+    ctx.setFontSize(34);
+    ctx.fillText('\u591a\u5403\u5feb\u8dd1', padding, 56);
+    ctx.setFontSize(22);
+    ctx.setFillStyle('#7d7067');
+    ctx.fillText(this.data.currentPage.label + ' \u00b7 \u4e00\u5468\u9910\u5355', padding, 96);
+
+    let y = 156;
+    rows.forEach((row, rowIndex) => {
+      const singleCardRow = !row.right;
+      [row.left, row.right].filter(Boolean).forEach((card, column) => {
+        const cardWidth = singleCardRow ? width - padding * 2 : columnWidth;
+        const x = singleCardRow ? padding : padding + column * (columnWidth + gap);
+        const fill = singleCardRow ? '#fff0e2' : (rowIndex % 2 === 0 ? '#ffffff' : '#fffaf5');
+        this.drawPosterCard(ctx, x, y, cardWidth, row.height, 20, fill, '#f1dfd1');
+        this.drawPosterCard(ctx, x + 18, y + 16, 98, 38, 19, '#ffe1c8', '#f8c9aa');
+
+        ctx.setFillStyle('#b96f4e');
+        ctx.setFontSize(24);
+        ctx.fillText(card.title, x + 31, y + 43);
+
+        let textY = y + 82;
+        card.lines.forEach((line) => {
+          ctx.setFillStyle('#4a3f35');
+          ctx.setFontSize(20);
+          this.drawWrappedText(ctx, line.text, x + 22, textY, cardWidth - 44, 28);
+          textY += line.height;
+        });
+      });
+      y += row.height + gap;
+    });
+
+    ctx.setFillStyle('#a39585');
+    ctx.setFontSize(18);
+    ctx.fillText('\u5bb6\u5ead\u9910\u5355\u53c2\u8003', padding, posterHeight - 30);
+    const exportScale = Math.min(2, 4096 / Math.max(width, posterHeight));
+
+    ctx.draw(false, () => {
+      wx.canvasToTempFilePath({
+        canvasId: 'posterCanvas',
+        width,
+        height: posterHeight,
+        destWidth: Math.round(width * exportScale),
+        destHeight: Math.round(posterHeight * exportScale),
+        success: (res) => this.setData({ posterImage: res.tempFilePath }),
+        fail: () => wx.showToast({ title: '\u56fe\u7247\u751f\u6210\u5931\u8d25', icon: 'none' })
+      }, this);
+    });
+  },
+  renderPoster(lines, width, posterHeight, lineHeight) {
     const ctx = wx.createCanvasContext('posterCanvas', this);
     ctx.setFillStyle('#fff9f2');
     ctx.fillRect(0, 0, width, posterHeight);

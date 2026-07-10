@@ -1,5 +1,5 @@
 {
-  "appid": "wx05b73fafb2457a9c",
+  "appid": "wxb400e0f830709d63",
   "projectname": "children-meal-planner-miniprogram",
   "compileType": "miniprogram",
   "setting": {
@@ -32,5 +32,6 @@
     "ignore": [],
     "include": []
   },
-  "editorSetting": {}
+  "editorSetting": {},
+  "libVersion": "3.16.1"
 }
